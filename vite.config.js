@@ -13,5 +13,18 @@ export default defineConfig({
     },
     build: {
         copyPublicDir: false,
+        lib: {
+            entry: fileURLToPath(new URL('./src/index.js', import.meta.url)),
+            name: 'IntonationChecker',
+            fileName: 'intonation-checker',
+        },
+        rollupOptions: {
+            external: ['vue'],
+            output: {
+                globals: {
+                    vue: 'Vue',
+                },
+            },
+        },
     },
 });
