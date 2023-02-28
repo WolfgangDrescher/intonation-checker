@@ -123,7 +123,7 @@ onUnmounted(() => {
             <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
             <div class="absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow" style="left: var(--progress)" @mousedown="onMousedownEvent"></div>
         </div>
-        <div class="font-mono" @click="showRemainingTime = !showRemainingTime">
+        <div class="font-mono cursor-pointer" @click="showRemainingTime = !showRemainingTime">
             {{ formattedTime }}
         </div>
     </div>
