@@ -8,7 +8,7 @@ const toolkit = createWorkerVerovioToolkit(createVerovioWorker());
 <template>
     <IntonationChecker
         :toolkit="toolkit"
-        score-url="Beethoven op 74_2 T24-49.mei"
+        score-url="score.mei"
         title="Beethoven Op. 74, 2. Satz, Takt 24-49"
         description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
     />
