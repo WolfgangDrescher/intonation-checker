@@ -5,6 +5,8 @@ import { VerovioCanvas } from 'vue-verovio-canvas';
 defineProps({
     toolkit: Object,
     scoreUrl: String,
+    correctAudioUrl: String,
+    wrongAudioUrl: String,
     title: String,
     description: String,
 });
