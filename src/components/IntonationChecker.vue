@@ -2,6 +2,7 @@
 import AudioPlayer from './AudioPlayer.vue';
 import MarkerList from './MarkerList.vue';
 import ScoreContainer from './ScoreContainer.vue';
+import { ref } from 'vue';
 
 defineProps({
     toolkit: Object,
@@ -12,6 +13,8 @@ defineProps({
     description: String,
     markers: Array,
 });
+
+const audioPlayer = ref();
 
 function scoreClickHandler(event) {
     console.log(event);
@@ -33,11 +36,13 @@ function scoreClickHandler(event) {
                 </p>
             </div>
             <div class="p-2 bg-gray-50 border-b">
-                <AudioPlayer :url="wrongAudioUrl"></AudioPlayer>
+                <AudioPlayer ref="audioPlayer" :url="wrongAudioUrl"></AudioPlayer>
             </div>
             <div class="p-4">
                 <MarkerList
                     :markers="markers"
+                    @audioSeek="$refs.audioPlayer.seekTo($event)"
+                    @audioSeekFactor="$refs.audioPlayer.seekToFactor($event)"
                 />
             </div>
         </div>
