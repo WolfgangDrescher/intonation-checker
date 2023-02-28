@@ -4,7 +4,7 @@ import { createWorkerVerovioToolkit } from 'vue-verovio-canvas';
 import createVerovioWorker from './verovio-worker.js?worker';
 const toolkit = createWorkerVerovioToolkit(createVerovioWorker());
 
-const errors = [
+const markers = [
     {
         noteIds: ['n14yce2d'],
         measure: 30,
@@ -50,7 +50,7 @@ const errors = [
         score-url="score.mei"
         correct-audio-url="correct.mp3"
         wrong-audio-url="wrong.mp3"
-        :errors="errors"
+        :markers="markers"
         title="Beethoven Op. 74, 2. Satz, Takt 24-49"
         description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
     />
