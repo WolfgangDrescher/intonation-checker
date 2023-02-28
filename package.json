@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "howler": "^2.2.3",
+        "pinia": "^2.0.32",
         "vue": "^3.2.47",
         "vue-verovio-canvas": "^1.1.0"
     },
