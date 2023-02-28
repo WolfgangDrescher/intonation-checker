@@ -2,6 +2,7 @@
 import { computed, nextTick, onUnmounted, ref } from 'vue';
 import { Howl } from 'howler';
 import { Icon } from '@iconify/vue';
+import Button from './Button.vue';
 
 const props = defineProps({
     url: String,
@@ -115,10 +116,10 @@ onUnmounted(() => {
 
 <template>
     <div class="flex items-center gap-2">
-        <button @click="toggle" class="p-1 bg-gray-200 rounded">
+        <Button @click="toggle">
             <Icon v-if="isPlaying" icon="heroicons-solid:pause" width="1.5rem" />
             <Icon v-else icon="heroicons-solid:play" width="1.5rem" />
-        </button>
+        </Button>
         <div ref="progressBar" class="group relative flex-grow h-2 bg-gray-200 cursor-pointer" :style="`--progress: ${progress}%`" @click="seekHandler">
             <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
             <div class="absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow" style="left: var(--progress)" @mousedown="onMousedownEvent"></div>
