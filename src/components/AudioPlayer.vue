@@ -127,5 +127,4 @@ onUnmounted(() => {
             {{ formattedTime }}
         </div>
     </div>
-    {{ draggingSeek }}
 </template>
