@@ -2,6 +2,7 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import AudioPlayer from './AudioPlayer.vue';
+import ErrorList from './ErrorList.vue';
 
 defineProps({
     toolkit: Object,
@@ -10,6 +11,7 @@ defineProps({
     wrongAudioUrl: String,
     title: String,
     description: String,
+    errors: Array,
 });
 
 function scoreClickHandler(event) {
@@ -33,6 +35,9 @@ function scoreClickHandler(event) {
             </div>
             <div class="p-2 bg-gray-50 border-b">
                 <AudioPlayer :url="wrongAudioUrl"></AudioPlayer>
+            </div>
+            <div class="p-4">
+                <ErrorList :errors="errors" />
             </div>
         </div>
     </div>
