@@ -2,9 +2,11 @@
 import AudioPlayer from './AudioPlayer.vue';
 import MarkerList from './MarkerList.vue';
 import ScoreContainer from './ScoreContainer.vue';
+import { useMarkersStore } from '../stores/markers';
+import { createPinia } from 'pinia';
 import { ref } from 'vue';
 
-defineProps({
+const props = defineProps({
     toolkit: Object,
     scoreUrl: String,
     correctAudioUrl: String,
@@ -13,6 +15,11 @@ defineProps({
     description: String,
     markers: Array,
 });
+
+const pinia = createPinia();
+
+const store = useMarkersStore(pinia);
+store.setMarkers(props.markers);
 
 const audioPlayer = ref();
 

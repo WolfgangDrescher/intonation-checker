@@ -1,21 +1,22 @@
 <script setup>
 import MarkerListItem from './MarkerListItem.vue';
-
-defineProps({
-    markers: Array,
-});
+import { useMarkersStore } from '../stores/markers.js';
+import { storeToRefs } from 'pinia';
 
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
+
+const store = useMarkersStore();
+const { selectedMarkers, markers } = storeToRefs(store);
 </script>
 
 <template>
     <div>
         <div class="mb-4">
-            Total {{ markers?.length }}
+            {{ selectedMarkers.length }} von {{ markers.length }}
         </div>
         <div class="flex flex-col gap-4">
             <MarkerListItem
-                v-for="marker in markers"
+                v-for="marker in selectedMarkers"
                 :key="marker.noteIds.join()"
                 :marker="marker"
                 @audioSeek="emit('audioSeek', $event)"

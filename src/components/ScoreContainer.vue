@@ -1,14 +1,14 @@
 <script setup>
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
-import { useSelectedMarkersStore } from '../stores/selected-markers';
+import { useMarkersStore } from '../stores/markers.js';
 
 const props = defineProps({
     toolkit: Object,
     url: String,
 });
 
-const store = useSelectedMarkersStore();
+const store = useMarkersStore();
 
 function getParents(node) {
     return (node.parentElement ? getParents(node.parentElement) : []).concat([node]);
@@ -34,7 +34,7 @@ async function scoreClickHandler(event) {
         if (timemap.length === 0) {
             timemap = await props.toolkit.renderToTimemap();
         }
-        store.add({
+        store.addSelectedMarker({
             noteIds: [noteElem.id],
             seekFactor: getSeekFactor(noteElem.id),
         });
