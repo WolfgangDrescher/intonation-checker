@@ -1,0 +1,23 @@
+Sequoia - Marker List   			12.07.2019
+Project: "I:\Reutter_2019-06-09\Schnitt\Beethoven_Op74_Satz2_Schnitt.VIP"
+
+*********************************************************
+Type	Start Time	Name		ISRC
+*********************************************************
+
+T:01 	00:01:33:16 	Richtig 
+
+	
+T:02 	00:03:23:05 	Falsch 	
+	
+ 	00:03:39:15 	Vl1 ces3 hoch 		T 30
+	
+ 	00:03:51:13 	Vc Ges tief 		T 34
+	
+ 	00:03:53:07 	Va es hoch 		T 35
+
+ 	00:03:59:14 	Va es + ges tief 	T 37
+	
+ 	00:04:13:01 	Vl2 as tief 		T 41
+
+ 	00:04:22:00 	Vl1 hes1 + b1 tief 	T 45	
