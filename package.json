@@ -1,7 +1,7 @@
 {
     "name": "intonation-checker",
     "version": "0.0.0",
-    "description": "A Vue 3 component to display music scores with Verovio.",
+    "description": "A Vue 3 component to train intonation with audio examples and scores rendered with verovio.",
     "author": "Wolfgang Drescher",
     "repository": {
         "type": "git",
