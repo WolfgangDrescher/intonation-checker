@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onUnmounted, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { Howl } from 'howler';
 import { Icon } from '@iconify/vue';
 import Button from './Button.vue';
