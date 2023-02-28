@@ -6,6 +6,8 @@ defineProps({
     marker: Object,
 });
 
+const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
+
 function playAudioListener()  {
     if (props.marker.time) {
         emit('audioSeek', props.marker.time);
