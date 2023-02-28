@@ -21,7 +21,7 @@ function scoreClickHandler(event) {
         <div class="flex-grow" @click="scoreClickHandler">
             <VerovioCanvas :toolkit="toolkit" :url="scoreUrl" :pageMargin="50" />
         </div>
-        <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] shado border-l">
+        <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l">
             <div class="p-4 bg-gray-100 border-b">
                 <div class="text-xl font-bold">
                     {{ title }}
