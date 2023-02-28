@@ -26,7 +26,7 @@ function scoreClickHandler(event) {
                 <div class="text-xl font-bold">
                     {{ title }}
                 </div>
-                <p v-if="description" class="mt-4 mb-0">
+                <p v-if="description" class="mt-2 mb-0">
                     {{ description }}
                 </p>
             </div>
