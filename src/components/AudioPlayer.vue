@@ -109,8 +109,27 @@ function onMousedownEvent(event) {
     // audio.pause();
 }
 
+function seekTo(secs) {
+    audio.seek(secs);
+    if (!audio.playing()) {
+        audio.play();
+    }
+}
+
+function seekToFactor(factor) {
+    audio.seek(audio.duration() * factor);
+    if (!audio.playing()) {
+        audio.play();
+    }
+}
+
 onUnmounted(() => {
     audio.stop();
+});
+
+defineExpose({
+    seekTo,
+    seekToFactor,
 });
 </script>
 
