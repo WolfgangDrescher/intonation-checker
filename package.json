@@ -1,17 +1,42 @@
 {
-  "name": "intonation-checker",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "vue": "^3.2.47"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
-    "vite": "^4.1.4"
-  }
+    "name": "intonation-checker",
+    "version": "0.0.0",
+    "description": "A Vue 3 component to display music scores with Verovio.",
+    "author": "Wolfgang Drescher",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/WolfgangDrescher/intonation-checker.git"
+    },
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/intonation-checker.umd.cjs",
+    "module": "./dist/intonation-checker.js",
+    "exports": {
+        ".": {
+            "import": "./dist/intonation-checker.js",
+            "require": "./dist/intonation-checker.umd.cjs"
+        },
+        "./style.css": "./dist/style.css"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+        "format": "prettier --write src/"
+    },
+    "dependencies": {
+        "vue": "^3.2.47"
+    },
+    "devDependencies": {
+        "@rushstack/eslint-patch": "^1.2.0",
+        "@vitejs/plugin-vue": "^4.0.0",
+        "@vue/eslint-config-prettier": "^7.1.0",
+        "eslint": "^8.34.0",
+        "eslint-plugin-vue": "^9.9.0",
+        "prettier": "^2.8.4",
+        "vite": "^4.1.4"
+    }
 }
