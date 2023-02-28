@@ -1,18 +1,22 @@
 <script setup>
-import ErrorListItem from './ErrorListItem.vue';
+import MarkerListItem from './MarkerListItem.vue';
 
 defineProps({
-    errors: Array,
+    markers: Array,
 });
 </script>
 
 <template>
     <div>
         <div class="mb-4">
-            Total {{ errors?.length }}
+            Total {{ markers?.length }}
         </div>
         <div class="flex flex-col gap-4">
-            <ErrorListItem v-for="(error, index) in errors" :key="index" :error="error" />
+            <MarkerListItem
+                v-for="marker in markers"
+                :key="marker.noteIds.join()"
+                :marker="marker"
+            />
         </div>
     </div>
 </template>
