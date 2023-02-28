@@ -13,3 +13,10 @@ const toolkit = createWorkerVerovioToolkit(createVerovioWorker());
         description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
     />
 </template>
+
+<style>
+body, html, #app {
+    width: 100%;
+    height: 100%;
+}
+</style>
