@@ -1,6 +1,7 @@
 <script setup>
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
+import AudioPlayer from './AudioPlayer.vue';
 
 defineProps({
     toolkit: Object,
@@ -29,6 +30,9 @@ function scoreClickHandler(event) {
                 <p v-if="description" class="mt-2 mb-0">
                     {{ description }}
                 </p>
+            </div>
+            <div class="p-2 bg-gray-50 border-b">
+                <AudioPlayer :url="wrongAudioUrl"></AudioPlayer>
             </div>
         </div>
     </div>
