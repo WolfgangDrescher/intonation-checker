@@ -1,8 +1,7 @@
 <script setup>
-import 'vue-verovio-canvas/style.css';
-import { VerovioCanvas } from 'vue-verovio-canvas';
 import AudioPlayer from './AudioPlayer.vue';
 import MarkerList from './MarkerList.vue';
+import ScoreContainer from './ScoreContainer.vue';
 
 defineProps({
     toolkit: Object,
@@ -21,8 +20,8 @@ function scoreClickHandler(event) {
 
 <template>
     <div class="lg:w-full lg:h-full lg:flex overflow-hidden">
-        <div class="flex-grow" @click="scoreClickHandler">
-            <VerovioCanvas :toolkit="toolkit" :url="scoreUrl" :pageMargin="50" />
+        <div class="flex-grow">
+            <ScoreContainer :toolkit="toolkit" :url="scoreUrl" />
         </div>
         <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l">
             <div class="p-4 bg-gray-100 border-b">
