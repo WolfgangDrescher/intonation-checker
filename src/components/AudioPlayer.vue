@@ -25,28 +25,28 @@ if (audio.state() === 'loaded') {
     isReady.value = true;
 }
 
-audio.on('load', (e) => {
+audio.on('load', () => {
     // isReady.value = true;
 });
 
-audio.on('play', (e) => {
+audio.on('play', () => {
     isPlaying.value = true;
     requestAnimationFrame(updateLoop);
 });
 
-audio.on('end', (e) => {
+audio.on('end', () => {
     isPlaying.value = false;
 });
 
-audio.on('pause', (e) => {
+audio.on('pause', () => {
     isPlaying.value = false;
 });
 
-audio.on('stop', (e) => {
+audio.on('stop', () => {
     isPlaying.value = false;
 });
 
-audio.on('seek', (e) => {
+audio.on('seek', () => {
     updateLoop();
 });
 
