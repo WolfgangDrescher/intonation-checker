@@ -1,7 +1,5 @@
 <script setup>
 import { useMarkersStore } from '../stores/markers.js';
-import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
 import Button from './Button.vue';
 import { Icon } from '@iconify/vue';
 
@@ -12,13 +10,6 @@ const props = defineProps({
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
 
 const store = useMarkersStore();
-
-const isCorrect = computed(() => {
-    return store.markers.reduce((accumulator, item) => {
-        accumulator.push(...item.noteIds);
-        return accumulator;
-    }, []).some(id => props.marker.noteIds.includes(id));
-});
 
 function playAudioListener()  {
     if (props.marker.time) {
