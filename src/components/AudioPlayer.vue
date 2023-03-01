@@ -99,6 +99,8 @@ function endMove(event) {
     event.stopPropagation();
     window.removeEventListener('mousemove', whileMove);
     window.removeEventListener('mouseup', endMove, true);
+    window.removeEventListener('touchmove', whileMove);
+    window.removeEventListener('touchend', endMove, true);
     audio.seek(draggingSeek.value);
     draggingSeek.value = null;
     if (!audio.playing()) {
@@ -110,6 +112,8 @@ function onMousedownEvent(event) {
     event.stopPropagation();
     window.addEventListener('mousemove', whileMove);
     window.addEventListener('mouseup', endMove, true);
+    window.addEventListener('touchmove', whileMove);
+    window.addEventListener('touchend', endMove, true);
     // audio.pause();
 }
 
@@ -145,7 +149,7 @@ defineExpose({
         </Button>
         <div ref="progressBar" class="group relative flex-grow h-2 bg-gray-200 cursor-pointer" :style="`--progress: ${progress}%`" @mouseup="seekHandler">
             <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
-            <div class="absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow" style="left: var(--progress)" @mousedown="onMousedownEvent"></div>
+            <div class="absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow" style="left: var(--progress)" @mousedown="onMousedownEvent" @touchstart="onMousedownEvent"></div>
         </div>
         <div class="font-mono cursor-pointer" @click="showRemainingTime = !showRemainingTime">
             {{ formattedTime }}
