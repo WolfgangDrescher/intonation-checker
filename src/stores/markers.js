@@ -7,6 +7,11 @@ export const useMarkersStore = defineStore('markers', {
             markers: [],
         };
     },
+    getters: {
+        markersNoteCount(state) {
+            return state.markers.reduce((total, marker) => total + marker.noteIds.length, 0);
+        },
+    },
     actions: {
         addSelectedMarker(marker) {
             if (!this.selectedMarkers.find(m => m.noteIds.some(e => marker.noteIds.includes(e)))) {
