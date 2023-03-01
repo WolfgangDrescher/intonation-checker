@@ -3,6 +3,7 @@ import { computed, onUnmounted, ref } from 'vue';
 import { Howl } from 'howler';
 import { Icon } from '@iconify/vue';
 import Button from './Button.vue';
+import { onKeyStroke } from '@vueuse/core';
 
 const props = defineProps({
     url: String,
@@ -131,6 +132,25 @@ function seekToFactor(factor) {
         audio.play();
     }
 }
+
+onKeyStroke('ArrowLeft', (e) => {
+    e.preventDefault();
+    audio.seek(Math.max(0, audio.seek() - 5));
+});
+
+onKeyStroke('ArrowRight', (e) => {
+    e.preventDefault();
+    audio.seek(Math.min(audio.duration(), audio.seek() + 5));
+});
+
+onKeyStroke(' ', (e) => {
+    e.preventDefault();
+    if (audio.playing()) {
+        audio.pause();
+    } else {
+        audio.play();
+    }
+});
 
 onUnmounted(() => {
     audio.stop();
