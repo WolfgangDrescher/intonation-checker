@@ -2,6 +2,8 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { useMarkersStore } from '../stores/markers.js';
+import { ref } from 'vue';
+import ScoreMarker from './ScoreMarker.vue';
 import { createSelectedMarker } from '../utils/marker.js';
 
 const props = defineProps({
@@ -49,10 +51,25 @@ async function scoreClickHandler(event) {
         }, store.markers));
     }
 }
+
+const scoreContainer = ref(null);
+const markerContainer = ref(null);
+
+function getElementById(id) {
+    const elem = document.getElementById(id);
+    return elem.querySelector('.notehead') || elem;
+}
 </script>
 
 <template>
-    <div @click="scoreClickHandler">
-        <VerovioCanvas :toolkit="toolkit" :url="url" :pageMargin="50" />
+    <div class="relative">
+        <div ref="scoreContainer" @click="scoreClickHandler">
+            <VerovioCanvas :toolkit="toolkit" :url="url" :pageMargin="50" />
+        </div>
+        <div class="absolute w-full h-full left-0 top-0 pointer-events-none" ref="markerContainer">
+            <template v-for="marker in store.selectedMarkers" :key="marker.id">
+                <ScoreMarker v-for="id in marker.noteIds" :marker="marker" :elem="getElementById(id)" :parent="markerContainer" />
+            </template>
+        </div>
     </div>
 </template>
