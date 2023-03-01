@@ -46,6 +46,10 @@ audio.on('stop', (e) => {
     isPlaying.value = false;
 });
 
+audio.on('seek', (e) => {
+    updateLoop();
+});
+
 function updateLoop() {
     seek.value = audio.seek() || 0;
     if (audio.playing()) {
