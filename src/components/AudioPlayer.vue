@@ -10,6 +10,7 @@ const props = defineProps({
 
 const audio = new Howl({
     src: [props.url],
+    html5: true, // allow playing audio on muted phones
 });
 
 const isReady = ref(false);
