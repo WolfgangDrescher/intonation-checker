@@ -23,13 +23,21 @@ function playAudioListener()  {
 function remove() {
     store.removeSelectedMarker(props.marker.noteIds);
 }
+
+function startHighlight() {
+    document.querySelectorAll(`.scoremarker-${props.marker.id}`).forEach(elem => elem.classList.add('highlight'));
+}
+
+function endHighlight() {
+    document.querySelectorAll(`.scoremarker-${props.marker.id}`).forEach(elem => elem.classList.remove('highlight'));
+}
 </script>
 
 <template>
     <div class="p-3 border shadow rounded flex items-center" :class="marker.validated ? (marker.isCorrect ? 'bg-green-100' : 'bg-red-100') : ''">
         <div class="flex-grow">
             <div class="flex">
-                <code class="bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em]">{{ `#${marker.id}` }}</code>
+                <code class="cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em]" @mouseenter="startHighlight" @mouseleave="endHighlight">{{ `#${marker.id}` }}</code>
                 <div>{{ marker.comment }}</div>
             </div>
         </div>
