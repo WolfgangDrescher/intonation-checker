@@ -31,7 +31,7 @@ function remove() {
             <Icon icon="heroicons-solid:play" width="1.5rem" />
         </Button>
         <Button @click="remove">
-            <Icon icon="heroicons-solid:trash" width="1.5rem" />
+            <Icon icon="heroicons-solid:x-mark" width="1.5rem" />
         </Button>
     </div>
 </template>
