@@ -48,6 +48,9 @@ const audioPlayer = ref();
                     @audioSeekFactor="$refs.audioPlayer.seekToFactor($event)"
                 />
             </div>
+            <div class="p-4 mt-auto bg-gray-50 border-t">
+                <button @click="store.validateSelectedMarkers()">Validate</button>
+            </div>
         </div>
     </div>
 </template>

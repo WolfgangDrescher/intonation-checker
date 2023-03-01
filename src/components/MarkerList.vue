@@ -20,9 +20,6 @@ const store = useMarkersStore();
                 @audioSeek="emit('audioSeek', $event)"
                 @audioSeekFactor="emit('audioSeekFactor', $event)"
             />
-            <div>
-                <button @click="store.validateSelectedMarkers()">Validate</button>
-            </div>
         </div>
     </div>
 </template>
