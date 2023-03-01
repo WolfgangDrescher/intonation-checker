@@ -23,8 +23,7 @@ const store = useMarkersStore();
                 />
             </template>
             <div v-else class="text-center text-sm text-gray-500 px-8">
-                Klicken Sie in der Partitur auf der linken Seite auf die
-                Notenköpfe der Töne die falsch intoniert sind.
+                Klicken Sie in der Partitur auf der linken Seite auf die Notenköpfe der Töne die falsch intoniert sind.
             </div>
         </div>
     </div>

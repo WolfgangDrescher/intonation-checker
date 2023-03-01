@@ -57,7 +57,9 @@ const markers = [
 </template>
 
 <style>
-body, html, #app {
+body,
+html,
+#app {
     width: 100%;
     height: 100%;
 }

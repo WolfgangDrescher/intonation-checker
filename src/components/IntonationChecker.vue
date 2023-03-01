@@ -20,7 +20,7 @@ const props = defineProps({
 const pinia = createPinia();
 
 const store = useMarkersStore(pinia);
-store.setMarkers(props.markers.map(m => new Marker(m)));
+store.setMarkers(props.markers.map((m) => new Marker(m)));
 
 const audioPlayer = ref();
 </script>

@@ -20,35 +20,42 @@ function getParents(node) {
 let timemap = [];
 
 function getTimeForElement(id) {
-    return timemap.find(item => item.on.includes(id)).tstamp;
+    return timemap.find((item) => item.on.includes(id)).tstamp;
 }
 function getDuration() {
     return timemap.at(-1)?.tstamp;
 }
 
 function getSeekFactor(id) {
-    return (getTimeForElement(id) / getDuration()) || 0;
+    return getTimeForElement(id) / getDuration() || 0;
 }
 
 function getTimeForElementFromMarkers(id) {
-    const foundMarker = store.markers.find(m => m.noteIds.includes(id))
-    if (foundMarker)  {
+    const foundMarker = store.markers.find((m) => m.noteIds.includes(id));
+    if (foundMarker) {
         return foundMarker.time;
     }
 }
 
 async function scoreClickHandler(event) {
     const nodes = getParents(event.target).reverse();
-    const noteElem = nodes.find(node => node.nodeName === 'g' && [...node.classList].some(className => className === 'note'));
+    const noteElem = nodes.find(
+        (node) => node.nodeName === 'g' && [...node.classList].some((className) => className === 'note')
+    );
     if (noteElem) {
         if (timemap.length === 0) {
             timemap = await props.toolkit.renderToTimemap();
         }
-        store.addSelectedMarker(createSelectedMarker({
-            noteIds: [noteElem.id],
-            seekFactor: getSeekFactor(noteElem.id),
-            time: getTimeForElementFromMarkers(noteElem.id),
-        }, store.markers));
+        store.addSelectedMarker(
+            createSelectedMarker(
+                {
+                    noteIds: [noteElem.id],
+                    seekFactor: getSeekFactor(noteElem.id),
+                    time: getTimeForElementFromMarkers(noteElem.id),
+                },
+                store.markers
+            )
+        );
     }
 }
 
@@ -86,7 +93,13 @@ function getElementById(id) {
         </div>
         <div class="absolute w-full h-full left-0 top-0 pointer-events-none" ref="markerContainer">
             <template v-for="marker in store.selectedMarkers" :key="marker.id">
-                <ScoreMarker v-for="id in marker.noteIds" :key="marker.timestamp" :marker="marker" :elem="getElementById(id)" :parent="markerContainer" />
+                <ScoreMarker
+                    v-for="id in marker.noteIds"
+                    :key="marker.timestamp"
+                    :marker="marker"
+                    :elem="getElementById(id)"
+                    :parent="markerContainer"
+                />
             </template>
         </div>
     </div>

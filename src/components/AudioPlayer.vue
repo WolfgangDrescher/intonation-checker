@@ -55,7 +55,7 @@ function updateLoop() {
     if (audio.playing()) {
         requestAnimationFrame(updateLoop);
     }
-};
+}
 
 function toggle() {
     if (audio.state() !== 'loaded') return;
@@ -68,7 +68,7 @@ function toggle() {
 
 function seekHandler(e) {
     const rect = e.target.getBoundingClientRect();
-    audio.seek((e.clientX - rect.left) / rect.width * audio.duration());
+    audio.seek(((e.clientX - rect.left) / rect.width) * audio.duration());
     if (!audio.playing()) {
         audio.play();
     }
@@ -77,7 +77,7 @@ function seekHandler(e) {
 function formatTime(secs) {
     secs = Math.round(secs);
     const minutes = Math.floor(secs / 60) || 0;
-    const seconds = (secs - minutes * 60) || 0;
+    const seconds = secs - minutes * 60 || 0;
     return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 }
 
@@ -90,15 +90,14 @@ const formattedTime = computed(() => {
 });
 
 const progress = computed(() => {
-    return (seeker.value / audio.duration() * 100) || 0;
+    return (seeker.value / audio.duration()) * 100 || 0;
 });
-
 
 function whileMove(e) {
     e.stopPropagation();
     const rect = progressBar.value.getBoundingClientRect();
     const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
-    draggingSeek.value = x / rect.width * audio.duration();
+    draggingSeek.value = (x / rect.width) * audio.duration();
 }
 
 function endMove(event) {
@@ -172,9 +171,19 @@ defineExpose({
             <Icon v-if="isPlaying" icon="heroicons-solid:pause" width="1.5rem" />
             <Icon v-else icon="heroicons-solid:play" width="1.5rem" />
         </Button>
-        <div ref="progressBar" class="group relative flex-grow h-2 bg-gray-200 cursor-pointer" :style="`--progress: ${progress}%`" @mouseup="seekHandler">
+        <div
+            ref="progressBar"
+            class="group relative flex-grow h-2 bg-gray-200 cursor-pointer"
+            :style="`--progress: ${progress}%`"
+            @mouseup="seekHandler"
+        >
             <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
-            <div class="cursor-grab absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow" style="left: var(--progress)" @mousedown="onMousedownEvent" @touchstart="onMousedownEvent"></div>
+            <div
+                class="cursor-grab absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow"
+                style="left: var(--progress)"
+                @mousedown="onMousedownEvent"
+                @touchstart="onMousedownEvent"
+            ></div>
         </div>
         <div class="font-mono cursor-pointer" @click="showRemainingTime = !showRemainingTime">
             {{ formattedTime }}
