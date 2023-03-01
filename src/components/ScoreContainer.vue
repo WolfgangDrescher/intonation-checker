@@ -80,8 +80,8 @@ function getElementById(id) {
 </script>
 
 <template>
-    <div class="relative">
-        <div ref="scoreContainer" @click="scoreClickHandler">
+    <div class="relative h-full">
+        <div ref="scoreContainer" class="h-full" @click="scoreClickHandler">
             <VerovioCanvas :toolkit="toolkit" :url="url" :pageMargin="50" />
         </div>
         <div class="absolute w-full h-full left-0 top-0 pointer-events-none" ref="markerContainer">

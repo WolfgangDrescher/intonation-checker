@@ -30,7 +30,7 @@ const audioPlayer = ref();
         <div class="flex-grow min-w-0">
             <ScoreContainer :toolkit="toolkit" :url="scoreUrl" />
         </div>
-        <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l">
+        <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l flex flex-col">
             <div class="p-4 bg-gray-100 border-b">
                 <div class="text-xl font-bold">
                     {{ title }}
@@ -42,7 +42,7 @@ const audioPlayer = ref();
             <div class="p-2 bg-gray-50 border-b">
                 <AudioPlayer ref="audioPlayer" :url="wrongAudioUrl"></AudioPlayer>
             </div>
-            <div class="p-4">
+            <div class="p-4 min-h-0 flex-grew overflow-y-auto">
                 <MarkerList
                     @audioSeek="$refs.audioPlayer.seekTo($event)"
                     @audioSeekFactor="$refs.audioPlayer.seekToFactor($event)"
