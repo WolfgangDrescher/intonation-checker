@@ -2,7 +2,7 @@
 import AudioPlayer from './AudioPlayer.vue';
 import MarkerList from './MarkerList.vue';
 import ScoreContainer from './ScoreContainer.vue';
-import { useMarkersStore } from '../stores/markers';
+import { useMarkersStore } from '../stores/markers.js';
 import { createPinia } from 'pinia';
 import { ref } from 'vue';
 
