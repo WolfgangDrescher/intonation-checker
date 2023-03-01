@@ -23,10 +23,6 @@ const store = useMarkersStore(pinia);
 store.setMarkers(props.markers.map(m => new Marker(m)));
 
 const audioPlayer = ref();
-
-function scoreClickHandler(event) {
-    console.log(event);
-}
 </script>
 
 <template>
