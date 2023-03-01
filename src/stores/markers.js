@@ -30,5 +30,8 @@ export const useMarkersStore = defineStore('markers', {
         setMarkers(markers) {
             this.markers = markers;
         },
+        validateSelectedMarkers() {
+            this.selectedMarkers.forEach(marker => marker.validated = true);
+        },
     },
 });
