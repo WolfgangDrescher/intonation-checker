@@ -27,6 +27,10 @@ function playAudioListener()  {
         emit('audioSeekFactor', props.marker.seekFactor);
     }
 }
+
+function remove() {
+    store.removeSelectedMarker(props.marker.noteIds);
+}
 </script>
 
 <template>
@@ -34,6 +38,9 @@ function playAudioListener()  {
         {{ marker }}
         <Button @click="playAudioListener">
             <Icon icon="heroicons-solid:play" width="1.5rem" />
+        </Button>
+        <Button @click="remove">
+            <Icon icon="heroicons-solid:trash" width="1.5rem" />
         </Button>
     </div>
 </template>
