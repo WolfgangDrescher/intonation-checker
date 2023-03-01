@@ -5,6 +5,7 @@ import ScoreContainer from './ScoreContainer.vue';
 import { useMarkersStore } from '../stores/markers.js';
 import { createPinia } from 'pinia';
 import { ref } from 'vue';
+import { Marker } from '../utils/marker.js';
 
 const props = defineProps({
     toolkit: Object,
@@ -19,7 +20,7 @@ const props = defineProps({
 const pinia = createPinia();
 
 const store = useMarkersStore(pinia);
-store.setMarkers(props.markers);
+store.setMarkers(props.markers.map(m => new Marker(m)));
 
 const audioPlayer = ref();
 

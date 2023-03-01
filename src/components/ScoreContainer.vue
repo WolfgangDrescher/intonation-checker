@@ -2,6 +2,7 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { useMarkersStore } from '../stores/markers.js';
+import { createSelectedMarker } from '../utils/marker.js';
 
 const props = defineProps({
     toolkit: Object,
@@ -41,11 +42,11 @@ async function scoreClickHandler(event) {
         if (timemap.length === 0) {
             timemap = await props.toolkit.renderToTimemap();
         }
-        store.addSelectedMarker({
+        store.addSelectedMarker(createSelectedMarker({
             noteIds: [noteElem.id],
             seekFactor: getSeekFactor(noteElem.id),
             time: getTimeForElementFromMarkers(noteElem.id),
-        });
+        }, store.markers));
     }
 }
 </script>
