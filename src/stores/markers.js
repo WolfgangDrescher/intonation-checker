@@ -33,5 +33,8 @@ export const useMarkersStore = defineStore('markers', {
         validateSelectedMarkers() {
             this.selectedMarkers.forEach(marker => marker.validated = true);
         },
+        updateSelectedMarkers() {
+            this.selectedMarkers.forEach(marker => marker.timestamp = Date.now());
+        },
     },
 });

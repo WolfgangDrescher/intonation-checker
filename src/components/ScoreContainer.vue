@@ -2,7 +2,7 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { useMarkersStore } from '../stores/markers.js';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
 import { createSelectedMarker } from '../utils/marker.js';
 
@@ -55,6 +55,24 @@ async function scoreClickHandler(event) {
 const scoreContainer = ref(null);
 const markerContainer = ref(null);
 
+function mutationObserverEvent() {
+    store.updateSelectedMarkers();
+}
+
+const mutationObserver = new MutationObserver(mutationObserverEvent);
+
+onMounted(() => {
+    mutationObserver.observe(scoreContainer.value, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+    });
+});
+
+onUnmounted(() => {
+    mutationObserver.disconnect();
+});
+
 function getElementById(id) {
     const elem = document.getElementById(id);
     return elem.querySelector('.notehead') || elem;
@@ -68,7 +86,7 @@ function getElementById(id) {
         </div>
         <div class="absolute w-full h-full left-0 top-0 pointer-events-none" ref="markerContainer">
             <template v-for="marker in store.selectedMarkers" :key="marker.id">
-                <ScoreMarker v-for="id in marker.noteIds" :marker="marker" :elem="getElementById(id)" :parent="markerContainer" />
+                <ScoreMarker v-for="id in marker.noteIds" :key="marker.timestamp" :marker="marker" :elem="getElementById(id)" :parent="markerContainer" />
             </template>
         </div>
     </div>
