@@ -95,7 +95,7 @@ function getElementById(id) {
             <template v-for="marker in store.selectedMarkers" :key="marker.id">
                 <ScoreMarker
                     v-for="id in marker.noteIds"
-                    :key="marker.timestamp"
+                    :key="`${id}${marker.timestamp}`"
                     :marker="marker"
                     :elem="getElementById(id)"
                     :parent="markerContainer"
