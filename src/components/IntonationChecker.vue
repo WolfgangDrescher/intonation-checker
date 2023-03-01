@@ -44,7 +44,6 @@ const audioPlayer = ref();
             </div>
             <div class="p-4">
                 <MarkerList
-                    :markers="markers"
                     @audioSeek="$refs.audioPlayer.seekTo($event)"
                     @audioSeekFactor="$refs.audioPlayer.seekToFactor($event)"
                 />
