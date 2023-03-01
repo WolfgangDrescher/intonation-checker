@@ -27,7 +27,7 @@ const audioPlayer = ref();
 
 <template>
     <div class="lg:w-full lg:h-full lg:flex overflow-hidden">
-        <div class="flex-grow">
+        <div class="flex-grow min-w-0">
             <ScoreContainer :toolkit="toolkit" :url="scoreUrl" />
         </div>
         <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l">
