@@ -13,13 +13,19 @@ const store = useMarkersStore();
             {{ store.selectedMarkers.length }} von {{ store.markersNoteCount }}
         </div>
         <div class="flex flex-col gap-4">
-            <MarkerListItem
-                v-for="marker in store.selectedMarkers"
-                :key="marker.noteIds.join()"
-                :marker="marker"
-                @audioSeek="emit('audioSeek', $event)"
-                @audioSeekFactor="emit('audioSeekFactor', $event)"
-            />
+            <template v-if="store.selectedMarkers.length">
+                <MarkerListItem
+                    v-for="marker in store.selectedMarkers"
+                    :key="marker.noteIds.join()"
+                    :marker="marker"
+                    @audioSeek="emit('audioSeek', $event)"
+                    @audioSeekFactor="emit('audioSeekFactor', $event)"
+                />
+            </template>
+            <div v-else class="text-center text-sm text-gray-500 px-8">
+                Klicken Sie in der Partitur auf der linken Seite auf die
+                Notenköpfe der Töne die falsch intoniert sind.
+            </div>
         </div>
     </div>
 </template>
