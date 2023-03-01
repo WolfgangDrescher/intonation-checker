@@ -13,8 +13,19 @@ export const useMarkersStore = defineStore('markers', {
                 this.selectedMarkers.push(marker);
             }
         },
-        removeSelectedMarker(id) {
-            this.selectedMarkers = this.selectedMarkers.filter(m => m.id !== id);
+        removeSelectedMarker(marker) {
+            this.selectedMarkers = this.selectedMarkers.filter(m => {
+                if (typeof marker === 'string') {
+                    return !m.noteIds.includes(marker);
+                }
+                if (Array.isArray(marker)) {
+                    return !m.noteIds.some(id => marker.includes(id));
+                }
+                if (typeof marker === 'object') {
+                    return !m.noteIds.some(id => marker.noteIds.includes(id));
+                }
+                return m.noteIds !== marker;
+            });
         },
         setMarkers(markers) {
             this.markers = markers;
