@@ -101,6 +101,9 @@ function endMove(event) {
     window.removeEventListener('mouseup', endMove, true);
     audio.seek(draggingSeek.value);
     draggingSeek.value = null;
+    if (!audio.playing()) {
+        audio.play();
+    }
 }
 
 function onMousedownEvent(event) {
