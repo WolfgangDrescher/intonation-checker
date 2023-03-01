@@ -26,10 +26,6 @@ export class Marker {
     get time() {
         return this.marker.time;
     }
-
-    get time() {
-        return this.marker.time;
-    }
 }
 
 export class SelectedMarker extends Marker {
