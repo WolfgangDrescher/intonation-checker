@@ -2,7 +2,7 @@
 import { computed, onUnmounted, ref } from 'vue';
 import { Howl } from 'howler';
 import { Icon } from '@iconify/vue';
-import Button from './Button.vue';
+import FormButton from './FormButton.vue';
 import { onKeyStroke } from '@vueuse/core';
 
 const props = defineProps({
@@ -167,10 +167,10 @@ defineExpose({
 
 <template>
     <div class="flex items-center gap-2">
-        <Button @click="toggle">
+        <FormButton @click="toggle">
             <Icon v-if="isPlaying" icon="heroicons-solid:pause" width="1.5rem" />
             <Icon v-else icon="heroicons-solid:play" width="1.5rem" />
-        </Button>
+        </FormButton>
         <div
             ref="progressBar"
             class="group relative flex-grow h-2 bg-gray-200 cursor-pointer"

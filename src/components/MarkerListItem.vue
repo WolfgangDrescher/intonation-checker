@@ -1,6 +1,6 @@
 <script setup>
 import { useMarkersStore } from '../stores/markers.js';
-import Button from './Button.vue';
+import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
 
@@ -50,12 +50,12 @@ function endHighlight() {
             </div>
         </div>
         <ButtonGroup>
-            <Button @click="playAudioListener">
+            <FormButton @click="playAudioListener">
                 <Icon icon="heroicons-solid:play" width="1.5rem" />
-            </Button>
-            <Button @click="remove">
+            </FormButton>
+            <FormButton @click="remove">
                 <Icon icon="heroicons-solid:x-mark" width="1.5rem" />
-            </Button>
+            </FormButton>
         </ButtonGroup>
     </div>
 </template>
