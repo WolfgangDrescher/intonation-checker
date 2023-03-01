@@ -2,7 +2,6 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { useMarkersStore } from '../stores/markers.js';
-import { storeToRefs } from 'pinia';
 
 const props = defineProps({
     toolkit: Object,
@@ -10,8 +9,6 @@ const props = defineProps({
 });
 
 const store = useMarkersStore();
-
-const { markers } = storeToRefs(store);
 
 function getParents(node) {
     return (node.parentElement ? getParents(node.parentElement) : []).concat([node]);
@@ -31,7 +28,7 @@ function getSeekFactor(id) {
 }
 
 function getTimeForElementFromMarkers(id) {
-    const foundMarker = markers.value.find(m => m.noteIds.includes(id))
+    const foundMarker = store.markers.find(m => m.noteIds.includes(id))
     if (foundMarker)  {
         return foundMarker.time;
     }

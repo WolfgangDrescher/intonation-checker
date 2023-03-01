@@ -12,10 +12,9 @@ const props = defineProps({
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
 
 const store = useMarkersStore();
-const { markers } = storeToRefs(store);
 
 const isCorrect = computed(() => {
-    return markers.value.reduce((accumulator, item) => {
+    return store.markers.reduce((accumulator, item) => {
         accumulator.push(...item.noteIds);
         return accumulator;
     }, []).some(id => props.marker.noteIds.includes(id));
