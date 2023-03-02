@@ -167,9 +167,9 @@ defineExpose({
 
 <template>
     <div class="flex items-center gap-2">
-        <FormButton @click="toggle">
-            <Icon v-if="isPlaying" icon="heroicons-solid:pause" width="1.5rem" />
-            <Icon v-else icon="heroicons-solid:play" width="1.5rem" />
+        <FormButton @click="toggle" class="text-2xl">
+            <Icon v-if="isPlaying" icon="heroicons-solid:pause" />
+            <Icon v-else icon="heroicons-solid:play" />
         </FormButton>
         <div
             ref="progressBar"

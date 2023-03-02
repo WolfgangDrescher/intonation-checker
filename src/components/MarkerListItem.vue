@@ -50,12 +50,12 @@ function endHighlight() {
                 <div>{{ marker.comment }}</div>
             </div>
         </div>
-        <ButtonGroup>
+        <ButtonGroup class="text-2xl">
             <FormButton @click="playAudioListener">
-                <Icon icon="heroicons-solid:play" width="1.5rem" />
+                <Icon icon="heroicons-solid:play" />
             </FormButton>
             <FormButton v-if="marker instanceof SelectedMarker && (marker.validated && !marker.isCorrect || !marker.validated)" @click="remove">
-                <Icon icon="heroicons-solid:x-mark" width="1.5rem" />
+                <Icon icon="heroicons-solid:x-mark" />
             </FormButton>
         </ButtonGroup>
     </div>
