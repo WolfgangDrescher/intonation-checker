@@ -36,7 +36,7 @@ function endHighlight() {
 
 <template>
     <div
-        class="p-3 border shadow rounded flex items-center"
+        class="p-3 border border-gray-100 shadow rounded flex items-center"
         :class="marker.validated ? (marker.isCorrect ? 'bg-green-100' : 'bg-red-100') : ''"
     >
         <div class="flex-grow">
