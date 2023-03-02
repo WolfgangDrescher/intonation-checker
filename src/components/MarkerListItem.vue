@@ -40,7 +40,7 @@ function endHighlight() {
         :class="marker.validated ? (marker.isCorrect ? 'bg-green-100' : 'bg-red-100') : ''"
     >
         <div class="flex-grow">
-            <div class="flex">
+            <div class="flex gap-2">
                 <code
                     class="cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em]"
                     @mouseenter="startHighlight"
