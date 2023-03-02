@@ -11,6 +11,11 @@ export const useMarkersStore = defineStore('markers', {
         markersNoteCount(state) {
             return state.markers.reduce((total, marker) => total + marker.noteIds.length, 0);
         },
+        missingMarkers(state) {
+            return state.markers.filter((marker) => {
+                return !state.selectedMarkers.find(m => m.noteIds.some(id => marker.noteIds.includes(id)));
+            });
+        },
     },
     actions: {
         addSelectedMarker(marker) {
