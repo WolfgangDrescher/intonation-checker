@@ -24,7 +24,7 @@ const pinia = createPinia();
 const store = useMarkersStore(pinia);
 store.setMarkers(props.markers.map((m) => new Marker(m)));
 
-const audioPlayer = ref();
+const audioPlayerElem = ref();
 </script>
 
 <template>
@@ -43,12 +43,12 @@ const audioPlayer = ref();
                     </p>
                 </div>
                 <div class="p-2 bg-gray-50 border-b">
-                    <AudioPlayer ref="audioPlayer" :url="wrongAudioUrl"></AudioPlayer>
+                    <AudioPlayer ref="audioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
                 </div>
                 <div class="p-4 min-h-0 flex-grew overflow-y-auto">
                     <MarkerList
-                        @audioSeek="$refs.audioPlayer.seekTo($event)"
-                        @audioSeekFactor="$refs.audioPlayer.seekToFactor($event)"
+                        @audioSeek="$refs.audioPlayerElem.seekTo($event)"
+                        @audioSeekFactor="$refs.audioPlayerElem.seekToFactor($event)"
                     />
                 </div>
                 <div class="p-4 mt-auto bg-gray-50 border-t">
