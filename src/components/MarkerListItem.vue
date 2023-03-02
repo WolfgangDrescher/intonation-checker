@@ -3,6 +3,7 @@ import { useMarkersStore } from '../stores/markers.js';
 import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
+import { SelectedMarker } from '../utils/marker';
 
 const props = defineProps({
     marker: Object,
@@ -53,7 +54,7 @@ function endHighlight() {
             <FormButton @click="playAudioListener">
                 <Icon icon="heroicons-solid:play" width="1.5rem" />
             </FormButton>
-            <FormButton @click="remove">
+            <FormButton v-if="marker instanceof SelectedMarker && (marker.validated && !marker.isCorrect || !marker.validated)" @click="remove">
                 <Icon icon="heroicons-solid:x-mark" width="1.5rem" />
             </FormButton>
         </ButtonGroup>
