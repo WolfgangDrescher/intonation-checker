@@ -9,6 +9,7 @@ import { createSelectedMarker } from '../utils/marker.js';
 const props = defineProps({
     toolkit: Object,
     url: String,
+    showMarkers: Boolean,
 });
 
 const store = useMarkersStore();
@@ -100,6 +101,17 @@ function getElementById(id) {
                     :elem="getElementById(id)"
                     :parent="markerContainer"
                 />
+            </template>
+            <template v-if="showMarkers">
+                <template v-for="marker in store.missingMarkers" :key="marker.id">
+                    <ScoreMarker
+                        v-for="id in marker.noteIds"
+                        :key="`${id}${marker.timestamp}`"
+                        :marker="marker"
+                        :elem="getElementById(id)"
+                        :parent="markerContainer"
+                    />
+                </template>
             </template>
         </div>
     </div>

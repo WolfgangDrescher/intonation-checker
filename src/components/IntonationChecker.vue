@@ -25,13 +25,14 @@ const store = useMarkersStore(pinia);
 store.setMarkers(props.markers.map((m) => new Marker(m)));
 
 const audioPlayerElem = ref();
+const showMarkers = ref(false);
 </script>
 
 <template>
     <div class="intonation-checker lg:h-full">
         <div class="lg:h-full lg:flex overflow-hidden">
             <div class="flex-grow min-w-0">
-                <ScoreContainer :toolkit="toolkit" :url="scoreUrl" />
+                <ScoreContainer :toolkit="toolkit" :url="scoreUrl" :show-markers="showMarkers" />
             </div>
             <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l flex flex-col">
                 <div class="p-4 bg-gray-100 border-b">
@@ -47,6 +48,7 @@ const audioPlayerElem = ref();
                 </div>
                 <div class="p-4 min-h-0 flex-grew overflow-y-auto">
                     <MarkerList
+                        :show-markers="showMarkers"
                         @audioSeek="$refs.audioPlayerElem.seekTo($event)"
                         @audioSeekFactor="$refs.audioPlayerElem.seekToFactor($event)"
                     />
@@ -54,6 +56,7 @@ const audioPlayerElem = ref();
                 <div class="p-4 mt-auto bg-gray-50 border-t">
                     <ButtonGroup>
                         <FormButton @click="store.validateSelectedMarkers()">Prüfen</FormButton>
+                        <FormButton @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">Fehlende Anzeigen</FormButton>
                     </ButtonGroup>
                 </div>
             </div>
