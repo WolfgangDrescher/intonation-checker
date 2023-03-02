@@ -1,6 +1,7 @@
 export class Marker {
     marker;
-    correct;
+    correct = true;
+    validated = true;
 
     constructor(marker = {}) {
         this.marker = marker;
@@ -26,6 +27,10 @@ export class Marker {
     get time() {
         return this.marker.time;
     }
+
+    get isCorrect() {
+        return this.correct;
+    }
 }
 
 export class SelectedMarker extends Marker {
@@ -39,10 +44,6 @@ export class SelectedMarker extends Marker {
 
     get seekFactor() {
         return this.marker.seekFactor;
-    }
-
-    get isCorrect() {
-        return this.correct;
     }
 }
 
