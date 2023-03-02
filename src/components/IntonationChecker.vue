@@ -2,6 +2,8 @@
 import AudioPlayer from './AudioPlayer.vue';
 import MarkerList from './MarkerList.vue';
 import ScoreContainer from './ScoreContainer.vue';
+import ButtonGroup from './ButtonGroup.vue';
+import FormButton from './FormButton.vue';
 import { useMarkersStore } from '../stores/markers.js';
 import { createPinia } from 'pinia';
 import { ref } from 'vue';
@@ -50,7 +52,9 @@ const audioPlayer = ref();
                     />
                 </div>
                 <div class="p-4 mt-auto bg-gray-50 border-t">
-                    <button @click="store.validateSelectedMarkers()">Validate</button>
+                    <ButtonGroup>
+                        <FormButton @click="store.validateSelectedMarkers()">Prüfen</FormButton>
+                    </ButtonGroup>
                 </div>
             </div>
         </div>
