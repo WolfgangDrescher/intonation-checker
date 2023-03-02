@@ -104,3 +104,9 @@ function getElementById(id) {
         </div>
     </div>
 </template>
+
+<style scoped>
+:deep(g.note) {
+    @apply cursor-pointer;
+}
+</style>
