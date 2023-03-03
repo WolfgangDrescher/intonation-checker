@@ -21,7 +21,7 @@
         "./style.css": "./dist/style.css"
     },
     "scripts": {
-        "dev": "vite --config vite.demo.config.js ",
+        "dev": "vite --config vite.demo.config.js",
         "build": "vite build",
         "build:demo": "vite --config vite.demo.config.js build",
         "preview": "vite preview",
