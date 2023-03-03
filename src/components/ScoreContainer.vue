@@ -103,25 +103,25 @@ function getElementById(id) {
         <div class="p-4 bg-gray-100 border-b flex items-center gap-4">
             <ButtonGroup class="text-2xl">
                 <FormButton @click="setScale(scale + 5)">
-                    <Icon icon="heroicons:magnifying-glass-plus" />
+                    <Icon icon="bi:zoom-in" />
                 </FormButton>
                 <FormButton @click="setScale(scale - 5)">
-                    <Icon icon="heroicons:magnifying-glass-minus" />
+                    <Icon icon="bi:zoom-out" />
                 </FormButton>
             </ButtonGroup>
             <div>
-                <Icon v-if="$refs.verovioElem && $refs.verovioElem.isLoading" icon="heroicons:arrow-path" class="spin" />
+                <Icon v-if="$refs.verovioElem && $refs.verovioElem.isLoading" icon="bi:arrow-repeat" class="spin" />
             </div>
             <div class="ml-auto hidden lg:block">
                 <ButtonGroup class="text-2xl">
                     <FormButton @click="emit('update:colMode', 'left')">
-                        <Icon icon="heroicons:arrow-left" />
+                        <Icon icon="bi:layout-sidebar-inset" />
                     </FormButton>
                     <FormButton @click="emit('update:colMode', 'center')">
-                            <Icon icon="heroicons:arrow-up" />
+                            <Icon icon="bi:square-half" />
                         </FormButton>
                     <FormButton @click="emit('update:colMode', 'right')">
-                        <Icon icon="heroicons:arrow-right" />
+                        <Icon icon="bi:layout-sidebar-inset-reverse" />
                     </FormButton>
                 </ButtonGroup>
             </div>
