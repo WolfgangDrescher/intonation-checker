@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { Howl } from 'howler';
 import { Icon } from '@iconify/vue';
 import FormButton from './FormButton.vue';
@@ -20,6 +20,7 @@ const seek = ref(0);
 const draggingSeek = ref(null);
 const showRemainingTime = ref(false);
 const progressBar = ref();
+const touchDevice = ref(false);
 
 if (audio.state() === 'loaded') {
     isReady.value = true;
@@ -93,18 +94,27 @@ const progress = computed(() => {
     return (seeker.value / audio.duration()) * 100 || 0;
 });
 
-function whileMove(e) {
+function whileMoveMouse(e) {
     e.stopPropagation();
+    setSeekFromClientX(e.clientX);
+}
+
+function whileMoveTouch(e) {
+    e.stopPropagation();
+    setSeekFromClientX(e.touches[0].clientX);
+}
+
+function setSeekFromClientX(clientX) {
     const rect = progressBar.value.getBoundingClientRect();
-    const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+    const x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
     draggingSeek.value = (x / rect.width) * audio.duration();
 }
 
 function endMove(event) {
     event.stopPropagation();
-    window.removeEventListener('mousemove', whileMove);
+    window.removeEventListener('mousemove', whileMoveMouse);
     window.removeEventListener('mouseup', endMove, true);
-    window.removeEventListener('touchmove', whileMove);
+    window.removeEventListener('touchmove', whileMoveTouch);
     window.removeEventListener('touchend', endMove, true);
     audio.seek(draggingSeek.value);
     draggingSeek.value = null;
@@ -115,9 +125,9 @@ function endMove(event) {
 
 function onMousedownEvent(event) {
     event.stopPropagation();
-    window.addEventListener('mousemove', whileMove);
+    window.addEventListener('mousemove', whileMoveMouse);
     window.addEventListener('mouseup', endMove, true);
-    window.addEventListener('touchmove', whileMove);
+    window.addEventListener('touchmove', whileMoveTouch);
     window.addEventListener('touchend', endMove, true);
     // audio.pause();
 }
@@ -159,6 +169,18 @@ onUnmounted(() => {
     audio.stop();
 });
 
+onMounted(() => {
+    if(isTouchDevice()) {
+        touchDevice.value = true;
+    }
+});
+
+function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0));
+}
+
 defineExpose({
     seekTo,
     seekToFactor,
@@ -179,7 +201,8 @@ defineExpose({
         >
             <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
             <div
-                class="cursor-grab absolute invisible group-hover:visible top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow"
+                class="cursor-grab absolute top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow"
+                :class="{'invisible group-hover:visible': !touchDevice, 'w-5 h-5': touchDevice}"
                 style="left: var(--progress)"
                 @mousedown="onMousedownEvent"
                 @touchstart="onMousedownEvent"
