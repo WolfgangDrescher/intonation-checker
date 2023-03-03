@@ -12,7 +12,7 @@ const store = useMarkersStore();
 <template>
     <div>
         <div class="mb-4 text-center text-sm text-gray-500">
-            {{ store.selectedMarkers.length }} von {{ store.markersNoteCount }}
+            {{ store.selectedMarkers.length }} von {{ store.markers.length }}
         </div>
         <div class="flex flex-col gap-4">
             <template v-if="store.selectedMarkers.length">
