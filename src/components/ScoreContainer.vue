@@ -129,7 +129,7 @@ function getElementById(id) {
         <div class="flex-grow lg:h-0">
             <div class="relative h-full overflow-y-auto">
                 <div ref="scoreContainer" class="min-h-full" @click="scoreClickHandler">
-                    <VerovioCanvas ref="verovioElem" :toolkit="toolkit" :url="url" :scale="scale" :pageMargin="50" />
+                    <VerovioCanvas ref="verovioElem" :toolkit="toolkit" :url="url" :scale="scale" :pageMargin="50" :options="{mnumInterval: 1}" />
                 </div>
                 <div class="absolute w-full h-full left-0 top-0 pointer-events-none" ref="markerContainer">
                     <template v-for="marker in store.selectedMarkers" :key="marker.id">
