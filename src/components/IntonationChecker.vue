@@ -28,6 +28,13 @@ const correctAudioPlayerElem = ref();
 const wrongAudioPlayerElem = ref();
 const showMarkers = ref(false);
 const displayShowMarkersButton = ref(false);
+
+function checkSelectedMarkers() {
+    store.validateSelectedMarkers();
+    if (store.selectedMarkers.length) {
+        displayShowMarkersButton.value = true;
+    }
+}
 </script>
 
 <template>
@@ -66,7 +73,7 @@ const displayShowMarkersButton = ref(false);
                 </div>
                 <div class="p-4 mt-auto bg-gray-50 border-t">
                     <ButtonGroup>
-                        <FormButton @click="store.validateSelectedMarkers(); displayShowMarkersButton = true;">Prüfen</FormButton>
+                        <FormButton @click="checkSelectedMarkers">Prüfen</FormButton>
                         <FormButton v-if="displayShowMarkersButton" @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">Fehlende Anzeigen</FormButton>
                     </ButtonGroup>
                 </div>
