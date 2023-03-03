@@ -24,7 +24,8 @@ const pinia = createPinia();
 const store = useMarkersStore(pinia);
 store.setMarkers(props.markers.map((m) => new Marker(m)));
 
-const audioPlayerElem = ref();
+const correctAudioPlayerElem = ref();
+const wrongAudioPlayerElem = ref();
 const showMarkers = ref(false);
 const displayShowMarkersButton = ref(false);
 </script>
@@ -44,8 +45,17 @@ const displayShowMarkersButton = ref(false);
                         {{ description }}
                     </p>
                 </div>
-                <div class="p-2 bg-gray-50 border-b">
-                    <AudioPlayer ref="audioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
+                <div class="p-2 bg-gray-50 border-b flex items-center gap-2">
+                    <div class="w-12">Richtig</div>
+                    <div class="flex-grow">
+                        <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl"></AudioPlayer>
+                    </div>
+                </div>
+                <div class="p-2 bg-gray-50 border-b flex items-center gap-2">
+                    <div class="w-12">Falsch</div>
+                    <div class="flex-grow">
+                        <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
+                    </div>
                 </div>
                 <div class="p-4 min-h-0 flex-grew overflow-y-auto">
                     <MarkerList
