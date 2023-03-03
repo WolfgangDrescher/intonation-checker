@@ -118,8 +118,8 @@ function getElementById(id) {
                         <Icon icon="bi:layout-sidebar-inset" />
                     </FormButton>
                     <FormButton @click="emit('update:colMode', 'center')">
-                            <Icon icon="bi:square-half" />
-                        </FormButton>
+                        <Icon icon="bi:square-half" />
+                    </FormButton>
                     <FormButton @click="emit('update:colMode', 'right')">
                         <Icon icon="bi:layout-sidebar-inset-reverse" />
                     </FormButton>
