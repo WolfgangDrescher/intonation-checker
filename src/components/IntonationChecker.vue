@@ -26,6 +26,7 @@ store.setMarkers(props.markers.map((m) => new Marker(m)));
 
 const audioPlayerElem = ref();
 const showMarkers = ref(false);
+const displayShowMarkersButton = ref(false);
 </script>
 
 <template>
@@ -55,8 +56,8 @@ const showMarkers = ref(false);
                 </div>
                 <div class="p-4 mt-auto bg-gray-50 border-t">
                     <ButtonGroup>
-                        <FormButton @click="store.validateSelectedMarkers()">Prüfen</FormButton>
-                        <FormButton @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">Fehlende Anzeigen</FormButton>
+                        <FormButton @click="store.validateSelectedMarkers(); displayShowMarkersButton = true;">Prüfen</FormButton>
+                        <FormButton v-if="displayShowMarkersButton" @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">Fehlende Anzeigen</FormButton>
                     </ButtonGroup>
                 </div>
             </div>
