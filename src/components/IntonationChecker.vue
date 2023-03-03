@@ -6,8 +6,9 @@ import ButtonGroup from './ButtonGroup.vue';
 import FormButton from './FormButton.vue';
 import { useMarkersStore } from '../stores/markers.js';
 import { createPinia } from 'pinia';
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 import { Marker } from '../utils/marker.js';
+import { useI18n } from '../utils/i18n.js';
 
 const props = defineProps({
     toolkit: Object,
@@ -17,7 +18,10 @@ const props = defineProps({
     title: String,
     description: String,
     markers: Array,
+    locale: String,
 });
+
+const { $t } = useI18n(props.locale);
 
 const pinia = createPinia();
 
@@ -35,6 +39,8 @@ function checkSelectedMarkers() {
         displayShowMarkersButton.value = true;
     }
 }
+
+provide('locale', props.locale);
 </script>
 
 <template>
@@ -53,13 +59,13 @@ function checkSelectedMarkers() {
                     </p>
                 </div>
                 <div class="p-2 bg-gray-50 border-b flex items-center gap-2">
-                    <div class="w-12">Richtig</div>
+                    <div class="w-12">{{ $t('correct') }}</div>
                     <div class="flex-grow">
                         <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl"></AudioPlayer>
                     </div>
                 </div>
                 <div class="p-2 bg-gray-50 border-b flex items-center gap-2">
-                    <div class="w-12">Falsch</div>
+                    <div class="w-12">{{ $t('wrong') }}</div>
                     <div class="flex-grow">
                         <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
                     </div>
@@ -73,8 +79,8 @@ function checkSelectedMarkers() {
                 </div>
                 <div class="p-4 mt-auto bg-gray-50 border-t">
                     <ButtonGroup>
-                        <FormButton @click="checkSelectedMarkers">Prüfen</FormButton>
-                        <FormButton v-if="displayShowMarkersButton" @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">Fehlende Anzeigen</FormButton>
+                        <FormButton @click="checkSelectedMarkers">{{ $t('check') }}</FormButton>
+                        <FormButton v-if="displayShowMarkersButton" @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">{{ $t('showMissingMarkers') }}</FormButton>
                     </ButtonGroup>
                 </div>
             </div>

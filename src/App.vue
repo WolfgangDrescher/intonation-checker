@@ -53,6 +53,7 @@ const markers = [
         :markers="markers"
         title="Beethoven Op. 74, 2. Satz, Takt 24-49"
         description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+        locale="de"
     />
 </template>
 

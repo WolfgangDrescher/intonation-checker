@@ -2,9 +2,12 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { useMarkersStore } from '../stores/markers.js';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, inject } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
 import { createSelectedMarker } from '../utils/marker.js';
+import { useI18n } from '../utils/i18n.js';
+
+const { $t } = useI18n(inject('locale'));
 
 const props = defineProps({
     toolkit: Object,
