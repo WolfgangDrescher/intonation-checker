@@ -15,9 +15,6 @@ const store = useMarkersStore();
 
 <template>
     <div>
-        <p>
-            {{ $t('notExisting') }}
-        </p>
         <div class="mb-4 text-center text-sm text-gray-500">
             {{ $t('nOfm', [store.selectedMarkers.length, store.markers.length]) }}
         </div>
