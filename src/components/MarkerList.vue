@@ -37,7 +37,10 @@ const store = useMarkersStore();
                     @audioSeekFactor="emit('audioSeekFactor', $event)"
                 />
             </template>
-            <div v-if="(!store.selectedMarkers.length && !showMarkers)|| (showMarkers && !store.missingMarkers.length)" class="text-center text-sm text-gray-500 px-8">
+            <div
+                v-if="(!store.selectedMarkers.length && !showMarkers) || (showMarkers && !store.missingMarkers.length)"
+                class="text-center text-sm text-gray-500 px-8"
+            >
                 {{ $t('noMarkersSelectedText') }}
             </div>
         </div>

@@ -71,7 +71,7 @@ const verovioElem = ref();
 const scale = ref(40);
 
 function setScale(value) {
-    scale.value = Math.max(Math.min(60, value), 20)
+    scale.value = Math.max(Math.min(60, value), 20);
 }
 
 function mutationObserverEvent() {
@@ -171,10 +171,10 @@ function getElementById(id) {
 }
 @keyframes spin {
     from {
-        transform:rotate(0deg);
+        transform: rotate(0deg);
     }
     to {
-        transform:rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 </style>

@@ -54,7 +54,12 @@ function endHighlight() {
             <FormButton @click="playAudioListener">
                 <Icon icon="heroicons-solid:play" />
             </FormButton>
-            <FormButton v-if="marker instanceof SelectedMarker && (marker.validated && !marker.isCorrect || !marker.validated)" @click="remove">
+            <FormButton
+                v-if="
+                    marker instanceof SelectedMarker && ((marker.validated && !marker.isCorrect) || !marker.validated)
+                "
+                @click="remove"
+            >
                 <Icon icon="heroicons-solid:x-mark" />
             </FormButton>
         </ButtonGroup>

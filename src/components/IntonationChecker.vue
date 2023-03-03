@@ -47,10 +47,21 @@ provide('locale', props.locale);
 <template>
     <div class="intonation-checker lg:h-full">
         <div class="lg:h-full lg:flex overflow-hidden">
-            <div class="flex-grow min-w-0" :class="{ 'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'left'}">
-                <ScoreContainer :toolkit="toolkit" :url="scoreUrl" :show-markers="showMarkers" @update:col-mode="colMode = $event" />
+            <div class="flex-grow min-w-0" :class="{ 'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'left' }">
+                <ScoreContainer
+                    :toolkit="toolkit"
+                    :url="scoreUrl"
+                    :show-markers="showMarkers"
+                    @update:col-mode="colMode = $event"
+                />
             </div>
-            <div class="border-l flex flex-col" :class="{'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'right', 'flex-grow-0 flex-shrink-0 lg:w-1/2': colMode === 'center'}">
+            <div
+                class="border-l flex flex-col"
+                :class="{
+                    'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'right',
+                    'flex-grow-0 flex-shrink-0 lg:w-1/2': colMode === 'center',
+                }"
+            >
                 <div class="p-4 bg-gray-100 border-b">
                     <div class="text-xl font-bold">
                         {{ title }}
@@ -81,7 +92,14 @@ provide('locale', props.locale);
                 <div class="p-4 mt-auto bg-gray-50 border-t">
                     <ButtonGroup>
                         <FormButton @click="checkSelectedMarkers">{{ $t('check') }}</FormButton>
-                        <FormButton v-if="displayShowMarkersButton" @click="store.validateSelectedMarkers(); showMarkers = !showMarkers">{{ $t('showMissingMarkers') }}</FormButton>
+                        <FormButton
+                            v-if="displayShowMarkersButton"
+                            @click="
+                                store.validateSelectedMarkers();
+                                showMarkers = !showMarkers;
+                            "
+                            >{{ $t('showMissingMarkers') }}</FormButton
+                        >
                     </ButtonGroup>
                 </div>
             </div>

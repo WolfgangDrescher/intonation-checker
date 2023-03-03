@@ -13,7 +13,7 @@ export const useMarkersStore = defineStore('markers', {
         },
         missingMarkers(state) {
             return state.markers.filter((marker) => {
-                return !state.selectedMarkers.find(m => m.noteIds.some(id => marker.noteIds.includes(id)));
+                return !state.selectedMarkers.find((m) => m.noteIds.some((id) => marker.noteIds.includes(id)));
             });
         },
     },
@@ -44,11 +44,11 @@ export const useMarkersStore = defineStore('markers', {
             this.selectedMarkers.forEach((marker) => (marker.validated = true));
             this.selectedMarkers = this.selectedMarkers.reduce((accumulator, marker) => {
                 const allIds = accumulator.reduce((ids, marker) => {
-                    ids.push(...marker.noteIds)
+                    ids.push(...marker.noteIds);
                     return ids;
                 }, []);
-                const markerWithId = this.markers.find(m => m.noteIds.some(id => marker.noteIds.includes(id)));
-                if (!allIds.some(id => marker.noteIds.includes(id))) {
+                const markerWithId = this.markers.find((m) => m.noteIds.some((id) => marker.noteIds.includes(id)));
+                if (!allIds.some((id) => marker.noteIds.includes(id))) {
                     accumulator.push(markerWithId ? markerWithId : marker);
                 }
                 return accumulator;
