@@ -75,7 +75,7 @@ function setScale(value) {
 }
 
 function mutationObserverEvent() {
-    store.updateSelectedMarkers();
+    store.updateMarkers();
 }
 
 const mutationObserver = new MutationObserver(mutationObserverEvent);

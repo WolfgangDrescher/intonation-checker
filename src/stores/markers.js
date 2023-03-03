@@ -54,8 +54,9 @@ export const useMarkersStore = defineStore('markers', {
                 return accumulator;
             }, []);
         },
-        updateSelectedMarkers() {
+        updateMarkers() {
             this.selectedMarkers.forEach((marker) => (marker.timestamp = Date.now()));
+            this.markers.forEach((marker) => (marker.timestamp = Date.now()));
         },
     },
 });
