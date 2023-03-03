@@ -2,12 +2,13 @@
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { useMarkersStore } from '../stores/markers.js';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
 import { createSelectedMarker } from '../utils/marker.js';
 import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
+import { useDebounceFn } from '@vueuse/core';
 
 const props = defineProps({
     toolkit: Object,
@@ -69,6 +70,7 @@ const scoreContainer = ref(null);
 const markerContainer = ref(null);
 const verovioElem = ref();
 const scale = ref(40);
+const verovioIsLoading = ref(true);
 
 function setScale(value) {
     scale.value = Math.max(Math.min(60, value), 20);
@@ -96,6 +98,15 @@ function getElementById(id) {
     const elem = document.getElementById(id);
     return elem.querySelector('.notehead') || elem;
 }
+
+const debouncedIsLoading = useDebounceFn((value) => {
+    verovioIsLoading.value = value;
+}, 50);
+
+
+watch(() => verovioElem.value?.isLoading, (value) => {
+    debouncedIsLoading(value);
+});
 </script>
 
 <template>
@@ -110,7 +121,7 @@ function getElementById(id) {
                 </FormButton>
             </ButtonGroup>
             <div>
-                <Icon v-if="$refs.verovioElem && $refs.verovioElem.isLoading" icon="bi:arrow-repeat" class="spin" />
+                <Icon v-if="verovioIsLoading" icon="bi:arrow-repeat" class="spin" />
             </div>
             <div class="ml-auto hidden lg:block">
                 <ButtonGroup class="text-2xl">
