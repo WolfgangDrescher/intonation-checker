@@ -32,6 +32,7 @@ const correctAudioPlayerElem = ref();
 const wrongAudioPlayerElem = ref();
 const showMarkers = ref(false);
 const displayShowMarkersButton = ref(false);
+const colMode = ref('right');
 
 function checkSelectedMarkers() {
     store.validateSelectedMarkers();
@@ -46,10 +47,10 @@ provide('locale', props.locale);
 <template>
     <div class="intonation-checker lg:h-full">
         <div class="lg:h-full lg:flex overflow-hidden">
-            <div class="flex-grow min-w-0">
-                <ScoreContainer :toolkit="toolkit" :url="scoreUrl" :show-markers="showMarkers" />
+            <div class="flex-grow min-w-0" :class="{ 'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'left'}">
+                <ScoreContainer :toolkit="toolkit" :url="scoreUrl" :show-markers="showMarkers" @update:col-mode="colMode = $event" />
             </div>
-            <div class="flex-grow-0 flex-shrink-0 lg:w-[500px] border-l flex flex-col">
+            <div class="border-l flex flex-col" :class="{'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'right', 'flex-grow-0 flex-shrink-0 lg:w-1/2': colMode === 'center'}">
                 <div class="p-4 bg-gray-100 border-b">
                     <div class="text-xl font-bold">
                         {{ title }}

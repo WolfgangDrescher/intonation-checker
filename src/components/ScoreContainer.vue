@@ -15,6 +15,8 @@ const props = defineProps({
     showMarkers: Boolean,
 });
 
+const emit = defineEmits(['update:colMode']);
+
 const store = useMarkersStore();
 
 function getParents(node) {
@@ -66,6 +68,11 @@ async function scoreClickHandler(event) {
 const scoreContainer = ref(null);
 const markerContainer = ref(null);
 const verovioElem = ref();
+const scale = ref(40);
+
+function setScale(value) {
+    scale.value = Math.max(Math.min(60, value), 20)
+}
 
 function mutationObserverEvent() {
     store.updateSelectedMarkers();
@@ -104,6 +111,19 @@ function getElementById(id) {
             </ButtonGroup>
             <div>
                 <Icon v-if="$refs.verovioElem && $refs.verovioElem.isLoading" icon="heroicons:arrow-path" class="spin" />
+            </div>
+            <div class="ml-auto hidden lg:block">
+                <ButtonGroup class="text-2xl">
+                    <FormButton @click="emit('update:colMode', 'left')">
+                        <Icon icon="heroicons:arrow-left" />
+                    </FormButton>
+                    <FormButton @click="emit('update:colMode', 'center')">
+                            <Icon icon="heroicons:arrow-up" />
+                        </FormButton>
+                    <FormButton @click="emit('update:colMode', 'right')">
+                        <Icon icon="heroicons:arrow-right" />
+                    </FormButton>
+                </ButtonGroup>
             </div>
         </div>
         <div class="flex-grow lg:h-0">
