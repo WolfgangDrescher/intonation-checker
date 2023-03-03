@@ -60,8 +60,8 @@ const displayShowMarkersButton = ref(false);
                 <div class="p-4 min-h-0 flex-grew overflow-y-auto">
                     <MarkerList
                         :show-markers="showMarkers"
-                        @audioSeek="$refs.audioPlayerElem.seekTo($event)"
-                        @audioSeekFactor="$refs.audioPlayerElem.seekToFactor($event)"
+                        @audioSeek="$refs.wrongAudioPlayerElem.seekTo($event)"
+                        @audioSeekFactor="$refs.wrongAudioPlayerElem.seekToFactor($event)"
                     />
                 </div>
                 <div class="p-4 mt-auto bg-gray-50 border-t">
