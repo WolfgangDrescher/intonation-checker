@@ -3,7 +3,6 @@ import { useMarkersStore } from '../stores/markers.js';
 import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
-import { SelectedMarker } from '../utils/marker';
 
 const props = defineProps({
     marker: Object,
