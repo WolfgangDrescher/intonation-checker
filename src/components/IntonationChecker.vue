@@ -36,7 +36,7 @@ const colMode = ref('right');
 
 function checkSelectedMarkers() {
     store.validateSelectedMarkers();
-    if (store.selectedMarkers.length) {
+    if (store.selectedMarkers.length >= store.markers.length) {
         displayShowMarkersButton.value = true;
     }
 }
