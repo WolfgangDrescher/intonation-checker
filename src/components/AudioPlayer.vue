@@ -170,15 +170,13 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-    if(isTouchDevice()) {
+    if (isTouchDevice()) {
         touchDevice.value = true;
     }
 });
 
 function isTouchDevice() {
-    return (('ontouchstart' in window) ||
-        (navigator.maxTouchPoints > 0) ||
-        (navigator.msMaxTouchPoints > 0));
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 }
 
 defineExpose({
@@ -202,7 +200,7 @@ defineExpose({
             <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
             <div
                 class="cursor-grab absolute top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow"
-                :class="{'invisible group-hover:visible': !touchDevice, 'w-5 h-5': touchDevice}"
+                :class="{ 'invisible group-hover:visible': !touchDevice, 'w-5 h-5': touchDevice }"
                 style="left: var(--progress)"
                 @mousedown="onMousedownEvent"
                 @touchstart="onMousedownEvent"

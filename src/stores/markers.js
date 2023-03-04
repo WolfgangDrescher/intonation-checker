@@ -17,7 +17,7 @@ export const useMarkersStore = defineStore('markers', {
             });
         },
         getSelectedMarkerById(state) {
-            return (id) => state.selectedMarkers.find(m => m.noteIds.includes(id));
+            return (id) => state.selectedMarkers.find((m) => m.noteIds.includes(id));
         },
         sortedSelectedMarkers(state) {
             return state.selectedMarkers.sort((a, b) => {
