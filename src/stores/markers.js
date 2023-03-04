@@ -16,6 +16,9 @@ export const useMarkersStore = defineStore('markers', {
                 return !state.selectedMarkers.find((m) => m.noteIds.some((id) => marker.noteIds.includes(id)));
             });
         },
+        getSelectedMarkerById(state) {
+            return (id) => state.selectedMarkers.find(m => m.noteIds.includes(id));
+        },
     },
     actions: {
         addSelectedMarker(marker) {

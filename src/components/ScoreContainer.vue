@@ -53,16 +53,20 @@ async function scoreClickHandler(event) {
         if (timemap.length === 0) {
             timemap = await props.toolkit.renderToTimemap();
         }
-        store.addSelectedMarker(
-            createSelectedMarker(
-                {
-                    noteIds: [noteElem.id],
-                    seekFactor: getSeekFactor(noteElem.id),
-                    time: getTimeForElementFromMarkers(noteElem.id),
-                },
-                store.markers
-            )
-        );
+        if (store.getSelectedMarkerById(noteElem.id)) {
+            store.removeSelectedMarker(noteElem.id);
+        } else {
+            store.addSelectedMarker(
+                createSelectedMarker(
+                    {
+                        noteIds: [noteElem.id],
+                        seekFactor: getSeekFactor(noteElem.id),
+                        time: getTimeForElementFromMarkers(noteElem.id),
+                    },
+                    store.markers
+                )
+            );
+        }
     }
 }
 
