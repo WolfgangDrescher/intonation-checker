@@ -32,7 +32,7 @@ export default defineConfig({
             plugins: [
                 postcssPrefixSelector({
                     prefix: '.intonation-checker',
-                    transform: function (prefix, selector, prefixedSelector, filepath) {
+                    transform: function (prefix, selector, prefixedSelector) {
                         return prefixedSelector;
                     },
                 }),
