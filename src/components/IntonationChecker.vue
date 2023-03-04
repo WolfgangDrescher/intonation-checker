@@ -9,6 +9,7 @@ import { createPinia } from 'pinia';
 import { ref, provide } from 'vue';
 import { Marker } from '../utils/marker.js';
 import { useI18n } from '../utils/i18n.js';
+import { onKeyStroke } from '@vueuse/core';
 
 const props = defineProps({
     toolkit: Object,
@@ -40,6 +41,13 @@ function checkSelectedMarkers() {
         displayShowMarkersButton.value = true;
     }
 }
+
+onKeyStroke('.', (e) => {
+    e.preventDefault();
+    store.validateSelectedMarkers();
+    showMarkers.value = !showMarkers.value;
+    displayShowMarkersButton.value = true;
+});
 
 provide('locale', props.locale);
 </script>
