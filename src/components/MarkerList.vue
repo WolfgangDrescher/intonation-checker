@@ -21,7 +21,7 @@ const store = useMarkersStore();
         <div class="flex flex-col gap-4">
             <template v-if="store.selectedMarkers.length">
                 <MarkerListItem
-                    v-for="marker in store.selectedMarkers"
+                    v-for="marker in store.sortedSelectedMarkers"
                     :key="marker.noteIds.join()"
                     :marker="marker"
                     @audioSeek="emit('audioSeek', $event)"
