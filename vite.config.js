@@ -27,16 +27,4 @@ export default defineConfig({
             },
         },
     },
-    css: {
-        postcss: {
-            plugins: [
-                postcssPrefixSelector({
-                    prefix: '.intonation-checker',
-                    transform: function (prefix, selector, prefixedSelector) {
-                        return prefixedSelector;
-                    },
-                }),
-            ],
-        },
-    },
 });

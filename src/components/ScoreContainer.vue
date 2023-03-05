@@ -116,9 +116,9 @@ watch(
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
-        <div class="p-4 bg-gray-100 border-b flex items-center gap-4">
-            <ButtonGroup class="text-2xl">
+    <div class="score-container">
+        <div class="toolbar">
+            <ButtonGroup class="button-group">
                 <FormButton @click="setScale(scale + 5)">
                     <Icon icon="bi:zoom-in" />
                 </FormButton>
@@ -129,8 +129,8 @@ watch(
             <div>
                 <Icon v-if="verovioIsLoading" icon="bi:arrow-repeat" class="spin" />
             </div>
-            <div class="ml-auto hidden lg:block">
-                <ButtonGroup class="text-2xl">
+            <div class="col-mode-controls">
+                <ButtonGroup class="button-group">
                     <FormButton @click="emit('update:colMode', 'left')">
                         <Icon icon="bi:layout-sidebar-inset" />
                     </FormButton>
@@ -143,9 +143,9 @@ watch(
                 </ButtonGroup>
             </div>
         </div>
-        <div class="flex-grow lg:h-0">
-            <div class="relative h-full overflow-y-auto">
-                <div ref="scoreContainer" class="min-h-full" @click="scoreClickHandler">
+        <div class="score-wrapper">
+            <div class="score-inner-wrapper">
+                <div ref="scoreContainer" class="score-innter-wrapper-container" @click="scoreClickHandler">
                     <VerovioCanvas
                         ref="verovioElem"
                         :toolkit="toolkit"
@@ -155,7 +155,7 @@ watch(
                         :options="{ mnumInterval: 1 }"
                     />
                 </div>
-                <div class="absolute w-full h-full left-0 top-0 pointer-events-none" ref="markerContainer">
+                <div class="marker-container" ref="markerContainer">
                     <template v-for="marker in store.selectedMarkers" :key="marker.id">
                         <ScoreMarker
                             v-for="id in marker.noteIds"
@@ -183,6 +183,49 @@ watch(
 </template>
 
 <style scoped>
+.score-container {
+    @apply flex flex-col h-full;
+}
+
+.toolbar {
+    @apply p-4 bg-gray-100 border-b flex items-center gap-4;
+}
+
+.button-group {
+    @apply text-2xl;
+}
+
+.col-mode-controls {
+    @apply ml-auto hidden;
+}
+
+.score-wrapper {
+    @apply flex-grow lg:h-0;
+}
+
+.score-inner-wrapper {
+    @apply relative h-full overflow-y-auto;
+}
+
+.score-inner-wrapper-container {
+    @apply min-h-full;
+}
+
+.marker-container {
+    @apply absolute w-full h-full left-0 top-0 pointer-events-none;
+}
+
+@screen lg {
+    .col-mode-controls {
+        @apply block;
+    }
+
+    .score-wrapper {
+        @apply h-0;
+    }
+}
+
+
 :deep(g.note) {
     @apply cursor-pointer;
 }

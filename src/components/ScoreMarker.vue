@@ -23,15 +23,27 @@ const position = reactive({
 <template>
     <div
         :style="position"
-        class="rounded-full bg-opacity-50 absolute -translate-x-1/2 -translate-y-1/2"
+        class="score-marker"
         :class="[
             `scoremarker-${marker.id}`,
-            marker.validated ? (marker.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-yellow-500',
+            marker.validated ? (marker.isCorrect ? 'is-correct' : 'is-not-correct') : '',
         ]"
     ></div>
 </template>
 
 <style scoped>
+.score-marker {
+    @apply rounded-full bg-opacity-50 absolute -translate-x-1/2 -translate-y-1/2 bg-yellow-500;
+}
+
+.score-marker.is-correct {
+    @apply bg-green-500 bg-opacity-50;
+}
+
+.score-marker.is-not-correct {
+    @apply bg-red-500 bg-opacity-50;
+}
+
 .highlight {
     animation: pulse 1s ease-in-out infinite;
 }

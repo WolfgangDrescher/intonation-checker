@@ -15,34 +15,33 @@ const store = useMarkersStore();
 
 <template>
     <div>
-        <div class="mb-4 text-center text-sm text-gray-500">
+        <div class="marker-list-counter">
             {{ $t('nOfm', [store.selectedMarkers.length, store.markers.length]) }}
         </div>
-        <div class="flex flex-col gap-4">
+        <div class="marker-list-container">
             <template v-if="store.selectedMarkers.length">
-                <MarkerListItem
-                    v-for="marker in store.sortedSelectedMarkers"
-                    :key="marker.noteIds.join()"
-                    :marker="marker"
-                    @audioSeek="emit('audioSeek', $event)"
-                    @audioSeekFactor="emit('audioSeekFactor', $event)"
-                />
+                <MarkerListItem v-for="marker in store.sortedSelectedMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
             <template v-if="showMarkers && store.missingMarkers.length">
-                <MarkerListItem
-                    v-for="marker in store.missingMarkers"
-                    :key="marker.noteIds.join()"
-                    :marker="marker"
-                    @audioSeek="emit('audioSeek', $event)"
-                    @audioSeekFactor="emit('audioSeekFactor', $event)"
-                />
+                <MarkerListItem v-for="marker in store.missingMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
-            <div
-                v-if="(!store.selectedMarkers.length && !showMarkers) || (showMarkers && !store.missingMarkers.length)"
-                class="text-center text-sm text-gray-500 px-8"
-            >
+            <div class="marker-list-info-text" v-if="(!store.selectedMarkers.length && !showMarkers) || (showMarkers && !store.missingMarkers.length)">
                 {{ $t('noMarkersSelectedText') }}
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+.marker-list-counter {
+    @apply mb-4 text-center text-sm text-gray-500;
+}
+
+.marker-list-container {
+    @apply flex flex-col gap-4;
+}
+
+.marker-list-info-text {
+    @apply text-center text-sm text-gray-500 px-8;
+}
+</style>

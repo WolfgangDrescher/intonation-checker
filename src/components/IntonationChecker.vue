@@ -53,9 +53,9 @@ provide('locale', props.locale);
 </script>
 
 <template>
-    <div class="intonation-checker lg:h-full">
-        <div class="lg:h-full lg:flex overflow-hidden">
-            <div class="flex-grow min-w-0" :class="{ 'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'left' }">
+    <div class="intonation-checker" :class="`col-mode-${colMode}`">
+        <div class="wrapper">
+            <div class="score-col">
                 <ScoreContainer
                     :toolkit="toolkit"
                     :url="scoreUrl"
@@ -63,41 +63,35 @@ provide('locale', props.locale);
                     @update:col-mode="colMode = $event"
                 />
             </div>
-            <div
-                class="border-l flex flex-col"
-                :class="{
-                    'flex-grow-0 flex-shrink-0 lg:w-[500px]': colMode === 'right',
-                    'flex-grow-0 flex-shrink-0 lg:w-1/2': colMode === 'center',
-                }"
-            >
-                <div class="p-4 bg-gray-100 border-b">
-                    <div class="text-xl font-bold">
+            <div class="sidebar-col">
+                <div class="header-section">
+                    <div class="title">
                         {{ title }}
                     </div>
-                    <p v-if="description" class="mt-2 mb-0">
+                    <p v-if="description" class="description">
                         {{ description }}
                     </p>
                 </div>
-                <div class="p-2 bg-gray-50 border-b flex items-center gap-2">
-                    <div class="w-12">{{ $t('correct') }}</div>
-                    <div class="flex-grow">
+                <div class="audio-player">
+                    <div class="audio-player-label">{{ $t('correct') }}</div>
+                    <div class="audio-player-wrapper">
                         <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl"></AudioPlayer>
                     </div>
                 </div>
-                <div class="p-2 bg-gray-50 border-b flex items-center gap-2">
-                    <div class="w-12">{{ $t('wrong') }}</div>
-                    <div class="flex-grow">
+                <div class="audio-player">
+                    <div class="audio-player-label">{{ $t('wrong') }}</div>
+                    <div class="audio-player-wrapper">
                         <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
                     </div>
                 </div>
-                <div class="p-4 min-h-0 flex-grew overflow-y-auto">
+                <div class="marker-list">
                     <MarkerList
                         :show-markers="showMarkers"
                         @audioSeek="$refs.wrongAudioPlayerElem.seekTo($event)"
                         @audioSeekFactor="$refs.wrongAudioPlayerElem.seekToFactor($event)"
                     />
                 </div>
-                <div class="p-4 mt-auto bg-gray-50 border-t">
+                <div class="footer-section">
                     <ButtonGroup>
                         <FormButton @click="checkSelectedMarkers">{{ $t('check') }}</FormButton>
                         <FormButton
@@ -114,3 +108,80 @@ provide('locale', props.locale);
         </div>
     </div>
 </template>
+
+<style scoped>
+.wrapper {
+    @apply overflow-hidden;
+}
+
+.score-col {
+    @apply flex-grow min-w-0;
+}
+
+.intonation-checker.col-mode-left .score-col {
+    @apply flex-grow-0 flex-shrink-0;
+}
+
+.sidebar-col {
+    @apply border-l flex flex-col;
+}
+
+.intonation-checker.col-mode-center .sidebar-col,
+.intonation-checker.col-mode-right .sidebar-col {
+    @apply flex-grow-0 flex-shrink-0;
+}
+
+.header-section {
+    @apply p-4 bg-gray-100 border-b;
+}
+
+.title {
+    @apply text-xl font-bold;
+}
+
+.description {
+    @apply mt-2 mb-0;
+}
+
+.audio-player {
+    @apply p-2 bg-gray-50 border-b flex items-center gap-2;
+}
+
+.audio-player-label {
+    @apply w-12;
+}
+
+.audio-player-wrapper {
+    @apply flex-grow;
+}
+
+.marker-list {
+    @apply p-4 min-h-0 overflow-y-auto;
+}
+
+.footer-section {
+    @apply p-4 mt-auto bg-gray-50 border-t;
+}
+
+@screen lg {
+    .intonation-checker {
+        @apply  h-full;
+    }
+
+    .wrapper {
+        @apply h-full flex;
+    }
+
+    .intonation-checker.col-mode-left .score-col {
+        @apply w-[500px];
+    }
+
+    .intonation-checker.col-mode-center .sidebar-col {
+        @apply w-1/2;
+    }
+
+    .intonation-checker.col-mode-right .sidebar-col {
+        @apply w-[500px];
+    }
+}
+</style>

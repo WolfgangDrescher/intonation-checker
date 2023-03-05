@@ -186,21 +186,21 @@ defineExpose({
 </script>
 
 <template>
-    <div class="flex items-center gap-2">
-        <FormButton @click="toggle" class="text-2xl">
+    <div class="audio-player">
+        <FormButton @click="toggle" class="form-button">
             <Icon v-if="isPlaying" icon="heroicons-solid:pause" />
             <Icon v-else icon="heroicons-solid:play" />
         </FormButton>
         <div
             ref="progressBar"
-            class="group relative flex-grow h-2 bg-gray-200 cursor-pointer"
+            class="progress-bar"
             :style="`--progress: ${progress}%`"
             @mouseup="seekHandler"
         >
-            <div class="progressbar-handle pointer-events-none bg-red-500 h-full" style="width: var(--progress)"></div>
+            <div class="progress-bar-handle" style="width: var(--progress)"></div>
             <div
-                class="cursor-grab absolute top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow"
-                :class="{ 'invisible group-hover:visible': !touchDevice, 'w-5 h-5': touchDevice }"
+                class="progress-bar-progress"
+                :class="touchDevice ? 'touch-device' : 'no-touch-device'"
                 style="left: var(--progress)"
                 @mousedown="onMousedownEvent"
                 @touchstart="onMousedownEvent"
@@ -211,3 +211,38 @@ defineExpose({
         </div>
     </div>
 </template>
+
+<style scoped>
+.audio-player {
+    @apply flex items-center gap-2;
+}
+
+.form-button {
+    @apply text-2xl;
+}
+
+.progress-bar {
+    @apply relative flex-grow h-2 bg-gray-200 cursor-pointer;
+}
+
+.progress-bar-handle {
+    @apply pointer-events-none bg-red-500 h-full;
+}
+
+.progress-bar-progress {
+    @apply cursor-grab absolute top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow;
+}
+
+.progress-bar .progress-bar-progress.touch-device {
+    @apply w-5 h-5;
+}
+
+
+.progress-bar .progress-bar-progress.no-touch-device {
+    @apply invisible;
+}
+
+.progress-bar:hover .progress-bar-progress.no-touch-device {
+    @apply visible;
+}
+</style>
