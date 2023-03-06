@@ -180,6 +180,10 @@ provide('locale', props.locale);
         @apply w-[500px];
     }
 
+    .intonation-checker.col-mode-left .sidebar-col {
+        @apply flex-grow;
+    }
+
     .intonation-checker.col-mode-center .sidebar-col {
         @apply w-1/2;
     }
