@@ -110,6 +110,10 @@ provide('locale', props.locale);
 </template>
 
 <style scoped>
+.intonation-checker {
+    @apply border;
+}
+
 .wrapper {
     @apply overflow-hidden;
 }
