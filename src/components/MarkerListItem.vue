@@ -1,8 +1,8 @@
 <script setup>
-import { useMarkersStore } from '../stores/markers.js';
 import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
+import { inject } from 'vue';
 
 const props = defineProps({
     marker: Object,
@@ -10,7 +10,7 @@ const props = defineProps({
 
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
 
-const store = useMarkersStore();
+const { removeSelectedMarker } = inject('markersStore');
 
 function playAudioListener() {
     if (props.marker.time) {
@@ -21,7 +21,7 @@ function playAudioListener() {
 }
 
 function remove() {
-    store.removeSelectedMarker(props.marker.noteIds);
+    removeSelectedMarker(props.marker.noteIds);
 }
 
 function startHighlight() {

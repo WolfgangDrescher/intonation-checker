@@ -1,6 +1,5 @@
 <script setup>
 import MarkerListItem from './MarkerListItem.vue';
-import { useMarkersStore } from '../stores/markers.js';
 import { useI18n } from '../utils/i18n.js';
 import { inject } from 'vue';
 
@@ -10,22 +9,28 @@ defineProps(['showMarkers']);
 
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
 
-const store = useMarkersStore();
+const {
+    sortedSelectedMarkers,
+    countSelectedMarkers,
+    countMarkers,
+    countMissingMarkers,
+    missingMarkers,
+} = inject('markersStore');
 </script>
 
 <template>
     <div>
         <div class="marker-list-counter">
-            {{ $t('nOfm', [store.selectedMarkers.length, store.markers.length]) }}
+            {{ $t('nOfm', [countSelectedMarkers, countMarkers]) }}
         </div>
         <div class="marker-list-container">
-            <template v-if="store.selectedMarkers.length">
-                <MarkerListItem v-for="marker in store.sortedSelectedMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
+            <template v-if="countSelectedMarkers">
+                <MarkerListItem v-for="marker in sortedSelectedMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
-            <template v-if="showMarkers && store.missingMarkers.length">
-                <MarkerListItem v-for="marker in store.missingMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
+            <template v-if="showMarkers && countMissingMarkers">
+                <MarkerListItem v-for="marker in missingMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
-            <div class="marker-list-info-text" v-if="(!store.selectedMarkers.length && !showMarkers) || (showMarkers && !store.missingMarkers.length)">
+            <div class="marker-list-info-text" v-if="(!countSelectedMarkers && !showMarkers) || (showMarkers && !countMissingMarkers)">
                 {{ $t('noMarkersSelectedText') }}
             </div>
         </div>

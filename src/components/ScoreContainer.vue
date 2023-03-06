@@ -1,8 +1,7 @@
 <script setup>
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
-import { useMarkersStore } from '../stores/markers.js';
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch, inject } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
 import { createSelectedMarker } from '../utils/marker.js';
 import FormButton from './FormButton.vue';
@@ -18,7 +17,15 @@ const props = defineProps({
 
 const emit = defineEmits(['update:colMode']);
 
-const store = useMarkersStore();
+const {
+    markers,
+    getSelectedMarkerById,
+    removeSelectedMarker,
+    addSelectedMarker,
+    updateMarkers,
+    selectedMarkers,
+    missingMarkers,
+} = inject('markersStore');
 
 function getParents(node) {
     return (node.parentElement ? getParents(node.parentElement) : []).concat([node]);
@@ -38,7 +45,7 @@ function getSeekFactor(id) {
 }
 
 function getTimeForElementFromMarkers(id) {
-    const foundMarker = store.markers.find((m) => m.noteIds.includes(id));
+    const foundMarker = markers.value.find((m) => m.noteIds.includes(id));
     if (foundMarker) {
         return foundMarker.time;
     }
@@ -53,17 +60,17 @@ async function scoreClickHandler(event) {
         if (timemap.length === 0) {
             timemap = await props.toolkit.renderToTimemap();
         }
-        if (store.getSelectedMarkerById(noteElem.id)) {
-            store.removeSelectedMarker(noteElem.id);
+        if (getSelectedMarkerById(noteElem.id)) {
+            removeSelectedMarker(noteElem.id);
         } else {
-            store.addSelectedMarker(
+            addSelectedMarker(
                 createSelectedMarker(
                     {
                         noteIds: [noteElem.id],
                         seekFactor: getSeekFactor(noteElem.id),
                         time: getTimeForElementFromMarkers(noteElem.id),
                     },
-                    store.markers
+                    markers.value
                 )
             );
         }
@@ -81,7 +88,7 @@ function setScale(value) {
 }
 
 function mutationObserverEvent() {
-    store.updateMarkers();
+    updateMarkers();
 }
 
 const mutationObserver = new MutationObserver(mutationObserverEvent);
@@ -156,7 +163,7 @@ watch(
                     />
                 </div>
                 <div class="marker-container" ref="markerContainer">
-                    <template v-for="marker in store.selectedMarkers" :key="marker.id">
+                    <template v-for="marker in selectedMarkers" :key="marker.id">
                         <ScoreMarker
                             v-for="id in marker.noteIds"
                             :key="`${id}${marker.timestamp}`"
@@ -166,7 +173,7 @@ watch(
                         />
                     </template>
                     <template v-if="showMarkers">
-                        <template v-for="marker in store.missingMarkers" :key="marker.id">
+                        <template v-for="marker in missingMarkers" :key="marker.id">
                             <ScoreMarker
                                 v-for="id in marker.noteIds"
                                 :key="`${id}${marker.timestamp}`"

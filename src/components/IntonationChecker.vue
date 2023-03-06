@@ -5,7 +5,6 @@ import ScoreContainer from './ScoreContainer.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import FormButton from './FormButton.vue';
 import { useMarkersStore } from '../stores/markers.js';
-import { createPinia } from 'pinia';
 import { ref, provide } from 'vue';
 import { Marker } from '../utils/marker.js';
 import { useI18n } from '../utils/i18n.js';
@@ -24,9 +23,7 @@ const props = defineProps({
 
 const { $t } = useI18n(props.locale);
 
-const pinia = createPinia();
-
-const store = useMarkersStore(pinia);
+const store = useMarkersStore();
 store.setMarkers(props.markers.map((m) => new Marker(m)));
 
 const correctAudioPlayerElem = ref();
@@ -37,9 +34,14 @@ const colMode = ref('right');
 
 function checkSelectedMarkers() {
     store.validateSelectedMarkers();
-    if (store.selectedMarkers.length >= store.markers.length) {
+    if (store.selectedMarkers.value.length >= store.markers.value.length) {
         displayShowMarkersButton.value = true;
     }
+}
+
+function showMissingMarkers() {
+    store.validateSelectedMarkers();
+    showMarkers.value = !showMarkers.value;
 }
 
 onKeyStroke('.', (e) => {
@@ -50,6 +52,7 @@ onKeyStroke('.', (e) => {
 });
 
 provide('locale', props.locale);
+provide('markersStore', store);
 </script>
 
 <template>
@@ -96,10 +99,7 @@ provide('locale', props.locale);
                         <FormButton @click="checkSelectedMarkers">{{ $t('check') }}</FormButton>
                         <FormButton
                             v-if="displayShowMarkersButton"
-                            @click="
-                                store.validateSelectedMarkers();
-                                showMarkers = !showMarkers;
-                            "
+                            @click="showMissingMarkers"
                             >{{ $t('showMissingMarkers') }}</FormButton
                         >
                     </ButtonGroup>
