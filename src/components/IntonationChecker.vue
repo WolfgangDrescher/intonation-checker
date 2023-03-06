@@ -127,7 +127,7 @@ provide('markersStore', store);
 }
 
 .sidebar-col {
-    @apply border-l flex flex-col;
+    @apply flex flex-col;
 }
 
 .intonation-checker.col-mode-center .sidebar-col,
@@ -174,6 +174,10 @@ provide('markersStore', store);
 
     .wrapper {
         @apply h-full flex;
+    }
+
+    .sidebar-col {
+        @apply border-l;
     }
 
     .intonation-checker.col-mode-left .score-col {
