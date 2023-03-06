@@ -27,7 +27,7 @@ function getParents(node) {
 let timemap = [];
 
 function getTimeForElement(id) {
-    return timemap.find((item) => item.on.includes(id)).tstamp;
+    return timemap.find((item) => item.on?.includes(id)).tstamp;
 }
 function getDuration() {
     return timemap.at(-1)?.tstamp;
