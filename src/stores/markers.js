@@ -53,7 +53,6 @@ export function useMarkersStore() {
     }
 
     function setMarkers(value) {
-        console.log({value});
         markers.value = value;
     }
 
