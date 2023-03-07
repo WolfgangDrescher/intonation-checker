@@ -118,9 +118,6 @@ function endMove(event) {
     window.removeEventListener('touchend', endMove, true);
     audio.seek(draggingSeek.value);
     draggingSeek.value = null;
-    if (!audio.playing()) {
-        audio.play();
-    }
 }
 
 function onMousedownEvent(event) {
