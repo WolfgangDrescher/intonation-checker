@@ -37,15 +37,12 @@ function endHighlight() {
     <div
         class="marker-list-item"
         :class="marker.validated ? (marker.isCorrect ? 'is-correct' : 'is-not-correct') : ''"
+        @mouseenter="startHighlight"
+        @mouseleave="endHighlight"
     >
         <div class="marker-list-item-content">
             <div class="marker-list-item-content-container">
-                <code
-                    class="marker-list-item-content-container-id"
-                    @mouseenter="startHighlight"
-                    @mouseleave="endHighlight"
-                    >{{ `#${marker.id}` }}</code
-                >
+                <code class="marker-list-item-content-container-id">{{ `#${marker.id}` }}</code>
                 <div>{{ marker.comment }}</div>
             </div>
         </div>
