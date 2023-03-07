@@ -51,29 +51,23 @@ function getTimeForElementFromMarkers(id) {
     }
 }
 
-async function scoreClickHandler(event) {
-    const nodes = getParents(event.target).reverse();
-    const noteElem = nodes.find(
-        (node) => node.nodeName === 'g' && [...node.classList].some((className) => className === 'note')
-    );
-    if (noteElem) {
-        if (timemap.length === 0) {
-            timemap = await props.toolkit.renderToTimemap();
-        }
-        if (getSelectedMarkerById(noteElem.id)) {
-            removeSelectedMarker(noteElem.id);
-        } else {
-            addSelectedMarker(
-                createSelectedMarker(
-                    {
-                        noteIds: [noteElem.id],
-                        seekFactor: getSeekFactor(noteElem.id),
-                        time: getTimeForElementFromMarkers(noteElem.id),
-                    },
-                    markers.value
-                )
-            );
-        }
+async function clickNoteEvent(noteElem) {
+    if (timemap.length === 0) {
+        timemap = await props.toolkit.renderToTimemap();
+    }
+    if (getSelectedMarkerById(noteElem.id)) {
+        removeSelectedMarker(noteElem.id);
+    } else {
+        addSelectedMarker(
+            createSelectedMarker(
+                {
+                    noteIds: [noteElem.id],
+                    seekFactor: getSeekFactor(noteElem.id),
+                    time: getTimeForElementFromMarkers(noteElem.id),
+                },
+                markers.value
+            )
+        );
     }
 }
 
@@ -89,6 +83,24 @@ function setScale(value) {
 
 function mutationObserverEvent() {
     updateMarkers();
+    markerContainer.value.querySelectorAll('.note-bounding-box').forEach((elem) => elem.remove());
+    scoreContainer.value.querySelectorAll('g.note').forEach((elem) => {
+        const rect = elem.getBoundingClientRect();
+        const parentRect = scoreContainer.value.getBoundingClientRect();
+        const div = document.createElement('div');
+        div.classList.add('note-bounding-box');
+        div.style.position = 'absolute';
+        div.style.width = `${rect.width}px`;
+        div.style.height = `${rect.height}px`;
+        div.style.left = `${rect.left - parentRect.left}px`;
+        div.style.top = `${rect.top - parentRect.top}px`;
+        div.style.cursor = 'pointer';
+        div.style.pointerEvents = 'bounding-box';
+        div.addEventListener('click', () => {
+            clickNoteEvent(elem);
+        });
+        markerContainer.value.appendChild(div);
+    });
 }
 
 const mutationObserver = new MutationObserver(mutationObserverEvent);
@@ -152,7 +164,7 @@ watch(
         </div>
         <div class="score-wrapper">
             <div class="score-inner-wrapper">
-                <div ref="scoreContainer" class="score-innter-wrapper-container" @click="scoreClickHandler">
+                <div ref="scoreContainer" class="score-innter-wrapper-container">
                     <VerovioCanvas
                         ref="verovioElem"
                         :toolkit="toolkit"
