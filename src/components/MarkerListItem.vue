@@ -3,6 +3,7 @@ import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
 import { inject } from 'vue';
+import { SelectedMarker, SelectedSliceMarker } from '../utils/marker.js';
 
 const props = defineProps({
     marker: Object,
@@ -50,7 +51,7 @@ function endHighlight() {
             <FormButton @click="playAudioListener" v-if="marker.seekFactor || marker.time">
                 <Icon icon="heroicons-solid:play" />
             </FormButton>
-            <FormButton @click="remove">
+            <FormButton @click="remove" v-if="marker instanceof SelectedSliceMarker || marker instanceof SelectedMarker">
                 <Icon icon="heroicons-solid:x-mark" />
             </FormButton>
         </ButtonGroup>
