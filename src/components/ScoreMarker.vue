@@ -7,7 +7,7 @@ const props = defineProps({
     parent: HTMLElement,
 });
 
-const elemmRect = props.elem.getBoundingClientRect();
+const elemRect = props.elem.getBoundingClientRect();
 const parentRect = props.parent.getBoundingClientRect();
 
 const markerSize = 50;
@@ -15,8 +15,8 @@ const markerSize = 50;
 const position = reactive({
     width: `${markerSize}px`,
     height: `${markerSize}px`,
-    left: `${elemmRect.x + elemmRect.width / 2 - parentRect.x}px`,
-    top: `${elemmRect.y + elemmRect.height / 2 - parentRect.y}px`,
+    left: `${elemRect.x + elemRect.width / 2 - parentRect.x}px`,
+    top: `${elemRect.y + elemRect.height / 2 - parentRect.y}px`,
 });
 </script>
 
