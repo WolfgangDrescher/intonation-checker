@@ -3,7 +3,7 @@ import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
 import { inject } from 'vue';
-import { SelectedMarker, SelectedSliceMarker } from '../utils/marker.js';
+import { SelectedMarker } from '../utils/marker.js';
 
 const props = defineProps({
     marker: Object,
