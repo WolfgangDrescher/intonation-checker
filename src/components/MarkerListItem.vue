@@ -47,7 +47,7 @@ function endHighlight() {
             </div>
         </div>
         <ButtonGroup class="marker-list-item-button-group">
-            <FormButton @click="playAudioListener" v-if="marker.seekFactor">
+            <FormButton @click="playAudioListener" v-if="marker.seekFactor || marker.time">
                 <Icon icon="heroicons-solid:play" />
             </FormButton>
             <FormButton @click="remove">
