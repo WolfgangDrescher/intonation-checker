@@ -75,13 +75,13 @@ provide('markersStore', store);
                         {{ description }}
                     </p>
                 </div>
-                <div class="audio-player">
+                <div class="audio-player-container">
                     <div class="audio-player-label">{{ $t('correct') }}</div>
                     <div class="audio-player-wrapper">
                         <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl"></AudioPlayer>
                     </div>
                 </div>
-                <div class="audio-player">
+                <div class="audio-player-container">
                     <div class="audio-player-label">{{ $t('wrong') }}</div>
                     <div class="audio-player-wrapper">
                         <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
@@ -147,7 +147,7 @@ provide('markersStore', store);
     @apply mt-2 mb-0;
 }
 
-.audio-player {
+.audio-player-container {
     @apply p-2 bg-gray-50 border-b flex items-center gap-2;
 }
 
