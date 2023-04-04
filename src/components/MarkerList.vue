@@ -10,7 +10,9 @@ defineProps(['showMarkers']);
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
 
 const {
+    sortedSelectedSliceMarkers,
     sortedSelectedMarkers,
+    countSelectedSliceMarkers,
     countSelectedMarkers,
     countMarkers,
     countMissingMarkers,
@@ -24,6 +26,9 @@ const {
             {{ $t('nOfm', [countSelectedMarkers, countMarkers]) }}
         </div>
         <div class="marker-list-container">
+            <template v-if="countSelectedSliceMarkers">
+                <MarkerListItem v-for="marker in sortedSelectedSliceMarkers" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
+            </template>
             <template v-if="countSelectedMarkers">
                 <MarkerListItem v-for="marker in sortedSelectedMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>

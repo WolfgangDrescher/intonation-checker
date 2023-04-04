@@ -6,7 +6,7 @@ import ButtonGroup from './ButtonGroup.vue';
 import FormButton from './FormButton.vue';
 import { useMarkersStore } from '../stores/markers.js';
 import { ref, provide } from 'vue';
-import { Marker } from '../utils/marker.js';
+import { createSelectedSliceMarker, Marker } from '../utils/marker.js';
 import { useI18n } from '../utils/i18n.js';
 import { onKeyStroke } from '@vueuse/core';
 
@@ -51,6 +51,16 @@ onKeyStroke('.', (e) => {
     displayShowMarkersButton.value = true;
 });
 
+async function addSelectedSliceMarker() {
+    const seek = wrongAudioPlayerElem.value.getSeek();
+    const timeElems = await props.toolkit.getElementsAtTime(seek * 1000);
+    const marker = createSelectedSliceMarker({
+        noteIds: timeElems?.notes || [],
+        time: seek,
+    }, store.markers.value);
+    store.addSelectedSliceMarker(marker);
+}
+
 provide('locale', props.locale);
 provide('markersStore', store);
 </script>
@@ -86,6 +96,11 @@ provide('markersStore', store);
                     <div class="audio-player-wrapper">
                         <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl"></AudioPlayer>
                     </div>
+                </div>
+                <div class="slice-selector">
+                    <FormButton @click="addSelectedSliceMarker">
+                        Stelle markieren
+                    </FormButton>
                 </div>
                 <div class="marker-list">
                     <MarkerList
@@ -157,6 +172,10 @@ provide('markersStore', store);
 
 .audio-player-wrapper {
     @apply flex-grow;
+}
+
+.slice-selector {
+    @apply p-4 flex justify-center;
 }
 
 .marker-list {

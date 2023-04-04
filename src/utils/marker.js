@@ -47,6 +47,8 @@ export class SelectedMarker extends Marker {
     }
 }
 
+export class SelectedSliceMarker extends SelectedMarker {}
+
 export function createSelectedMarker(marker, markers) {
     const isCorrect = markers
         .reduce((accumulator, item) => {
@@ -55,4 +57,14 @@ export function createSelectedMarker(marker, markers) {
         }, [])
         .some((id) => marker.noteIds.includes(id));
     return new SelectedMarker(marker, isCorrect);
+}
+
+export function createSelectedSliceMarker(marker, markers) {
+    const isCorrect = markers
+        .reduce((accumulator, item) => {
+            accumulator.push(...item.noteIds);
+            return accumulator;
+        }, [])
+        .some((id) => marker.noteIds.includes(id));
+    return new SelectedSliceMarker(marker, isCorrect);
 }

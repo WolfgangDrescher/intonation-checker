@@ -2,6 +2,7 @@ import { ref, computed } from 'vue';
 
 export function useMarkersStore() {
 
+    const selectedSliceMarkers = ref([]);
     const selectedMarkers = ref([]);
     const markers = ref([]);
 
@@ -15,11 +16,19 @@ export function useMarkersStore() {
         });
     });
 
+    const sortedSelectedSliceMarkers = computed(() => {
+        return selectedSliceMarkers.value.sort((a, b) => {
+            return a.seekFactor - b.seekFactor;
+        });
+    });
+
     const sortedSelectedMarkers = computed(() => {
         return selectedMarkers.value.sort((a, b) => {
             return a.seekFactor - b.seekFactor;
         });
     });
+
+    const countSelectedSliceMarkers = computed(() => selectedSliceMarkers.value.length);
 
     const countSelectedMarkers = computed(() => selectedMarkers.value.length);
 
@@ -31,10 +40,31 @@ export function useMarkersStore() {
         return selectedMarkers.value.find((m) => m.noteIds.includes(id));
     };
 
+    function addSelectedSliceMarker(marker) {
+        if (!selectedSliceMarkers.value.find((m) => m.noteIds.some((e) => marker.noteIds.includes(e)))) {
+            selectedSliceMarkers.value.push(marker);
+        }
+    }
+
     function addSelectedMarker(marker) {
         if (!selectedMarkers.value.find((m) => m.noteIds.some((e) => marker.noteIds.includes(e)))) {
             selectedMarkers.value.push(marker);
         }
+    }
+
+    function removeSelectedSliceMarker(marker) {
+        selectedSliceMarkers.value = selectedSliceMarkers.value.filter((m) => {
+            if (typeof marker === 'string') {
+                return !m.noteIds.includes(marker);
+            }
+            if (Array.isArray(marker)) {
+                return !m.noteIds.some((id) => marker.includes(id));
+            }
+            if (typeof marker === 'object') {
+                return !m.noteIds.some((id) => marker.noteIds.includes(id));
+            }
+            return m.noteIds !== marker;
+        });
     }
 
     function removeSelectedMarker(marker) {
@@ -72,21 +102,27 @@ export function useMarkersStore() {
     }
 
     function updateMarkers() {
+        selectedSliceMarkers.value.forEach((marker) => (marker.timestamp = Date.now()));
         selectedMarkers.value.forEach((marker) => (marker.timestamp = Date.now()));
         markers.value.forEach((marker) => (marker.timestamp = Date.now()));
     }
 
     return {
+        selectedSliceMarkers,
         selectedMarkers,
         markers,
         markersNoteCount,
         missingMarkers,
+        sortedSelectedSliceMarkers,
         sortedSelectedMarkers,
+        countSelectedSliceMarkers,
         countSelectedMarkers,
         countMarkers,
         countMissingMarkers,
         getSelectedMarkerById,
+        addSelectedSliceMarker,
         addSelectedMarker,
+        removeSelectedSliceMarker,
         removeSelectedMarker,
         setMarkers,
         validateSelectedMarkers,

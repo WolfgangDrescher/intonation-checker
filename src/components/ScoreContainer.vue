@@ -3,7 +3,7 @@ import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { ref, onMounted, onUnmounted, watch, inject } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
-import { createSelectedMarker } from '../utils/marker.js';
+import { createSelectedMarker, createSelectedSliceMarker } from '../utils/marker.js';
 import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
@@ -21,15 +21,13 @@ const {
     markers,
     getSelectedMarkerById,
     removeSelectedMarker,
+    addSelectedSliceMarker,
     addSelectedMarker,
     updateMarkers,
+    selectedSliceMarkers,
     selectedMarkers,
     missingMarkers,
 } = inject('markersStore');
-
-function getParents(node) {
-    return (node.parentElement ? getParents(node.parentElement) : []).concat([node]);
-}
 
 let timemap = [];
 
@@ -58,16 +56,32 @@ async function clickNoteEvent(noteElem) {
     if (getSelectedMarkerById(noteElem.id)) {
         removeSelectedMarker(noteElem.id);
     } else {
-        addSelectedMarker(
-            createSelectedMarker(
-                {
-                    noteIds: [noteElem.id],
-                    seekFactor: getSeekFactor(noteElem.id),
-                    time: getTimeForElementFromMarkers(noteElem.id),
-                },
-                markers.value
-            )
-        );
+        if (selectMarkerMode.value === 'slice') {
+            const time = await props.toolkit.getTimeForElement(noteElem.id);
+            const timeElems = await props.toolkit.getElementsAtTime(time);
+            const noteIds = [...new Set([noteElem.id, ...(timeElems?.notes || [])])];
+            addSelectedSliceMarker(
+                createSelectedSliceMarker(
+                    {
+                        noteIds: [noteElem.id],
+                        seekFactor: getSeekFactor(noteElem.id),
+                        time: getTimeForElementFromMarkers(noteElem.id),
+                    },
+                    markers.value
+                )
+            );
+        } else {
+            addSelectedMarker(
+                createSelectedMarker(
+                    {
+                        noteIds: [noteElem.id],
+                        seekFactor: getSeekFactor(noteElem.id),
+                        time: getTimeForElementFromMarkers(noteElem.id),
+                    },
+                    markers.value
+                )
+            );
+        }
     }
 }
 
@@ -76,6 +90,7 @@ const markerContainer = ref(null);
 const verovioElem = ref();
 const scale = ref(40);
 const verovioIsLoading = ref(true);
+const selectMarkerMode = ref('slice');
 
 function setScale(value) {
     scale.value = Math.max(Math.min(60, value), 20);
@@ -146,7 +161,17 @@ watch(
                 </FormButton>
             </ButtonGroup>
             <div>
-                <Icon v-if="verovioIsLoading" icon="bi:arrow-repeat" class="spin" />
+                <Icon icon="bi:arrow-repeat" class="loading-icon spin" :class="{loading: verovioIsLoading}" />
+            </div>
+            <div class="marker-mode-controls">
+                <ButtonGroup class="button-group">
+                    <FormButton @click="selectMarkerMode = 'slice'" :active="selectMarkerMode === 'slice'">
+                        <Icon icon="bi:pin-map-fill" />
+                    </FormButton>
+                    <FormButton @click="selectMarkerMode = 'note'" :active="selectMarkerMode === 'note'">
+                        <Icon icon="bi:geo-fill" />
+                    </FormButton>
+                </ButtonGroup>
             </div>
             <div class="col-mode-controls">
                 <ButtonGroup class="button-group">
@@ -175,6 +200,13 @@ watch(
                     />
                 </div>
                 <div class="marker-container" ref="markerContainer">
+                    <ScoreMarker
+                        v-for="marker in selectedSliceMarkers"
+                        :key="marker.timestamp"
+                        :marker="marker"
+                        :elem="getElementById(marker.noteIds[0])"
+                        :parent="markerContainer"
+                    />
                     <template v-for="marker in selectedMarkers" :key="marker.id">
                         <ScoreMarker
                             v-for="id in marker.noteIds"
@@ -214,6 +246,10 @@ watch(
     @apply text-2xl;
 }
 
+.marker-mode-controls {
+    @apply my-auto flex-grow flex justify-center items-center;
+}
+
 .col-mode-controls {
     @apply ml-auto hidden;
 }
@@ -247,6 +283,14 @@ watch(
 
 :deep(g.note) {
     @apply cursor-pointer;
+}
+
+.loading-icon {
+    @apply invisible;
+}
+
+.loading-icon.loading {
+    @apply visible;
 }
 
 .spin {

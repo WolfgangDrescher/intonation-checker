@@ -129,6 +129,10 @@ function onMousedownEvent(event) {
     // audio.pause();
 }
 
+function getSeek() {
+    return audio.seek();
+}
+
 function seekTo(secs) {
     audio.seek(secs);
     if (!audio.playing()) {
@@ -179,6 +183,7 @@ function isTouchDevice() {
 defineExpose({
     seekTo,
     seekToFactor,
+    getSeek,
 });
 </script>
 
