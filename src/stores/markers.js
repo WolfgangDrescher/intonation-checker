@@ -104,6 +104,21 @@ export function useMarkersStore() {
         }, []);
     }
 
+    function validateSelectedSliceMarkers() {
+        selectedSliceMarkers.value.forEach((marker) => (marker.validated = true));
+        selectedSliceMarkers.value = selectedSliceMarkers.value.reduce((accumulator, marker) => {
+            const foundMarker = markers.value.find(m => m.simultaneousNoteIds.some(id => marker.noteIds.includes(id)));
+            if (foundMarker) {
+                marker.simultaneousNoteIds = foundMarker.simultaneousNoteIds;
+            }
+            const foundAccMarker = accumulator.find((m) => m.simultaneousNoteIds.some((id) => marker.noteIds.includes(id)));
+            if (!foundAccMarker) {
+                accumulator.push(marker);
+            }
+            return accumulator;
+        }, []);
+    }
+
     function updateMarkers() {
         selectedSliceMarkers.value.forEach((marker) => (marker.timestamp = Date.now()));
         selectedMarkers.value.forEach((marker) => (marker.timestamp = Date.now()));
@@ -131,6 +146,7 @@ export function useMarkersStore() {
         removeSelectedMarker,
         setMarkers,
         validateSelectedMarkers,
+        validateSelectedSliceMarkers,
         updateMarkers,
     };
 }
