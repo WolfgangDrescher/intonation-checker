@@ -1,3 +1,5 @@
+let letterIndex = 0;
+
 export class Marker {
     marker;
     correct = true;
@@ -35,11 +37,17 @@ export class Marker {
 
 export class SelectedMarker extends Marker {
     correct;
+    letterIndex;
     validated = false;
 
     constructor(marker, correct = null) {
         super(marker);
         this.correct = correct;
+        this.letterIndex = ++letterIndex;
+    }
+
+    get readableId() {
+        return String.fromCharCode(64 + this.letterIndex);
     }
 
     get seekFactor() {
