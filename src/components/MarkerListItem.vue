@@ -85,7 +85,7 @@ function endHighlight() {
 }
 
 .marker-list-item .marker-list-item-content-container-note-id {
-    @apply cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em] hidden;
+    @apply ml-auto mr-2 cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em] hidden;
 }
 
 .marker-list-item:hover .marker-list-item-content-container-note-id {
