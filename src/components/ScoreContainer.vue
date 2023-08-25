@@ -3,7 +3,7 @@ import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
 import { ref, onMounted, onUnmounted, watch, inject } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
-import { createSelectedMarker, createSelectedSliceMarker } from '../utils/marker.js';
+import { createSelectedMarker, createSelectedSliceMarker, getSimultaneousNoteIds } from '../utils/marker.js';
 import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
@@ -65,9 +65,7 @@ async function clickNoteEvent(noteElem) {
         removeSelectedMarker(noteElem.id);
     } else {
         if (selectMarkerMode.value === 'slice') {
-            const time = await props.toolkit.getTimeForElement(noteElem.id);
-            const timeElems = await props.toolkit.getElementsAtTime(time);
-            const noteIds = [...new Set([noteElem.id, ...(timeElems?.notes || [])])];
+            const simultaneousNoteIds = await getSimultaneousNoteIds(props.toolkit, scoreIsReady.promise, noteElem.id);
             addSelectedSliceMarker(
                 createSelectedSliceMarker(
                     {
@@ -75,7 +73,8 @@ async function clickNoteEvent(noteElem) {
                         seekFactor: getSeekFactor(noteElem.id),
                         time: getTimeForElementFromMarkers(noteElem.id),
                     },
-                    markers.value
+                    markers.value,
+                    simultaneousNoteIds
                 )
             );
         } else {

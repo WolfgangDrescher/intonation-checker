@@ -42,8 +42,8 @@ export class SelectedMarker extends Marker {
     letterIndex;
     validated = false;
 
-    constructor(marker, correct = null) {
-        super(marker);
+    constructor(marker, correct = null, simultaneousNoteIds) {
+        super(marker, simultaneousNoteIds);
         this.correct = correct;
         this.letterIndex = ++letterIndex;
     }
@@ -84,7 +84,7 @@ export function createSelectedMarker(marker, markers) {
     return new SelectedMarker(marker, isCorrect);
 }
 
-export function createSelectedSliceMarker(marker, markers) {
+export function createSelectedSliceMarker(marker, markers, simultaneousNoteIds) {
     const isCorrect = checkIfSelectedMarkerIsCorrect(marker, markers, true);
-    return new SelectedSliceMarker(marker, isCorrect);
+    return new SelectedSliceMarker(marker, isCorrect, simultaneousNoteIds);
 }

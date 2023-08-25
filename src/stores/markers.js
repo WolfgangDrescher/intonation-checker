@@ -44,7 +44,7 @@ export function useMarkersStore() {
     };
 
     function addSelectedSliceMarker(marker) {
-        if (!selectedSliceMarkers.value.find((m) => m.noteIds.some((e) => marker.noteIds.includes(e)))) {
+        if (!selectedSliceMarkers.value.find((m) => m.simultaneousNoteIds.some((e) => marker.noteIds.includes(e)))) {
             selectedSliceMarkers.value.push(marker);
         }
     }
