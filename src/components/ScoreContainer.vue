@@ -271,7 +271,7 @@ function onScoreIsReady() {
 }
 
 .score-inner-wrapper {
-    @apply relative h-full overflow-y-auto;
+    @apply relative h-full overflow-y-auto overflow-x-hidden;
 }
 
 .score-inner-wrapper-container {
