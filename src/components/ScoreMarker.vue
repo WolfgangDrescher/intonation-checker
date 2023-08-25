@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, inject } from 'vue';
 import { SelectedSliceMarker } from '../utils/marker.js';
 
 const props = defineProps({
@@ -7,6 +7,8 @@ const props = defineProps({
     elem: SVGGElement,
     parent: HTMLElement,
 });
+
+const { mode } = inject('markersStore');
 
 const markerType = props.marker instanceof SelectedSliceMarker ? 'slice' : 'note';
 
@@ -37,6 +39,7 @@ if (props.marker instanceof SelectedSliceMarker) {
         :style="position"
         class="score-marker"
         :class="[
+            mode === markerType ? 'is-active' : '',
             markerType,
             `scoremarker-${marker.id}`,
             marker.validated ? (marker.isCorrect ? 'is-correct' : 'is-not-correct') : '',
@@ -48,17 +51,20 @@ if (props.marker instanceof SelectedSliceMarker) {
 </template>
 
 <style scoped>
-.score-marker  {
-    @apply absolute -translate-x-1/2 -translate-y-1/2 ;
+.score-marker {
+    @apply absolute -translate-x-1/2 -translate-y-1/2 opacity-40;
+}
+
+.score-marker.is-active {
+    @apply opacity-100;
 }
 
 .score-marker .score-marker-bg {
     @apply rounded-full bg-opacity-50 bg-yellow-500;
 }
 
-
 .score-marker.slice .score-marker-bg {
-    @apply bg-opacity-25 rounded-md;
+    @apply rounded-md;
 }
 
 .score-marker.is-correct .score-marker-bg {
