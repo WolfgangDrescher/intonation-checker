@@ -29,7 +29,7 @@ const {
         </div>
         <div class="marker-list-container">
             <template v-if="countSelectedSliceMarkers && mode === 'slice'">
-                <MarkerListItem v-for="marker in sortedSelectedSliceMarkers" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
+                <MarkerListItem v-for="marker in sortedSelectedSliceMarkers" :key="marker.simultaneousNoteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
             <template v-if="countSelectedMarkers && mode === 'note'">
                 <MarkerListItem v-for="marker in sortedSelectedMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
