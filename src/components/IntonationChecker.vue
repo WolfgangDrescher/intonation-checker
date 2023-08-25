@@ -50,20 +50,20 @@ const displayShowMarkersButton = ref(false);
 const colMode = ref('right');
 
 function checkSelectedMarkers() {
-    markersStore.validateSelectedMarkers();
+    markersStore.validateSelectedMarkersForMode();
     if (markersStore.selectedMarkers.value.length >= markersStore.markers.value.length) {
         displayShowMarkersButton.value = true;
     }
 }
 
 function showMissingMarkers() {
-    markersStore.validateSelectedMarkers();
+    markersStore.validateSelectedMarkersForMode();
     showMarkers.value = !showMarkers.value;
 }
 
 onKeyStroke('.', (e) => {
     e.preventDefault();
-    markersStore.validateSelectedMarkers();
+    markersStore.validateSelectedMarkersForMode();
     showMarkers.value = !showMarkers.value;
     displayShowMarkersButton.value = true;
 });
