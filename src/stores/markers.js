@@ -119,6 +119,13 @@ export function useMarkersStore() {
         }, []);
     }
 
+    function validateSelectedMarkersForMode() {
+        if (mode.value === 'slice') {
+            return validateSelectedSliceMarkers();
+        }
+        return validateSelectedMarkers();
+    }
+
     function updateMarkers() {
         selectedSliceMarkers.value.forEach((marker) => (marker.timestamp = Date.now()));
         selectedMarkers.value.forEach((marker) => (marker.timestamp = Date.now()));
@@ -147,6 +154,7 @@ export function useMarkersStore() {
         setMarkers,
         validateSelectedMarkers,
         validateSelectedSliceMarkers,
+        validateSelectedMarkersForMode,
         updateMarkers,
     };
 }
