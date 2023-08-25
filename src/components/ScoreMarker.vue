@@ -41,7 +41,9 @@ if (props.marker instanceof SelectedSliceMarker) {
             `scoremarker-${marker.id}`,
             marker.validated ? (marker.isCorrect ? 'is-correct' : 'is-not-correct') : '',
         ]"
-    ></div>
+    >
+        <div v-if="marker.readableId" v-text="marker.readableId" class="score-marker-id"></div>
+    </div>
 </template>
 
 <style scoped>
@@ -63,6 +65,10 @@ if (props.marker instanceof SelectedSliceMarker) {
 
 .highlight {
     animation: pulse 1s ease-in-out infinite;
+}
+
+.score-marker-id {
+    @apply flex justify-center items-center bg-gray-200 border border-gray-300 w-6 h-6 shadow rounded-full text-center text-xl font-bold absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2;
 }
 
 @keyframes pulse {
