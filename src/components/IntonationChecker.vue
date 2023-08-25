@@ -5,6 +5,7 @@ import ScoreContainer from './ScoreContainer.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import FormButton from './FormButton.vue';
 import { useMarkersStore } from '../stores/markers.js';
+import { useScoreStore } from '../stores/score.js';
 import { ref, provide } from 'vue';
 import { Marker } from '../utils/marker.js';
 import { useI18n } from '../utils/i18n.js';
@@ -23,6 +24,7 @@ const props = defineProps({
 
 const { $t } = useI18n(props.locale);
 
+const scoreStore = useScoreStore();
 const markersStore = useMarkersStore();
 markersStore.setMarkers(props.markers.map((m) => new Marker(m)));
 
@@ -53,6 +55,7 @@ onKeyStroke('.', (e) => {
 
 provide('locale', props.locale);
 provide('markersStore', markersStore);
+provide('scoreStore', scoreStore);
 </script>
 
 <template>
