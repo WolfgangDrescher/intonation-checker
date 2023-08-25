@@ -5,6 +5,7 @@ export function useMarkersStore() {
     const selectedSliceMarkers = ref([]);
     const selectedMarkers = ref([]);
     const markers = ref([]);
+    const mode = ref('slice');
 
     const markersNoteCount = computed(() => {
         return markers.value.reduce((total, marker) => total + marker.noteIds.length, 0);
@@ -31,6 +32,8 @@ export function useMarkersStore() {
     const countSelectedSliceMarkers = computed(() => selectedSliceMarkers.value.length);
 
     const countSelectedMarkers = computed(() => selectedMarkers.value.length);
+        
+    const countSelectedMarkersForMode = computed(() => mode.value === 'slice' ? countSelectedSliceMarkers.value : countSelectedMarkers.value);
 
     const countMarkers = computed(() => markers.value.length);
 
@@ -108,6 +111,7 @@ export function useMarkersStore() {
     }
 
     return {
+        mode,
         selectedSliceMarkers,
         selectedMarkers,
         markers,
@@ -117,6 +121,7 @@ export function useMarkersStore() {
         sortedSelectedMarkers,
         countSelectedSliceMarkers,
         countSelectedMarkers,
+        countSelectedMarkersForMode,
         countMarkers,
         countMissingMarkers,
         getSelectedMarkerById,

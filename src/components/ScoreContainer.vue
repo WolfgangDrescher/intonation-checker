@@ -19,6 +19,7 @@ const emit = defineEmits(['update:colMode']);
 
 const {
     markers,
+    mode: selectMarkerMode,
     getSelectedMarkerById,
     removeSelectedMarker,
     addSelectedSliceMarker,
@@ -90,7 +91,6 @@ const markerContainer = ref(null);
 const verovioElem = ref();
 const scale = ref(40);
 const verovioIsLoading = ref(true);
-const selectMarkerMode = ref('slice');
 
 function setScale(value) {
     scale.value = Math.max(Math.min(60, value), 20);
@@ -166,10 +166,10 @@ watch(
             <div class="marker-mode-controls">
                 <ButtonGroup class="button-group">
                     <FormButton @click="selectMarkerMode = 'slice'" :active="selectMarkerMode === 'slice'">
-                        <Icon icon="bi:pin-map-fill" />
+                        Zeitpunkt
                     </FormButton>
                     <FormButton @click="selectMarkerMode = 'note'" :active="selectMarkerMode === 'note'">
-                        <Icon icon="bi:geo-fill" />
+                        Note
                     </FormButton>
                 </ButtonGroup>
             </div>

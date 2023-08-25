@@ -14,28 +14,30 @@ const {
     sortedSelectedMarkers,
     countSelectedSliceMarkers,
     countSelectedMarkers,
+    countSelectedMarkersForMode,
     countMarkers,
     countMissingMarkers,
     missingMarkers,
+    mode,
 } = inject('markersStore');
 </script>
 
 <template>
     <div>
         <div class="marker-list-counter">
-            {{ $t('nOfm', [countSelectedMarkers, countMarkers]) }}
+            {{ $t('nOfm', [countSelectedMarkersForMode, countMarkers]) }}
         </div>
         <div class="marker-list-container">
-            <template v-if="countSelectedSliceMarkers">
+            <template v-if="countSelectedSliceMarkers && mode === 'slice'">
                 <MarkerListItem v-for="marker in sortedSelectedSliceMarkers" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
-            <template v-if="countSelectedMarkers">
+            <template v-if="countSelectedMarkers && mode === 'note'">
                 <MarkerListItem v-for="marker in sortedSelectedMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
             <template v-if="showMarkers && countMissingMarkers">
                 <MarkerListItem v-for="marker in missingMarkers" :key="marker.noteIds.join()" :marker="marker" @audioSeek="emit('audioSeek', $event)" @audioSeekFactor="emit('audioSeekFactor', $event)" />
             </template>
-            <div class="marker-list-info-text" v-if="(!countSelectedMarkers && !showMarkers) || (showMarkers && !countMissingMarkers)">
+            <div class="marker-list-info-text" v-if="(!countSelectedMarkersForMode && !showMarkers) || (showMarkers && !countMissingMarkers)">
                 {{ $t('noMarkersSelectedText') }}
             </div>
         </div>
