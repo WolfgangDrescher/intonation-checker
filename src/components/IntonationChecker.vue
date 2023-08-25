@@ -32,14 +32,10 @@ const markersStore = useMarkersStore();
     const markers = [];
     for (let i = 0; i < props.markers.length; i++) {
         const marker = props.markers[i];
-        const times = [];
+        const elems = [];
         for (let j = 0; j < marker.noteIds.length; j++) {
             const id = marker.noteIds[j];
-            times.push(await props.toolkit.getTimeForElement(id));
-        }
-        const elems = [];
-        for (let k = 0; k < times.length; k++) {
-            const time = times[k];
+            const time = await props.toolkit.getTimeForElement(id);
             elems.push(...(await props.toolkit.getElementsAtTime(time + 10)).notes);
         }
         markers.push(new Marker(marker, [...new Set(elems)]));
