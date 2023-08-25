@@ -47,7 +47,7 @@ function endHighlight() {
     >
         <div class="marker-list-item-content">
             <div class="marker-list-item-content-container">
-                <code class="marker-list-item-content-container-id">{{ `#${marker.id}` }}</code>
+                <div class="marker-list-item-content-container-id">{{ marker.readableId }}</div>
                 <div>{{ marker.comment }}</div>
             </div>
         </div>
@@ -84,7 +84,7 @@ function endHighlight() {
 }
 
 .marker-list-item-content-container-id {
-    @apply cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em];
+    @apply text-xl font-bold m-0 px-[.4em] py-[.2em];
 }
 
 .marker-list-item-button-group {
