@@ -200,7 +200,7 @@ function onScoreIsReady() {
         </div>
         <div class="score-wrapper">
             <div class="score-inner-wrapper">
-                <div ref="scoreContainer" class="score-innter-wrapper-container">
+                <div ref="scoreContainer" class="score-inner-wrapper-container">
                     <VerovioCanvas
                         ref="verovioElem"
                         :toolkit="toolkit"
