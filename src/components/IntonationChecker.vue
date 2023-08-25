@@ -35,7 +35,6 @@ const markersStore = useMarkersStore();
         const times = [];
         for (let j = 0; j < marker.noteIds.length; j++) {
             const id = marker.noteIds[j];
-            console.log(id);
             times.push(await props.toolkit.getTimeForElement(id));
         }
         const elems = [];
