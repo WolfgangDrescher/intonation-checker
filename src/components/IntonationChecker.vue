@@ -6,7 +6,7 @@ import ButtonGroup from './ButtonGroup.vue';
 import FormButton from './FormButton.vue';
 import { useMarkersStore } from '../stores/markers.js';
 import { ref, provide } from 'vue';
-import { createSelectedSliceMarker, Marker } from '../utils/marker.js';
+import { Marker } from '../utils/marker.js';
 import { useI18n } from '../utils/i18n.js';
 import { onKeyStroke } from '@vueuse/core';
 
