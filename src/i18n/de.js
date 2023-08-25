@@ -5,4 +5,6 @@ export const de = {
     showMissingMarkers: 'Fehlende anzeigen',
     nOfm: '{0} von {1}',
     noMarkersSelectedText: 'Klicken Sie in der Partitur auf der linken Seite auf die Notenköpfe der Töne die falsch intoniert sind.',
+    selectSlices: 'Zeitpunkt',
+    selectNotes: 'Note',
 };

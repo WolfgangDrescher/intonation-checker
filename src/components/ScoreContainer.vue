@@ -8,6 +8,7 @@ import FormButton from './FormButton.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
 import { useDebounceFn } from '@vueuse/core';
+import { useI18n } from '../utils/i18n.js';
 
 const props = defineProps({
     toolkit: Object,
@@ -29,6 +30,8 @@ const {
     selectedMarkers,
     missingMarkers,
 } = inject('markersStore');
+
+const { $t } = useI18n(inject('locale'));
 
 let timemap = [];
 
@@ -166,10 +169,10 @@ watch(
             <div class="marker-mode-controls">
                 <ButtonGroup>
                     <FormButton @click="selectMarkerMode = 'slice'" :active="selectMarkerMode === 'slice'">
-                        Zeitpunkt
+                        {{ $t('selectSlices') }}
                     </FormButton>
                     <FormButton @click="selectMarkerMode = 'note'" :active="selectMarkerMode === 'note'">
-                        Note
+                        {{ $t('selectNotes') }}
                     </FormButton>
                 </ButtonGroup>
             </div>

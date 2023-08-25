@@ -5,4 +5,6 @@ export const en = {
     showMissingMarkers: 'Show missing',
     nOfm: '{0} of {1}',
     noMarkersSelectedText: 'Click on the note heads in score on the left side of notes that are not in tune.',
+    selectSlices: 'Moment',
+    selectNotes: 'Note',
 };
