@@ -10,6 +10,7 @@ import { ref, provide } from 'vue';
 import { Marker } from '../utils/marker.js';
 import { useI18n } from '../utils/i18n.js';
 import { onKeyStroke } from '@vueuse/core';
+import { getSimultaneousNoteIds } from '../utils/marker.js';
 
 const props = defineProps({
     toolkit: Object,
@@ -28,15 +29,14 @@ const scoreStore = useScoreStore();
 const markersStore = useMarkersStore();
 
 (async () => {
-    await scoreStore.isReady.promise;
     const markers = [];
     for (let i = 0; i < props.markers.length; i++) {
         const marker = props.markers[i];
         const elems = [];
         for (let j = 0; j < marker.noteIds.length; j++) {
             const id = marker.noteIds[j];
-            const time = await props.toolkit.getTimeForElement(id);
-            elems.push(...(await props.toolkit.getElementsAtTime(time + 10)).notes);
+            const noteIds = await getSimultaneousNoteIds(props.toolkit, scoreStore.isReady.promise, id);
+            elems.push(...noteIds);
         }
         markers.push(new Marker(marker, [...new Set(elems)]));
     }

@@ -59,6 +59,13 @@ export class SelectedMarker extends Marker {
 
 export class SelectedSliceMarker extends SelectedMarker {}
 
+export async function getSimultaneousNoteIds(toolkit, scoreIsReadyPromise, id) {
+    await scoreIsReadyPromise;
+    const elems = [];
+    const time = await toolkit.getTimeForElement(id);
+    elems.push(...(await toolkit.getElementsAtTime(time + 10)).notes);
+    return [...new Set(elems)];
+}
 
 function checkIfSelectedMarkerIsCorrect(marker, markers, compareSlice) {
     return markers
