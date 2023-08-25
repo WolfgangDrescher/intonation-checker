@@ -23,8 +23,8 @@ const props = defineProps({
 
 const { $t } = useI18n(props.locale);
 
-const store = useMarkersStore();
-store.setMarkers(props.markers.map((m) => new Marker(m)));
+const markersStore = useMarkersStore();
+markersStore.setMarkers(props.markers.map((m) => new Marker(m)));
 
 const correctAudioPlayerElem = ref();
 const wrongAudioPlayerElem = ref();
@@ -33,26 +33,26 @@ const displayShowMarkersButton = ref(false);
 const colMode = ref('right');
 
 function checkSelectedMarkers() {
-    store.validateSelectedMarkers();
-    if (store.selectedMarkers.value.length >= store.markers.value.length) {
+    markersStore.validateSelectedMarkers();
+    if (markersStore.selectedMarkers.value.length >= markersStore.markers.value.length) {
         displayShowMarkersButton.value = true;
     }
 }
 
 function showMissingMarkers() {
-    store.validateSelectedMarkers();
+    markersStore.validateSelectedMarkers();
     showMarkers.value = !showMarkers.value;
 }
 
 onKeyStroke('.', (e) => {
     e.preventDefault();
-    store.validateSelectedMarkers();
+    markersStore.validateSelectedMarkers();
     showMarkers.value = !showMarkers.value;
     displayShowMarkersButton.value = true;
 });
 
 provide('locale', props.locale);
-provide('markersStore', store);
+provide('markersStore', markersStore);
 </script>
 
 <template>
