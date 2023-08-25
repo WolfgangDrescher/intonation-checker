@@ -152,7 +152,7 @@ watch(
 <template>
     <div class="score-container">
         <div class="toolbar">
-            <ButtonGroup class="button-group">
+            <ButtonGroup class="button-group-icon-size">
                 <FormButton @click="setScale(scale + 5)">
                     <Icon icon="bi:zoom-in" />
                 </FormButton>
@@ -164,7 +164,7 @@ watch(
                 <Icon icon="bi:arrow-repeat" class="loading-icon spin" :class="{loading: verovioIsLoading}" />
             </div>
             <div class="marker-mode-controls">
-                <ButtonGroup class="button-group">
+                <ButtonGroup>
                     <FormButton @click="selectMarkerMode = 'slice'" :active="selectMarkerMode === 'slice'">
                         Zeitpunkt
                     </FormButton>
@@ -174,7 +174,7 @@ watch(
                 </ButtonGroup>
             </div>
             <div class="col-mode-controls">
-                <ButtonGroup class="button-group">
+                <ButtonGroup class="button-group-icon-size">
                     <FormButton @click="emit('update:colMode', 'left')">
                         <Icon icon="bi:layout-sidebar-inset" />
                     </FormButton>
@@ -242,7 +242,7 @@ watch(
     @apply p-4 bg-gray-100 border-b flex items-center gap-4;
 }
 
-.button-group {
+.button-group-icon-size {
     @apply text-2xl;
 }
 
