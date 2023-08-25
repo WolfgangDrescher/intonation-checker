@@ -31,6 +31,10 @@ const {
     missingMarkers,
 } = inject('markersStore');
 
+const {
+    isReady: scoreIsReady,
+} = inject('scoreStore');
+
 const { $t } = useI18n(inject('locale'));
 
 let timemap = [];
@@ -150,6 +154,10 @@ watch(
         debouncedIsLoading(value);
     }
 );
+
+function onScoreIsReady() {
+    scoreIsReady.resolve();
+}
 </script>
 
 <template>
@@ -200,6 +208,7 @@ watch(
                         :scale="scale"
                         :pageMargin="50"
                         :options="{ mnumInterval: 1 }"
+                        @score-is-ready="onScoreIsReady"
                     />
                 </div>
                 <div class="marker-container" ref="markerContainer">
