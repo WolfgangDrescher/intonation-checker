@@ -49,6 +49,7 @@ function endHighlight() {
             <div class="marker-list-item-content-container">
                 <div class="marker-list-item-content-container-id">{{ marker.readableId }}</div>
                 <div>{{ marker.comment }}</div>
+                <code class="marker-list-item-content-container-note-id">{{ `#${marker.id}` }}</code>
             </div>
         </div>
         <ButtonGroup class="marker-list-item-button-group">
@@ -80,7 +81,15 @@ function endHighlight() {
 }
 
 .marker-list-item-content-container {
-    @apply flex gap-2;
+    @apply flex gap-2 items-center;
+}
+
+.marker-list-item .marker-list-item-content-container-note-id {
+    @apply cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em] hidden;
+}
+
+.marker-list-item:hover .marker-list-item-content-container-note-id {
+    @apply block;
 }
 
 .marker-list-item-content-container-id {
