@@ -11,7 +11,7 @@ export class Marker {
     }
 
     get id() {
-        return this.noteIds.join('');
+        return this.noteIds.join(',');
     }
 
     get noteIds() {
