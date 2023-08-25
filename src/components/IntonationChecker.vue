@@ -26,7 +26,27 @@ const { $t } = useI18n(props.locale);
 
 const scoreStore = useScoreStore();
 const markersStore = useMarkersStore();
-markersStore.setMarkers(props.markers.map((m) => new Marker(m)));
+
+(async () => {
+    await scoreStore.isReady.promise;
+    const markers = [];
+    for (let i = 0; i < props.markers.length; i++) {
+        const marker = props.markers[i];
+        const times = [];
+        for (let j = 0; j < marker.noteIds.length; j++) {
+            const id = marker.noteIds[j];
+            console.log(id);
+            times.push(await props.toolkit.getTimeForElement(id));
+        }
+        const elems = [];
+        for (let k = 0; k < times.length; k++) {
+            const time = times[k];
+            elems.push(...(await props.toolkit.getElementsAtTime(time + 10)).notes);
+        }
+        markers.push(new Marker(marker, [...new Set(elems)]));
+    }
+    markersStore.setMarkers(markers);
+})();
 
 const correctAudioPlayerElem = ref();
 const wrongAudioPlayerElem = ref();

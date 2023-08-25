@@ -4,9 +4,11 @@ export class Marker {
     marker;
     correct = true;
     validated = true;
+    simultaneousNoteIds = [];
 
-    constructor(marker = {}) {
+    constructor(marker = {}, simultaneousNoteIds) {
         this.marker = marker;
+        this.simultaneousNoteIds = simultaneousNoteIds;
         this.timestamp = Date.now();
     }
 
@@ -57,22 +59,25 @@ export class SelectedMarker extends Marker {
 
 export class SelectedSliceMarker extends SelectedMarker {}
 
-export function createSelectedMarker(marker, markers) {
-    const isCorrect = markers
+
+function checkIfSelectedMarkerIsCorrect(marker, markers, compareSlice) {
+    return markers
         .reduce((accumulator, item) => {
             accumulator.push(...item.noteIds);
+            if (compareSlice) {
+                accumulator.push(...item.simultaneousNoteIds);
+            }
             return accumulator;
         }, [])
         .some((id) => marker.noteIds.includes(id));
+}
+
+export function createSelectedMarker(marker, markers) {
+    const isCorrect = checkIfSelectedMarkerIsCorrect(marker, markers, false);
     return new SelectedMarker(marker, isCorrect);
 }
 
 export function createSelectedSliceMarker(marker, markers) {
-    const isCorrect = markers
-        .reduce((accumulator, item) => {
-            accumulator.push(...item.noteIds);
-            return accumulator;
-        }, [])
-        .some((id) => marker.noteIds.includes(id));
+    const isCorrect = checkIfSelectedMarkerIsCorrect(marker, markers, true);
     return new SelectedSliceMarker(marker, isCorrect);
 }
