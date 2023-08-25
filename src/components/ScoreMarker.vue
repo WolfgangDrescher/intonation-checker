@@ -42,33 +42,43 @@ if (props.marker instanceof SelectedSliceMarker) {
             marker.validated ? (marker.isCorrect ? 'is-correct' : 'is-not-correct') : '',
         ]"
     >
+        <div class="score-marker-bg"></div>
         <div v-if="marker.readableId" v-text="marker.readableId" class="score-marker-id"></div>
     </div>
 </template>
 
 <style scoped>
-.score-marker {
-    @apply rounded-full bg-opacity-50 absolute -translate-x-1/2 -translate-y-1/2 bg-yellow-500;
+.score-marker  {
+    @apply absolute -translate-x-1/2 -translate-y-1/2 ;
 }
 
-.score-marker.slice {
+.score-marker .score-marker-bg {
+    @apply rounded-full bg-opacity-50 bg-yellow-500;
+}
+
+
+.score-marker.slice .score-marker-bg {
     @apply bg-opacity-25 rounded-md;
 }
 
-.score-marker.is-correct {
+.score-marker.is-correct .score-marker-bg {
     @apply bg-green-500 bg-opacity-50;
 }
 
-.score-marker.is-not-correct {
+.score-marker.is-not-correct .score-marker-bg {
     @apply bg-red-500 bg-opacity-50;
 }
 
-.highlight {
+.highlight .score-marker-bg {
     animation: pulse 1s ease-in-out infinite;
 }
 
 .score-marker-id {
     @apply flex justify-center items-center bg-gray-200 border border-gray-300 w-6 h-6 shadow rounded-full text-center text-xl font-bold absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2;
+}
+
+.score-marker-bg {
+    @apply absolute top-0 left-0 w-full h-full;
 }
 
 @keyframes pulse {
