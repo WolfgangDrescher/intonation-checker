@@ -4,6 +4,5 @@ export const de = {
     check: 'Prüfen',
     showMissingMarkers: 'Fehlende anzeigen',
     nOfm: '{0} von {1}',
-    noMarkersSelectedText:
-        'Klicken Sie in der Partitur auf der linken Seite auf die Notenköpfe der Töne die falsch intoniert sind.',
+    noMarkersSelectedText: 'Klicken Sie in der Partitur auf der linken Seite auf die Notenköpfe der Töne die falsch intoniert sind.',
 };
