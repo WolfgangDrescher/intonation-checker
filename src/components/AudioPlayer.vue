@@ -89,7 +89,7 @@ const seeker = computed(() => {
 
 const formattedTime = computed(() => {
     if (exactSeeker.value) {
-        return showRemainingTime.value ? `-${audio.duration() - seeker.value}` : seeker.value;
+        return showRemainingTime.value ? `-${(audio.duration() - seeker.value).toFixed(2)}` : seeker.value.toFixed(2);
     }
     return showRemainingTime.value ? `-${formatTime(audio.duration() - seeker.value)}` : formatTime(seeker.value);
 });
