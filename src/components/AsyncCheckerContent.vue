@@ -21,8 +21,6 @@ const props = defineProps({
 
 const data = (typeof props.data === 'string' ? JSON.parse(props.data) : props.data) ?? await ofetch(props.url);
 
-console.log(props.url, data);
-
 const { $t } = useI18n(inject('locale'));
 
 const scoreStore = useScoreStore();
