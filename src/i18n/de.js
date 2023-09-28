@@ -7,4 +7,6 @@ export const de = {
     noMarkersSelectedText: 'Klicken Sie in der Partitur auf der linken Seite auf die Notenköpfe der Töne die falsch intoniert sind.',
     selectSlices: 'Zeitpunkt',
     selectNotes: 'Note',
+    loading: 'Lädt',
+    instrumentation: 'Besetzung: {0}',
 };

@@ -1,217 +1,62 @@
+
 <script setup>
-import AudioPlayer from './AudioPlayer.vue';
-import MarkerList from './MarkerList.vue';
-import ScoreContainer from './ScoreContainer.vue';
-import ButtonGroup from './ButtonGroup.vue';
-import FormButton from './FormButton.vue';
-import { useMarkersStore } from '../stores/markers.js';
-import { useScoreStore } from '../stores/score.js';
-import { ref, provide } from 'vue';
-import { Marker } from '../utils/marker.js';
+import { provide } from 'vue';
+import AsyncCheckerContent from './AsyncCheckerContent.vue';
+import { Icon } from '@iconify/vue';
 import { useI18n } from '../utils/i18n.js';
-import { onKeyStroke } from '@vueuse/core';
-import { getSimultaneousNoteIds } from '../utils/marker.js';
 
 const props = defineProps({
     toolkit: Object,
-    scoreUrl: String,
-    correctAudioUrl: String,
-    wrongAudioUrl: String,
-    title: String,
-    description: String,
-    markers: Array,
+    url: String,
     locale: String,
 });
 
 const { $t } = useI18n(props.locale);
 
-const scoreStore = useScoreStore();
-const markersStore = useMarkersStore();
-
-(async () => {
-    const markers = [];
-    for (let i = 0; i < props.markers.length; i++) {
-        const marker = props.markers[i];
-        const elems = [];
-        for (let j = 0; j < marker.noteIds.length; j++) {
-            const id = marker.noteIds[j];
-            const noteIds = await getSimultaneousNoteIds(props.toolkit, scoreStore.isReady.promise, id);
-            elems.push(...noteIds);
-        }
-        markers.push(new Marker(marker, [...new Set(elems)]));
-    }
-    markersStore.setMarkers(markers);
-})();
-
-const correctAudioPlayerElem = ref();
-const wrongAudioPlayerElem = ref();
-const showMarkers = ref(false);
-const displayShowMarkersButton = ref(false);
-const colMode = ref('right');
-
-function checkSelectedMarkers() {
-    markersStore.validateSelectedMarkersForMode();
-    if (markersStore.selectedMarkers.value.length >= markersStore.markers.value.length) {
-        displayShowMarkersButton.value = true;
-    }
-}
-
-function showMissingMarkers() {
-    markersStore.validateSelectedMarkersForMode();
-    showMarkers.value = !showMarkers.value;
-}
-
-onKeyStroke('.', (e) => {
-    e.preventDefault();
-    markersStore.validateSelectedMarkersForMode();
-    showMarkers.value = !showMarkers.value;
-    displayShowMarkersButton.value = true;
-});
-
 provide('locale', props.locale);
-provide('markersStore', markersStore);
-provide('scoreStore', scoreStore);
 </script>
 
 <template>
-    <div class="intonation-checker" :class="`col-mode-${colMode}`">
-        <div class="wrapper">
-            <div class="score-col">
-                <ScoreContainer
-                    :toolkit="toolkit"
-                    :url="scoreUrl"
-                    :show-markers="showMarkers"
-                    @update:col-mode="colMode = $event"
-                />
-            </div>
-            <div class="sidebar-col">
-                <div class="header-section">
-                    <div class="title">
-                        {{ title }}
+    <Suspense>
+        <AsyncCheckerContent :toolkit="toolkit" :url="url" :locale="locale" />
+        <template #fallback>
+            <div class="loading">
+                <div classs="loading-content">
+                    {{ $t('loading') }}
+                    <div class="icon-wrapper">
+                        <Icon icon="bi:arrow-repeat" :inline="true" class="loading-icon spin" />
                     </div>
-                    <p v-if="description" class="description">
-                        {{ description }}
-                    </p>
-                </div>
-                <div class="audio-player-container">
-                    <div class="audio-player-label">{{ $t('correct') }}</div>
-                    <div class="audio-player-wrapper">
-                        <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl" />
-                    </div>
-                </div>
-                <div class="audio-player-container">
-                    <div class="audio-player-label">{{ $t('wrong') }}</div>
-                    <div class="audio-player-wrapper">
-                        <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl" keyboard-shortcuts />
-                    </div>
-                </div>
-                <div class="marker-list">
-                    <MarkerList
-                        :show-markers="showMarkers"
-                        @audioSeek="$refs.wrongAudioPlayerElem.seekTo($event)"
-                        @audioSeekFactor="$refs.wrongAudioPlayerElem.seekToFactor($event)"
-                    />
-                </div>
-                <div class="footer-section">
-                    <ButtonGroup>
-                        <FormButton @click="checkSelectedMarkers">{{ $t('check') }}</FormButton>
-                        <FormButton
-                            v-if="displayShowMarkersButton"
-                            @click="showMissingMarkers"
-                            >{{ $t('showMissingMarkers') }}</FormButton
-                        >
-                    </ButtonGroup>
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+    </Suspense>
 </template>
 
 <style scoped>
-.intonation-checker {
-    @apply border;
+.loading {
+    @apply h-full w-full flex items-center justify-center text-center;
 }
 
-.wrapper {
-    @apply overflow-hidden;
+.loading-icon {
+    @apply inline-block;
 }
 
-.score-col {
-    @apply flex-grow min-w-0;
+.icon-wrapper {
+    @apply text-2xl mt-1;
 }
 
-.intonation-checker.col-mode-left .score-col {
-    @apply flex-grow-0 flex-shrink-0;
+.spin {
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
-
-.sidebar-col {
-    @apply flex flex-col;
-}
-
-.intonation-checker.col-mode-center .sidebar-col,
-.intonation-checker.col-mode-right .sidebar-col {
-    @apply flex-grow-0 flex-shrink-0;
-}
-
-.header-section {
-    @apply p-4 bg-gray-100 border-b;
-}
-
-.title {
-    @apply text-xl font-bold;
-}
-
-.description {
-    @apply mt-2 mb-0;
-}
-
-.audio-player-container {
-    @apply p-2 bg-gray-50 border-b flex items-center gap-2;
-}
-
-.audio-player-label {
-    @apply w-12;
-}
-
-.audio-player-wrapper {
-    @apply flex-grow;
-}
-
-.marker-list {
-    @apply p-4 min-h-0 overflow-y-auto;
-}
-
-.footer-section {
-    @apply p-4 mt-auto bg-gray-50 border-t;
-}
-
-@screen lg {
-    .intonation-checker {
-        @apply  h-full;
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
     }
-
-    .wrapper {
-        @apply h-full flex;
-    }
-
-    .sidebar-col {
-        @apply border-l;
-    }
-
-    .intonation-checker.col-mode-left .score-col {
-        @apply w-[500px];
-    }
-
-    .intonation-checker.col-mode-left .sidebar-col {
-        @apply flex-grow;
-    }
-
-    .intonation-checker.col-mode-center .sidebar-col {
-        @apply w-1/2;
-    }
-
-    .intonation-checker.col-mode-right .sidebar-col {
-        @apply w-[500px];
+    to {
+        transform: rotate(360deg);
     }
 }
 </style>

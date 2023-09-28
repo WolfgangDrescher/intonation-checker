@@ -1,0 +1,67 @@
+{
+    "scoreUrl": "/score.mei",
+    "correctAudioUrl": "/correct.mp3",
+    "composer": "Beethoven, Ludwig van",
+    "title": "Streichquartett Nr. 10 op. 74 in Es-Dur, II. Adagio ma non troppo (As-Dur), T. 24-49",
+    "instrumentation": "2 Vl, Va, Vc",
+    "performers": "Alinde Quartett",
+    "license": "cc-by-sa-4.0",
+    "year": 1809,
+    "description": "",
+    "difficulty": 3,
+    "wrongAudioUrl": "/wrong.mp3",
+    "markers": [
+        {
+            "noteIds": [
+                "n14yce2d"
+            ],
+            "measure": 30,
+            "comment": "Vl1 ces3 hoch",
+            "time": 10.1
+        },
+        {
+            "noteIds": [
+                "n15iyvoi",
+                "n4z873f"
+            ],
+            "measure": 34,
+            "comment": "Vc Ges tief",
+            "time": 28
+        },
+        {
+            "noteIds": [
+                "nlctiz8"
+            ],
+            "measure": 35,
+            "comment": "Va es hoch",
+            "time": 30
+        },
+        {
+            "noteIds": [
+                "n1nahl3k",
+                "nwv84ud",
+                "ni3uoqs"
+            ],
+            "measure": 37,
+            "comment": "Va es + ges tief",
+            "time": 37
+        },
+        {
+            "noteIds": [
+                "n1g5wcqm"
+            ],
+            "measure": 41,
+            "comment": "Vl2 as tief",
+            "time": 50
+        },
+        {
+            "noteIds": [
+                "n1h2e61q",
+                "n5zf451"
+            ],
+            "measure": 45,
+            "comment": "Vl1 hes1 + b1 tief",
+            "time": 59
+        }
+    ]
+}
