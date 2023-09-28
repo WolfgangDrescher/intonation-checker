@@ -7,6 +7,7 @@ import { onKeyStroke } from '@vueuse/core';
 
 const props = defineProps({
     url: String,
+    keyboardShortcuts: Boolean,
 });
 
 const audio = new Howl({
@@ -151,24 +152,26 @@ function seekToFactor(factor) {
     }
 }
 
-onKeyStroke('ArrowLeft', (e) => {
-    e.preventDefault();
-    audio.seek(Math.max(0, audio.seek() - 5));
-});
+if (props.keyboardShortcuts) {
+    onKeyStroke('ArrowLeft', (e) => {
+        e.preventDefault();
+        audio.seek(Math.max(0, audio.seek() - 5));
+    });
 
-onKeyStroke('ArrowRight', (e) => {
-    e.preventDefault();
-    audio.seek(Math.min(audio.duration(), audio.seek() + 5));
-});
+    onKeyStroke('ArrowRight', (e) => {
+        e.preventDefault();
+        audio.seek(Math.min(audio.duration(), audio.seek() + 5));
+    });
 
-onKeyStroke(' ', (e) => {
-    e.preventDefault();
-    if (audio.playing()) {
-        audio.pause();
-    } else {
-        audio.play();
-    }
-});
+    onKeyStroke(' ', (e) => {
+        e.preventDefault();
+        if (audio.playing()) {
+            audio.pause();
+        } else {
+            audio.play();
+        }
+    });
+}
 
 onUnmounted(() => {
     audio.stop();
