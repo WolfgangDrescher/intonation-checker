@@ -96,13 +96,13 @@ provide('scoreStore', scoreStore);
                 <div class="audio-player-container">
                     <div class="audio-player-label">{{ $t('correct') }}</div>
                     <div class="audio-player-wrapper">
-                        <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl"></AudioPlayer>
+                        <AudioPlayer ref="correctAudioPlayerElem" :url="correctAudioUrl" />
                     </div>
                 </div>
                 <div class="audio-player-container">
                     <div class="audio-player-label">{{ $t('wrong') }}</div>
                     <div class="audio-player-wrapper">
-                        <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl" keyboard-shortcuts></AudioPlayer>
+                        <AudioPlayer ref="wrongAudioPlayerElem" :url="wrongAudioUrl" keyboard-shortcuts />
                     </div>
                 </div>
                 <div class="marker-list">
