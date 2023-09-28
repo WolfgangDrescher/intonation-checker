@@ -206,18 +206,20 @@ function onScoreIsReady() {
                         :url="url"
                         :scale="scale"
                         :pageMargin="50"
-                        :options="{ mnumInterval: 1, spacingSystem: 10 }"
+                        :options="{ mnumInterval: 1, spacingSystem: 15 }"
                         @score-is-ready="onScoreIsReady"
                     />
                 </div>
                 <div class="marker-container" ref="markerContainer">
-                    <ScoreMarker
-                        v-for="marker in selectedSliceMarkers"
-                        :key="marker.timestamp"
-                        :marker="marker"
-                        :elem="getElementById(marker.noteIds[0])"
-                        :parent="markerContainer"
-                    />
+                    <template v-for="marker in selectedSliceMarkers" :key="marker.id">
+                        <ScoreMarker
+                            v-for="id in marker.noteIds"
+                            :key="marker.timestamp"
+                            :marker="marker"
+                            :elem="getElementById(id)"
+                            :parent="markerContainer"
+                        />
+                    </template>
                     <template v-for="marker in selectedMarkers" :key="marker.id">
                         <ScoreMarker
                             v-for="id in marker.noteIds"
