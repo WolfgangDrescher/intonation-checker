@@ -206,7 +206,7 @@ function onScoreIsReady() {
                         :url="url"
                         :scale="scale"
                         :pageMargin="50"
-                        :options="{ mnumInterval: 1 }"
+                        :options="{ mnumInterval: 1, spacingSystem: 10 }"
                         @score-is-ready="onScoreIsReady"
                     />
                 </div>
