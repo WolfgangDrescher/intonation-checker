@@ -19,7 +19,7 @@ const props = defineProps({
     data: Object,
 });
 
-const data = props.data ?? await ofetch(props.url);
+const data = (typeof props.data === 'string' ? JSON.parse(props.data) : props.data) ?? await ofetch(props.url);
 
 console.log(props.url, data);
 
