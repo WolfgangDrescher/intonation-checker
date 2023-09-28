@@ -21,6 +21,7 @@ const draggingSeek = ref(null);
 const showRemainingTime = ref(false);
 const progressBar = ref();
 const touchDevice = ref(false);
+const exactSeeker = ref(false);
 
 if (audio.state() === 'loaded') {
     isReady.value = true;
@@ -87,6 +88,9 @@ const seeker = computed(() => {
 });
 
 const formattedTime = computed(() => {
+    if (exactSeeker.value) {
+        return showRemainingTime.value ? `-${audio.duration() - seeker.value}` : seeker.value;
+    }
     return showRemainingTime.value ? `-${formatTime(audio.duration() - seeker.value)}` : formatTime(seeker.value);
 });
 
@@ -208,7 +212,7 @@ defineExpose({
                 @touchstart="onMousedownEvent"
             ></div>
         </div>
-        <div class="font-mono cursor-pointer" @click="showRemainingTime = !showRemainingTime">
+        <div class="font-mono cursor-pointer" @click="showRemainingTime = !showRemainingTime" @dblclick="exactSeeker = !exactSeeker">
             {{ formattedTime }}
         </div>
     </div>
