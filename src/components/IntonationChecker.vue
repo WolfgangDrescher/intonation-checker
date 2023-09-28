@@ -8,6 +8,7 @@ import { useI18n } from '../utils/i18n.js';
 const props = defineProps({
     toolkit: Object,
     url: String,
+    data: Object,
     locale: String,
 });
 
@@ -18,7 +19,7 @@ provide('locale', props.locale);
 
 <template>
     <Suspense>
-        <AsyncCheckerContent :toolkit="toolkit" :url="url" :locale="locale" />
+        <AsyncCheckerContent :toolkit="toolkit" :url="url" :data="data" :locale="locale" />
         <template #fallback>
             <div class="loading">
                 <div classs="loading-content">

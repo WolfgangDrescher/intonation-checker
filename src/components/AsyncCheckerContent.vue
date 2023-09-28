@@ -16,9 +16,10 @@ import { getSimultaneousNoteIds } from '../utils/marker.js';
 const props = defineProps({
     toolkit: Object,
     url: String,
+    data: Object,
 });
 
-const data = await ofetch(props.url);
+const data = props.data ?? await ofetch(props.url);
 
 console.log(props.url, data);
 
