@@ -12,34 +12,32 @@ const props = defineProps({
     locale: String,
 });
 
+defineOptions({
+    inheritAttrs: false,
+});
+
 const { $t } = useI18n(props.locale);
 
 provide('locale', props.locale);
 </script>
 
 <template>
-    <div class="wrapper">
-        <Suspense>
-            <AsyncCheckerContent :toolkit="toolkit" :url="url" :data="data" :locale="locale" />
-            <template #fallback>
-                <div class="loading">
-                    <div classs="loading-content">
-                        {{ $t('loading') }}
-                        <div class="icon-wrapper">
-                            <Icon icon="bi:arrow-repeat" :inline="true" class="loading-icon spin" />
-                        </div>
+    <Suspense>
+        <AsyncCheckerContent :toolkit="toolkit" :url="url" :data="data" :locale="locale" />
+        <template #fallback>
+            <div class="loading">
+                <div classs="loading-content">
+                    {{ $t('loading') }}
+                    <div class="icon-wrapper">
+                        <Icon icon="bi:arrow-repeat" :inline="true" class="loading-icon spin" />
                     </div>
                 </div>
-            </template>
-        </Suspense>
-    </div>
+            </div>
+        </template>
+    </Suspense>
 </template>
 
 <style scoped>
-.wrapper {
-    @apply h-full;
-}
-
 .loading {
     @apply h-full w-full flex items-center justify-center text-center;
 }
