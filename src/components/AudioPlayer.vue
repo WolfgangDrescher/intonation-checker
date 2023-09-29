@@ -153,17 +153,27 @@ function seekToFactor(factor) {
 }
 
 if (props.keyboardShortcuts) {
-    onKeyStroke('ArrowLeft', (e) => {
+    onKeyStroke('j', (e) => {
         e.preventDefault();
         audio.seek(Math.max(0, audio.seek() - 5));
     });
 
-    onKeyStroke('ArrowRight', (e) => {
+    onKeyStroke('l', (e) => {
         e.preventDefault();
         audio.seek(Math.min(audio.duration(), audio.seek() + 5));
     });
 
-    onKeyStroke(' ', (e) => {
+    onKeyStroke('ArrowLeft', (e) => {
+        e.preventDefault();
+        audio.seek(Math.max(0, audio.seek() - 1));
+    });
+
+    onKeyStroke('ArrowRight', (e) => {
+        e.preventDefault();
+        audio.seek(Math.min(audio.duration(), audio.seek() + 1));
+    });
+
+    onKeyStroke([' ', 'k'], (e) => {
         e.preventDefault();
         if (audio.playing()) {
             audio.pause();
