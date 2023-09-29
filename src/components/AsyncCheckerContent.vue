@@ -5,6 +5,7 @@ import MarkerList from './MarkerList.vue';
 import ScoreContainer from './ScoreContainer.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import FormButton from './FormButton.vue';
+import LicenseText from './LicenseText.vue';
 import { useMarkersStore } from '../stores/markers.js';
 import { useScoreStore } from '../stores/score.js';
 import { ref, provide, inject } from 'vue';
@@ -98,9 +99,7 @@ provide('scoreStore', scoreStore);
                     <p v-if="data.performers" class="performers">
                         {{ data.performers }}
                     </p>
-                    <p v-if="data.license" class="license">
-                        {{ data.license }}
-                    </p>
+                    <LicenseText v-if="data.license" :license="data.license" class="license" />
                 </div>
                 <div class="audio-player-container">
                     <div class="audio-player-label">{{ $t('correct') }}</div>
