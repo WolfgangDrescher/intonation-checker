@@ -93,12 +93,12 @@ provide('scoreStore', scoreStore);
                     <p v-if="data.description" class="description">
                         {{ data.description }}
                     </p>
-                    <p v-if="data.instrumentation" class="instrumentation">
+                    <div v-if="data.instrumentation" class="instrumentation">
                         {{ $t('instrumentation', [data.instrumentation]) }}
-                    </p>
-                    <p v-if="data.performers" class="performers">
+                    </div>
+                    <div v-if="data.performers" class="performers">
                         {{ data.performers }}
-                    </p>
+                    </div>
                     <LicenseText v-if="data.license" :license="data.license" class="license" />
                 </div>
                 <div class="audio-player-container">
