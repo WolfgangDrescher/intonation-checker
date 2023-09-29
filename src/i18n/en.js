@@ -9,4 +9,5 @@ export const en = {
     selectNotes: 'Note',
     loading: 'Loading',
     instrumentation: 'Instrumentation: {0}',
+    licensedUnder: 'This work is licensed under',
 };

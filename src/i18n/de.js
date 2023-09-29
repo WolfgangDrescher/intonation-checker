@@ -9,4 +9,5 @@ export const de = {
     selectNotes: 'Note',
     loading: 'Lädt',
     instrumentation: 'Besetzung: {0}',
+    licensedUnder: 'Dieses Werk ist lizenziert unter'
 };
