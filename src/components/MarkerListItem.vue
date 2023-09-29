@@ -30,11 +30,11 @@ function remove() {
 }
 
 function startHighlight() {
-    document.querySelectorAll(`.scoremarker-${props.marker.id}`).forEach((elem) => elem.classList.add('highlight'));
+    document.querySelectorAll(`.scoremarker-${props.marker.getId('')}`).forEach((elem) => elem.classList.add('highlight'));
 }
 
 function endHighlight() {
-    document.querySelectorAll(`.scoremarker-${props.marker.id}`).forEach((elem) => elem.classList.remove('highlight'));
+    document.querySelectorAll(`.scoremarker-${props.marker.getId('')}`).forEach((elem) => elem.classList.remove('highlight'));
 }
 </script>
 

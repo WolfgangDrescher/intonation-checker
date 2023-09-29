@@ -41,7 +41,7 @@ if (props.marker instanceof SelectedSliceMarker) {
         :class="[
             mode === markerType ? 'is-active' : '',
             markerType,
-            `scoremarker-${marker.id}`,
+            `scoremarker-${marker.getId('')}`,
             marker.validated ? (marker.isCorrect ? 'is-correct' : 'is-not-correct') : '',
         ]"
     >

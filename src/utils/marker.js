@@ -16,6 +16,10 @@ export class Marker {
         return this.noteIds.join(',');
     }
 
+    getId(separator = '') {
+        return this.noteIds.join(separator);
+    }
+
     get noteIds() {
         return this.marker.noteIds;
     }
