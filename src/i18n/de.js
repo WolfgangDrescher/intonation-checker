@@ -9,5 +9,7 @@ export const de = {
     selectNotes: 'Note',
     loading: 'Lädt',
     instrumentation: 'Besetzung: {0}',
-    licensedUnder: 'Dieses Werk ist lizenziert unter'
+    licensedUnder: 'Dieses Werk ist lizenziert unter',
+    markerMeasure: 'T. {0}',
+    markerTime: '{0}s',
 };

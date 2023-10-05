@@ -4,6 +4,7 @@ import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
 import { inject } from 'vue';
 import { SelectedMarker, SelectedSliceMarker } from '../utils/marker.js';
+import { useI18n } from '../utils/i18n.js';
 
 const props = defineProps({
     marker: Object,
@@ -12,6 +13,8 @@ const props = defineProps({
 const emit = defineEmits(['audioSeek', 'audioSeekFactor']);
 
 const { removeSelectedMarker, removeSelectedSliceMarker } = inject('markersStore');
+
+const { $t } = useI18n(inject('locale'));
 
 function playAudioListener() {
     if (props.marker.time) {
@@ -36,6 +39,16 @@ function startHighlight() {
 function endHighlight() {
     document.querySelectorAll(`.scoremarker-${props.marker.getId('')}`).forEach((elem) => elem.classList.remove('highlight'));
 }
+
+function copyNoteId() {
+    if (!navigator.clipboard) {
+        return;
+    }
+    navigator.clipboard.writeText(props.marker.id).then(() => {
+    }, function (err) {
+        console.error(`Could not copy text: ${err}`);
+    });
+}
 </script>
 
 <template>
@@ -48,8 +61,13 @@ function endHighlight() {
         <div class="marker-list-item-content">
             <div class="marker-list-item-content-container">
                 <div class="marker-list-item-content-container-id">{{ marker.readableId }}</div>
-                <div>{{ marker.comment }}</div>
-                <code class="marker-list-item-content-container-note-id">{{ `#${marker.id}` }}</code>
+                <div class="marker-list-item-content-container-comment">{{ marker.comment }}</div>
+                <code class="marker-list-item-content-container-note-id" @click="copyNoteId">{{ `#${marker.id}` }}</code>
+                <div class="marker-list-item-content-container-meta">
+                    <div>{{ $t('markerMeasure', [marker.measure]) }}</div>
+                    <div>{{ $t('markerTime', [parseFloat(marker.time ?? 0).toFixed(1)]) }}</div>
+                    <div></div>
+                </div>
             </div>
         </div>
         <ButtonGroup class="marker-list-item-button-group">
@@ -65,7 +83,7 @@ function endHighlight() {
 
 <style scoped>
 .marker-list-item {
-    @apply p-3 border border-gray-100 shadow rounded flex items-center;
+    @apply p-3 border border-gray-100 shadow rounded flex items-center gap-2;
 }
 
 .marker-list-item.is-correct {
@@ -85,7 +103,19 @@ function endHighlight() {
 }
 
 .marker-list-item .marker-list-item-content-container-note-id {
-    @apply ml-auto mr-2 cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em] hidden;
+    @apply cursor-pointer bg-[rgba(175,184,193,0.2)] rounded-md text-[80%] m-0 px-[.4em] py-[.2em] hidden max-w-[5.5rem] overflow-ellipsis overflow-hidden whitespace-nowrap;
+}
+
+.marker-list-item .marker-list-item-content-container-note-id:hover {
+    @apply bg-[rgba(175,184,193,0.5)];
+}
+
+.marker-list-item-content-container-comment {
+    @apply grow;
+}
+
+.marker-list-item-content-container-meta {
+    @apply text-xs text-right;
 }
 
 .marker-list-item:hover .marker-list-item-content-container-note-id {
