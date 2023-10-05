@@ -140,7 +140,7 @@ onUnmounted(() => {
 
 function getElementById(id) {
     const elem = document.getElementById(id);
-    return elem.querySelector('.notehead') || elem;
+    return elem?.querySelector('.notehead') || elem;
 }
 
 const debouncedIsLoading = useDebounceFn((value) => {

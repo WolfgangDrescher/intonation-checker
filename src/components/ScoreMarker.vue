@@ -12,7 +12,7 @@ const { mode } = inject('markersStore');
 
 const markerType = props.marker instanceof SelectedSliceMarker ? 'slice' : 'note';
 
-const elemRect = props.elem.getBoundingClientRect();
+const elemRect = props.elem?.getBoundingClientRect() ?? {x: 0, y: 0, width: 0, height: 0};
 const parentRect = props.parent.getBoundingClientRect();
 
 const markerSize = 50;
@@ -25,12 +25,14 @@ const position = reactive({
 });
 
 if (props.marker instanceof SelectedSliceMarker) {
-    const measureRect = props.elem.closest('g.measure').getBoundingClientRect();
     const heightExtender = 10;
     const yOffset = 10;
-    const height = measureRect.height + heightExtender;
-    position.height = `${height}px`;
-    position.top = `${measureRect.y + (height) / 2  - parentRect.y - heightExtender / 2 + yOffset}px`;
+    const measureRect = props.elem?.closest('g.measure').getBoundingClientRect();
+    if (measureRect) {
+        const height = measureRect.height + heightExtender;
+        position.height = `${height}px`;
+        position.top = `${measureRect.y + (height) / 2  - parentRect.y - heightExtender / 2 + yOffset}px`;
+    }
 }
 </script>
 
