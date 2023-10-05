@@ -17,10 +17,11 @@ const { removeSelectedMarker, removeSelectedSliceMarker } = inject('markersStore
 const { $t } = useI18n(inject('locale'));
 
 function playAudioListener() {
-    if (props.marker.time) {
-        emit('audioSeek', props.marker.time);
-    } else if (props.marker.seekFactor) {
-        emit('audioSeekFactor', props.marker.seekFactor);
+    if (typeof props.marker.time !== 'undefined') {
+        emit('audioSeek', Math.max(0, props.marker.time - 1));
+    } else if (typeof props.marker.seekFactor !== 'undefined') {
+        // 0.016 = 1% of 60s
+        emit('audioSeekFactor', Math.max(0, props.marker.seekFactor - 0.016));
     }
 }
 
@@ -64,13 +65,13 @@ function copyNoteId() {
                 <div class="marker-list-item-content-container-comment">{{ marker.comment }}</div>
                 <code class="marker-list-item-content-container-note-id" @click="copyNoteId">{{ `#${marker.id}` }}</code>
                 <div class="marker-list-item-content-container-meta">
-                    <div>{{ $t('markerMeasure', [marker.measure]) }}</div>
-                    <div>{{ $t('markerTime', [parseFloat(marker.time ?? 0).toFixed(1)]) }}</div>
+                    <div v-if="marker.measure">{{ $t('markerMeasure', [marker.measure]) }}</div>
+                    <div v-if="marker.time || marker.time === 0">{{ $t('markerTime', [parseFloat(marker.time ?? 0).toFixed(1)]) }}</div>
                 </div>
             </div>
         </div>
         <ButtonGroup class="marker-list-item-button-group">
-            <FormButton @click="playAudioListener" v-if="marker.seekFactor || marker.time">
+            <FormButton @click="playAudioListener" v-if="typeof marker.seekFactor !== 'undefined' || typeof marker.time !== 'undefined'">
                 <Icon icon="heroicons-solid:play" />
             </FormButton>
             <FormButton @click="remove" v-if="marker instanceof SelectedSliceMarker || marker instanceof SelectedMarker">
