@@ -66,7 +66,6 @@ function copyNoteId() {
                 <div class="marker-list-item-content-container-meta">
                     <div>{{ $t('markerMeasure', [marker.measure]) }}</div>
                     <div>{{ $t('markerTime', [parseFloat(marker.time ?? 0).toFixed(1)]) }}</div>
-                    <div></div>
                 </div>
             </div>
         </div>
