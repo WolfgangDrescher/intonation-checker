@@ -25,13 +25,20 @@ const position = reactive({
 });
 
 if (props.marker instanceof SelectedSliceMarker) {
-    const heightExtender = 10;
-    const yOffset = 10;
-    const measureRect = props.elem?.closest('g.measure').getBoundingClientRect();
-    if (measureRect) {
-        const height = measureRect.height + heightExtender;
-        position.height = `${height}px`;
-        position.top = `${measureRect.y + (height) / 2  - parentRect.y - heightExtender / 2 + yOffset}px`;
+    const heightExtender = 15;
+    const yOffset = 0;
+    const measureElem = props.elem?.closest('g.measure');
+    if (measureElem) {
+        const staves = Array.from(measureElem.querySelectorAll('g.staff'));
+        const firstStaff = staves[0];
+        const lastStaff = staves[staves.length - 1];
+        if (firstStaff && lastStaff) {
+            const firstStaffRect = firstStaff.getBoundingClientRect();
+            const lastStaffRect = lastStaff.getBoundingClientRect();
+            const height = lastStaffRect.bottom - firstStaffRect.top + heightExtender;
+            position.height = `${height}px`;
+            position.top = `${firstStaffRect.top + (height) / 2  - parentRect.y - heightExtender / 2 + yOffset}px`;
+        }
     }
 }
 </script>
