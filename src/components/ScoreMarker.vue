@@ -15,7 +15,7 @@ const markerType = props.marker instanceof SelectedSliceMarker ? 'slice' : 'note
 const elemRect = props.elem?.getBoundingClientRect() ?? {x: 0, y: 0, width: 0, height: 0};
 const parentRect = props.parent.getBoundingClientRect();
 
-const markerSize = 50;
+const markerSize = props.marker instanceof SelectedSliceMarker ? 30 : 32;
 
 const position = reactive({
     width: `${markerSize}px`,
