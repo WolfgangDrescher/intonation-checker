@@ -18,10 +18,10 @@ const { $t } = useI18n(inject('locale'));
 
 function playAudioListener() {
     if (typeof props.marker.time !== 'undefined') {
-        emit('audioSeek', Math.max(0, props.marker.time - 1));
+        emit('audioSeek', Math.max(0, props.marker.time - 2));
     } else if (typeof props.marker.seekFactor !== 'undefined') {
         // 0.016 = 1% of 60s
-        emit('audioSeekFactor', Math.max(0, props.marker.seekFactor - 0.016));
+        emit('audioSeekFactor', Math.max(0, props.marker.seekFactor - 0.016 * 2));
     }
 }
 
