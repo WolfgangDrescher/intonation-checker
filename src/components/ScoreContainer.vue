@@ -29,6 +29,7 @@ const {
     selectedSliceMarkers,
     selectedMarkers,
     missingMarkers,
+    getNextMarkerIndex,
 } = inject('markersStore');
 
 const {
@@ -64,6 +65,8 @@ async function clickNoteEvent(noteElem) {
     if (getSelectedMarkerById(noteElem.id)) {
         removeSelectedMarker(noteElem.id);
     } else {
+        const index = getNextMarkerIndex();
+        const readableId = String.fromCharCode((index < 26 ? 65 : 97 - 26) + index);
         if (selectMarkerMode.value === 'slice') {
             const simultaneousNoteIds = await getSimultaneousNoteIds(props.toolkit, scoreIsReady.promise, noteElem.id);
             addSelectedSliceMarker(
@@ -74,6 +77,7 @@ async function clickNoteEvent(noteElem) {
                         time: getTimeForElementFromMarkers(noteElem.id),
                     },
                     markers.value,
+                    readableId,
                     simultaneousNoteIds
                 )
             );
@@ -85,7 +89,8 @@ async function clickNoteEvent(noteElem) {
                         seekFactor: getSeekFactor(noteElem.id),
                         time: getTimeForElementFromMarkers(noteElem.id),
                     },
-                    markers.value
+                    markers.value,
+                    readableId
                 )
             );
         }

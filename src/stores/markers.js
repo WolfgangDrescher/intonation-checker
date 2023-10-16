@@ -6,6 +6,7 @@ export function useMarkersStore() {
     const selectedMarkers = ref([]);
     const markers = ref([]);
     const mode = ref('slice');
+    const markerIndex = ref(0);
 
     const markersNoteCount = computed(() => {
         return markers.value.reduce((total, marker) => total + marker.noteIds.length, 0);
@@ -132,6 +133,10 @@ export function useMarkersStore() {
         markers.value.forEach((marker) => (marker.timestamp = Date.now()));
     }
 
+    function getNextMarkerIndex() {
+        return markerIndex.value++;
+    }
+
     return {
         mode,
         selectedSliceMarkers,
@@ -156,5 +161,6 @@ export function useMarkersStore() {
         validateSelectedSliceMarkers,
         validateSelectedMarkersForMode,
         updateMarkers,
+        getNextMarkerIndex,
     };
 }

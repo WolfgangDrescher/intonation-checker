@@ -43,17 +43,13 @@ export class Marker {
 
 export class SelectedMarker extends Marker {
     correct;
-    letterIndex;
+    readableId;
     validated = false;
 
-    constructor(marker, correct = null, simultaneousNoteIds) {
+    constructor(marker, correct = null, readableId, simultaneousNoteIds) {
         super(marker, simultaneousNoteIds);
         this.correct = correct;
-        this.letterIndex = ++letterIndex;
-    }
-
-    get readableId() {
-        return String.fromCharCode(64 + this.letterIndex);
+        this.readableId = readableId;
     }
 
     get seekFactor() {
@@ -83,12 +79,12 @@ function checkIfSelectedMarkerIsCorrect(marker, markers, compareSlice) {
         .some((id) => marker.noteIds.includes(id));
 }
 
-export function createSelectedMarker(marker, markers) {
+export function createSelectedMarker(marker, markers, readableId) {
     const isCorrect = checkIfSelectedMarkerIsCorrect(marker, markers, false);
-    return new SelectedMarker(marker, isCorrect);
+    return new SelectedMarker(marker, isCorrect, readableId);
 }
 
-export function createSelectedSliceMarker(marker, markers, simultaneousNoteIds) {
+export function createSelectedSliceMarker(marker, markers, readableId, simultaneousNoteIds) {
     const isCorrect = checkIfSelectedMarkerIsCorrect(marker, markers, true);
-    return new SelectedSliceMarker(marker, isCorrect, simultaneousNoteIds);
+    return new SelectedSliceMarker(marker, isCorrect, readableId, simultaneousNoteIds);
 }
