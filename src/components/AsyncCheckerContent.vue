@@ -45,13 +45,12 @@ const markersStore = useMarkersStore();
 const correctAudioPlayerElem = ref();
 const wrongAudioPlayerElem = ref();
 const showMarkers = ref(false);
-const displayShowMarkersButton = ref(false);
 const colMode = ref('right');
 
 function checkSelectedMarkers() {
     markersStore.validateSelectedMarkersForMode();
     if (markersStore.selectedMarkers.value.length >= markersStore.markers.value.length) {
-        displayShowMarkersButton.value = true;
+        markersStore.finishedChecking.value = true;
     }
 }
 
@@ -64,7 +63,7 @@ onKeyStroke('.', (e) => {
     e.preventDefault();
     markersStore.validateSelectedMarkersForMode();
     showMarkers.value = !showMarkers.value;
-    displayShowMarkersButton.value = true;
+    markersStore.finishedChecking.value = true;
 });
 
 provide('markersStore', markersStore);
@@ -113,6 +112,9 @@ provide('scoreStore', scoreStore);
                         <AudioPlayer ref="wrongAudioPlayerElem" :url="data.wrongAudioUrl" keyboard-shortcuts />
                     </div>
                 </div>
+                <div v-if="markersStore.finishedChecking.value && data.note" class="note">
+                    {{ data.note }}
+                </div>
                 <div class="marker-list">
                     <MarkerList
                         :show-markers="showMarkers"
@@ -124,7 +126,7 @@ provide('scoreStore', scoreStore);
                     <ButtonGroup>
                         <FormButton @click="checkSelectedMarkers">{{ $t('check') }}</FormButton>
                         <FormButton
-                            v-if="displayShowMarkersButton"
+                            v-if="markersStore.finishedChecking.value"
                             @click="showMissingMarkers"
                             >{{ $t('showMissingMarkers') }}</FormButton
                         >
@@ -191,6 +193,10 @@ provide('scoreStore', scoreStore);
 
 .audio-player-wrapper {
     @apply flex-grow;
+}
+
+.note {
+    @apply text-sm text-gray-500 p-4 border-b;
 }
 
 .marker-list {

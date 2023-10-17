@@ -7,6 +7,7 @@ export function useMarkersStore() {
     const markers = ref([]);
     const mode = ref('slice');
     const markerIndex = ref(0);
+    const finishedChecking = ref(false);
 
     const markersNoteCount = computed(() => {
         return markers.value.reduce((total, marker) => total + marker.noteIds.length, 0);
@@ -151,6 +152,7 @@ export function useMarkersStore() {
         countSelectedMarkersForMode,
         countMarkers,
         countMissingMarkers,
+        finishedChecking,
         getSelectedMarkerById,
         addSelectedSliceMarker,
         addSelectedMarker,
