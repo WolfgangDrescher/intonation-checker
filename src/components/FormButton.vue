@@ -16,6 +16,7 @@ defineProps({
 }
 
 .form-group.active {
-    @apply bg-red-500 text-white;
+    @apply text-white;
+    background-color: var(--primary-color);
 }
 </style>

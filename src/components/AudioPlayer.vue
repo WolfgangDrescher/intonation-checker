@@ -245,11 +245,13 @@ defineExpose({
 }
 
 .progress-bar-handle {
-    @apply pointer-events-none bg-red-500 h-full;
+    @apply pointer-events-none h-full;
+    background-color: var(--primary-color);
 }
 
 .progress-bar-progress {
-    @apply cursor-grab absolute top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full bg-red-500 shadow;
+    @apply cursor-grab absolute top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 rounded-full shadow;
+    background-color: var(--primary-color);
 }
 
 .progress-bar .progress-bar-progress.touch-device {

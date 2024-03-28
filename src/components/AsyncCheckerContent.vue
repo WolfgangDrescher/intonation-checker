@@ -19,7 +19,10 @@ const props = defineProps({
     toolkit: Object,
     url: String,
     data: Object,
+    primaryColor: String,
 });
+
+const primaryColor = ref(props.primaryColor);
 
 const data = (typeof props.data === 'string' ? JSON.parse(props.data) : props.data) ?? await ofetch(props.url);
 
@@ -147,6 +150,7 @@ provide('scoreStore', scoreStore);
 <style scoped>
 .intonation-checker {
     @apply border;
+    --primary-color: v-bind(primaryColor)
 }
 
 .wrapper {

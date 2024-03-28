@@ -10,6 +10,10 @@ const props = defineProps({
     url: String,
     data: Object,
     locale: String,
+    primaryColor: {
+        type: String,
+        default: '#E2007D',
+    },
 });
 
 defineOptions({
@@ -23,7 +27,7 @@ provide('locale', props.locale);
 
 <template>
     <Suspense>
-        <AsyncCheckerContent :toolkit="toolkit" :url="url" :data="data" :locale="locale" />
+        <AsyncCheckerContent :toolkit="toolkit" :url="url" :data="data" :locale="locale" :primaryColor="primaryColor" />
         <template #fallback>
             <div class="loading">
                 <div classs="loading-content">
