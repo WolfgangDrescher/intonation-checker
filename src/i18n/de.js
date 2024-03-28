@@ -12,4 +12,5 @@ export const de = {
     licensedUnder: 'Dieses Werk ist lizenziert unter',
     markerMeasure: 'T. {0}',
     markerTime: '{0}s',
+    difficulty: 'Schwie­rig­keit',
 };

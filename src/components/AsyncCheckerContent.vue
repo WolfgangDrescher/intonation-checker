@@ -1,4 +1,5 @@
 <script setup>
+import { Icon } from '@iconify/vue';
 import { ofetch } from 'ofetch';
 import AudioPlayer from './AudioPlayer.vue';
 import MarkerList from './MarkerList.vue';
@@ -92,6 +93,12 @@ provide('scoreStore', scoreStore);
                     <p v-if="data.description" class="description">
                         {{ data.description }}
                     </p>
+                    <div v-if="data.difficulty" class="difficulty">
+                        {{ $t('difficulty') }}:
+                        <div class="difficulty-icons">
+                            <Icon v-for="n in (data.difficulty ?? 0)  " icon="bi:star-fill" />
+                        </div>
+                    </div>
                     <div v-if="data.instrumentation" class="instrumentation">
                         {{ $t('instrumentation', [data.instrumentation]) }}
                     </div>
@@ -177,6 +184,14 @@ provide('scoreStore', scoreStore);
 
 .description {
     @apply mt-2 mb-0;
+}
+
+.difficulty {
+    @apply mt-2 flex items-center gap-2;
+}
+
+.difficulty-icons {
+    @apply flex gap-1;
 }
 
 .license {
