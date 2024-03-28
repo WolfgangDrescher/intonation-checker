@@ -23,13 +23,20 @@ const showRemainingTime = ref(false);
 const progressBar = ref();
 const touchDevice = ref(false);
 const exactSeeker = ref(false);
+const state = ref(audio.state());
 
 if (audio.state() === 'loaded') {
+    state.value = 'loaded';
     isReady.value = true;
 }
 
 audio.on('load', () => {
+    state.value = 'loaded';
     // isReady.value = true;
+});
+
+audio.on('loaderror', () => {
+    state.value = 'loaderror';
 });
 
 audio.on('play', () => {
@@ -61,6 +68,10 @@ function updateLoop() {
 }
 
 function toggle() {
+    if (state.value === 'loaderror') return;
+    if (state.value === 'unloaded') {
+        state.value = 'loading';
+    }
     if (audio.state() !== 'loaded') return;
     if (audio.playing()) {
         audio.pause();
@@ -207,8 +218,10 @@ defineExpose({
 <template>
     <div class="audio-player">
         <FormButton @click="toggle" class="form-button">
-            <Icon v-if="isPlaying" icon="heroicons-solid:pause" />
-            <Icon v-else icon="heroicons-solid:play" />
+            <Icon v-if="state === 'loaderror'" icon="heroicons:exclamation-triangle-solid" class="text-red-500 flex items-center" />
+            <Icon v-else-if="isPlaying" icon="heroicons:pause-solid" />
+            <Icon v-else-if="state === 'loading'" icon="heroicons:arrow-path-solid" class="spin" />
+            <Icon v-else icon="heroicons:play-solid" />
         </FormButton>
         <div
             ref="progressBar"
@@ -265,5 +278,22 @@ defineExpose({
 
 .progress-bar:hover .progress-bar-progress.no-touch-device {
     @apply visible;
+}
+
+.spin {
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 </style>
