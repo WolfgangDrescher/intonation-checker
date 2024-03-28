@@ -87,11 +87,11 @@ function copyNoteId() {
 }
 
 .marker-list-item.is-correct {
-    @apply bg-green-100;
+    @apply bg-green-100 border-green-200;
 }
 
 .marker-list-item.is-not-correct {
-    @apply bg-red-100;
+    @apply bg-red-100 border-red-200;
 }
 
 .marker-list-item-content {
