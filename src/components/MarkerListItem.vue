@@ -72,10 +72,10 @@ function copyNoteId() {
         </div>
         <ButtonGroup class="marker-list-item-button-group">
             <FormButton @click="playAudioListener" v-if="typeof marker.seekFactor !== 'undefined' || typeof marker.time !== 'undefined'">
-                <Icon icon="heroicons-solid:play" />
+                <Icon icon="heroicons:play-solid" />
             </FormButton>
             <FormButton @click="remove" v-if="marker instanceof SelectedSliceMarker || marker instanceof SelectedMarker">
-                <Icon icon="heroicons-solid:x-mark" />
+                <Icon icon="heroicons:x-mark-solid" />
             </FormButton>
         </ButtonGroup>
     </div>
