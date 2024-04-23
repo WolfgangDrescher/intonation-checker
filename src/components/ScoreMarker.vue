@@ -1,10 +1,11 @@
 <script setup>
 import { reactive, inject } from 'vue';
 import { SelectedSliceMarker } from '../utils/marker.js';
+import { getBBoxElem } from '../utils/bbox.js';
 
 const props = defineProps({
     marker: Object,
-    elem: SVGGElement,
+    elem: SVGGElement | SVGRectElement,
     parent: HTMLElement,
 });
 
@@ -13,7 +14,7 @@ const { mode } = inject('markersStore');
 const markerType = props.marker instanceof SelectedSliceMarker ? 'slice' : 'note';
 
 const elemRect = props.elem?.getBoundingClientRect() ?? {x: 0, y: 0, width: 0, height: 0};
-const parentRect = props.parent.getBoundingClientRect();
+const parentRect = getBBoxElem(props.parent).getBoundingClientRect();
 
 const markerSize = props.marker instanceof SelectedSliceMarker ? 30 : 32;
 
@@ -33,8 +34,8 @@ if (props.marker instanceof SelectedSliceMarker) {
         const firstStaff = staves[0];
         const lastStaff = staves[staves.length - 1];
         if (firstStaff && lastStaff) {
-            const firstStaffRect = firstStaff.getBoundingClientRect();
-            const lastStaffRect = lastStaff.getBoundingClientRect();
+            const firstStaffRect = getBBoxElem(firstStaff).getBoundingClientRect();
+            const lastStaffRect = getBBoxElem(lastStaff).getBoundingClientRect();
             const height = lastStaffRect.bottom - firstStaffRect.top + heightExtender;
             position.height = `${height}px`;
             position.top = `${firstStaffRect.top + (height) / 2  - parentRect.y - heightExtender / 2 + yOffset}px`;

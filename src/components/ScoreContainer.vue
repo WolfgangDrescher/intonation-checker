@@ -1,7 +1,7 @@
 <script setup>
 import 'vue-verovio-canvas/style.css';
 import { VerovioCanvas } from 'vue-verovio-canvas';
-import { ref, onMounted, onUnmounted, watch, inject } from 'vue';
+import { ref, onMounted, nextTick, watch, inject } from 'vue';
 import ScoreMarker from './ScoreMarker.vue';
 import { createSelectedMarker, createSelectedSliceMarker, getSimultaneousNoteIds } from '../utils/marker.js';
 import FormButton from './FormButton.vue';
@@ -9,6 +9,7 @@ import ButtonGroup from './ButtonGroup.vue';
 import { Icon } from '@iconify/vue';
 import { useDebounceFn } from '@vueuse/core';
 import { useI18n } from '../utils/i18n.js';
+import { getBBoxElem, selectBBoxElem } from '../utils/bbox.js';
 
 const props = defineProps({
     toolkit: Object,
@@ -58,7 +59,7 @@ function getTimeForElementFromMarkers(id) {
     }
 }
 
-async function clickNoteEvent(noteElem) {
+async function onClickVerovioCanvas(event, noteElem) {
     if (timemap.length === 0) {
         timemap = await props.toolkit.renderToTimemap();
     }
@@ -97,6 +98,11 @@ async function clickNoteEvent(noteElem) {
     }
 }
 
+function onTouchVerovioCanvas(event, target) {
+    event.preventDefault();
+    onClickVerovioCanvas(event, target);
+}
+
 const scoreContainer = ref(null);
 const markerContainer = ref(null);
 const verovioElem = ref();
@@ -110,42 +116,93 @@ function setScale(value) {
 function mutationObserverEvent() {
     updateMarkers();
     markerContainer.value.querySelectorAll('.note-bounding-box').forEach((elem) => elem.remove());
-    scoreContainer.value.querySelectorAll('g.note').forEach((elem) => {
+    scoreContainer.value.querySelectorAll('g.note:not(.bounding-box), g.rest:not(.bounding-box), g.mRest:not(.bounding-box)').forEach((elem) => {
+        const noteheadRect = getBBoxElem(elem)?.getBoundingClientRect();
+        const stemRect = selectBBoxElem(elem, '.stem')?.getBoundingClientRect();
+        const flagRect = selectBBoxElem(elem, '.flag')?.getBoundingClientRect();
+        const dotsRect = selectBBoxElem(elem, '.dots')?.getBoundingClientRect();
+        const accidRect = elem.querySelector('.accid use') && selectBBoxElem(elem, '.accid')?.getBoundingClientRect();
         const rect = elem.getBoundingClientRect();
+
+        let left = Infinity;
+        let right = -Infinity;
+        let top = Infinity;
+        let bottom = -Infinity;
+        
+        if (noteheadRect) {
+            left = Math.min(left, noteheadRect.left);
+            right = Math.max(right, noteheadRect.right);
+            top = Math.min(top, noteheadRect.top);
+            bottom = Math.max(bottom, noteheadRect.bottom);
+        }
+        if (stemRect) {
+            left = Math.min(left, stemRect.left);
+            right = Math.max(right, stemRect.right);
+            top = Math.min(top, stemRect.top);
+            bottom = Math.max(bottom, stemRect.bottom);
+        }
+        if (flagRect) {
+            left = Math.min(left, flagRect.left);
+            right = Math.max(right, flagRect.right);
+            top = Math.min(top, flagRect.top);
+            bottom = Math.max(bottom, flagRect.bottom);
+        }
+        if (accidRect) {
+            left = Math.min(left, accidRect.left);
+            right = Math.max(right, accidRect.right);
+            top = Math.min(top, accidRect.top);
+            bottom = Math.max(bottom, accidRect.bottom);
+        }
+        if (dotsRect) {
+            left = Math.min(left, dotsRect.left);
+            right = Math.max(right, dotsRect.right);
+            top = Math.min(top, dotsRect.top);
+            bottom = Math.max(bottom, dotsRect.bottom);
+        }
+
+        left = left === Infinity ? rect.left : left;
+        right = right === -Infinity ? rect.right : right; 
+        top = top === Infinity ? rect.top : top; 
+        bottom = bottom === -Infinity ? rect.bottom : bottom; 
+
+        const sizeExtender = 5;
+        const width = right - left + sizeExtender;
+        const height = bottom - top + sizeExtender;
+
         const parentRect = scoreContainer.value.getBoundingClientRect();
         const div = document.createElement('div');
         div.classList.add('note-bounding-box');
         div.style.position = 'absolute';
-        div.style.width = `${rect.width}px`;
-        div.style.height = `${rect.height}px`;
-        div.style.left = `${rect.left - parentRect.left}px`;
-        div.style.top = `${rect.top - parentRect.top}px`;
+        div.style.width = `${width}px`;
+        div.style.height = `${height}px`;
+        div.style.left = `${left - parentRect.left - sizeExtender / 2}px`;
+        div.style.top = `${top - parentRect.top - sizeExtender / 2}px`;
         div.style.cursor = 'pointer';
-        div.style.pointerEvents = 'bounding-box';
-        div.addEventListener('click', () => {
-            clickNoteEvent(elem);
-        });
+        div.style.pointerEvents = 'auto';
+        div.style.zIndex = 1;
+        div.addEventListener('mouseenter', () => elem.classList.add('hover'));
+        div.addEventListener('mouseleave', () => elem.classList.remove('hover'));
+        div.addEventListener('click', (event) => onClickVerovioCanvas(event, elem));
+        div.addEventListener('touchend', (event) => onTouchVerovioCanvas(event, elem));
         markerContainer.value.appendChild(div);
     });
 }
 
-const mutationObserver = new MutationObserver(mutationObserverEvent);
-
 onMounted(() => {
-    mutationObserver.observe(scoreContainer.value, {
-        attributes: true,
-        childList: true,
-        subtree: true,
+    nextTick(() => {
+        const mutationObserver = new MutationObserver(mutationObserverEvent);
+        if (scoreContainer.value) {
+            mutationObserver.observe(scoreContainer.value, {
+                // attributes: true,
+                childList: true,
+                subtree: true,
+            });
+        }
     });
 });
 
-onUnmounted(() => {
-    mutationObserver.disconnect();
-});
-
 function getElementById(id) {
-    const elem = document.getElementById(id);
-    return elem?.querySelector('.notehead') || elem;
+    return getBBoxElem(document.getElementById(id));
 }
 
 const debouncedIsLoading = useDebounceFn((value) => {
@@ -211,18 +268,20 @@ function onScoreIsReady() {
                         :url="url"
                         :scale="scale"
                         :pageMargin="50"
-                        :options="{ mnumInterval: 1, spacingSystem: 15 }"
+                        :options="{ mnumInterval: 1, spacingSystem: 15, svgBoundingBoxes: true, }"
                         @score-is-ready="onScoreIsReady"
                     />
                 </div>
                 <div class="marker-container" ref="markerContainer">
-                    <ScoreMarker
-                        v-for="marker in selectedSliceMarkers"
-                        :key="marker.timestamp"
-                        :marker="marker"
-                        :elem="getElementById(marker.noteIds[0])"
-                        :parent="markerContainer"
-                    />
+                    <template v-for="marker in selectedSliceMarkers" :key="marker.id">
+                        <ScoreMarker
+                            v-for="id in marker.noteIds"
+                            :key="marker.timestamp"
+                            :marker="marker"
+                            :elem="getElementById(id)"
+                            :parent="markerContainer"
+                        />
+                    </template>
                     <template v-for="marker in selectedMarkers" :key="marker.id">
                         <ScoreMarker
                             v-for="id in marker.noteIds"
