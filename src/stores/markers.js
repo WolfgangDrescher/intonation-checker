@@ -5,7 +5,7 @@ export function useMarkersStore() {
     const selectedSliceMarkers = ref([]);
     const selectedMarkers = ref([]);
     const markers = ref([]);
-    const mode = ref('slice');
+    const mode = ref('slice'); // slice, note
     const markerIndex = ref(0);
     const finishedChecking = ref(false);
 
